@@ -55,5 +55,17 @@ li {
   .issue-list li {
     @apply border-b p-4
   }
+
+  .label-item > div {
+    @apply w-3/12 flex justify-between
+  }
+
+  .label-item > div:last-child {
+    @apply justify-end
+  }
+  
 }
 
+#label-wrapper, #issue-wrapper {
+  min-width: 960px;
+}
