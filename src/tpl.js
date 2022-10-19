@@ -219,6 +219,23 @@ export function getLabelTpl() {
 
     </ul>
   </div>
+    <button class="refresh-labels base-outer p-2 mt-2 float-right">update labels</button>
 </div>
   `
+}
+
+export function getLabelItemTpl({ name, color, description }) {
+		return `
+            <li class="label-item flex items-center ml-4 py-3 justify-between border-b ">
+                <div class="issue-title flex"> 
+                    <span class="rounded-lg border p-1 px-2" style="background-color:#${color}">${name}</span> 
+                </div>
+                <div class="issue-description ">${description}</div>
+                <div class="issue-description ">3 issues </div>
+                <div class="label-editor pr-4 ">
+                    <button class="edit-button mx-2 ">edit</button>
+                    <button class="delete-button">delete</button>
+                </div>
+            </li>
+        `;
 }
