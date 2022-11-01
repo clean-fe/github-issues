@@ -2,9 +2,9 @@
 
 ### 설치순서
 ```shell
-git clone git@github.com:kakao-clean-fe/w1-github-issues-fp.git
+git clone git@github.com:kakao-clean-fe/github-issues.git
 
-cd w1-github-issues-fp
+cd github-issues
 
 npm install
 
