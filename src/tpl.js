@@ -59,7 +59,7 @@ export function getIssueTpl() {
 
       </div>
       <div class="issue-list flex ml-auto">
-        <ul></ul>
+        <ul id="issues"></ul>
       </div>
     </div>
   </div>
