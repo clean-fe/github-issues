@@ -5,8 +5,15 @@ const ISSUES_URL = "../data-sources/issues.json";
 main();
 
 async function main() {
-  await asyncPipe([getIssueTpl, updateDOM(document.querySelector("#app"))])();
-  asyncPipe([() => fetchData(ISSUES_URL), getIssueItemsTpl, updateDOM(document.querySelector("ul"))])();
+  asyncPipe([renderIssueTpl(), renderIssueItemsTpl()]);
+}
+
+async function renderIssueTpl() {
+  return await asyncPipe([getIssueTpl, updateDOM("#app")])();
+}
+
+async function renderIssueItemsTpl() {
+  return await asyncPipe([() => fetchData(ISSUES_URL), getIssueItemsTpl, updateDOM("ul")])();
 }
 
 async function fetchData(url) {
@@ -20,7 +27,7 @@ function getIssueItemsTpl(items) {
 
 function updateDOM(target) {
   return (template) => {
-    target.innerHTML = template;
+    document.querySelector(target).innerHTML = template;
   };
 }
 
