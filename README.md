@@ -1,42 +1,22 @@
 # clean-fe-template
 
-### 설치순서
+## 구조
 
-```shell
-git clone https://github.com/clean-fe/github-issues.git
+- entry 파일은 main.js
 
-cd github-issues
+  - issue, label에서 내보내는 함수만 호출한다.
+  - 초기 렌더링 (issue)
+  - 사용자 이벤트에 종속 (issue, label)
 
-npm install
+- issue와 label은 분리
 
-npm run dev
-```
+- utils.js를 만든다.
 
-구현 요구사항
+  - pipe 등
 
-1. 데이터 요청
-   초기 데이터는 fetch 요청을 통해서 가져온다.
+- data를 fetch하는 함수를 만든다.
+- 화면에 보이는 데이터만 필터링하는 함수를 만든다.
 
-URL : /data-sources/issues.json, labels.json
+  - 불필요한 정보에 접근하지 않을 수 있다.
 
-2. 함수 사용
-   배열의 고차 함수 적극 사용.
-
-여러개의 작은 함수를 만들어야 함.
-
-짧은 함수를 화살표 함수로 표현(람다표기법)
-
-중복 코드 최대한 없게.
-
-콜백함수도 가급적 분리
-
-- 함수 합성 시도하기.
-
-pipeline 방식.
-
-필요하면 currying 기법으로 합성가능하도록 바인딩처리.
-
-3. ES Modules 활용
-   ES Modules을 사용
-
-main.js 가 entry point 역할임. 그외 필요한 js 모듈(파일)을 생성해서 구현할 수 있음.
+- status(opens, closed)를 판별하는 함수
