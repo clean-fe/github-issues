@@ -39,7 +39,7 @@ URL : /data-sources/issues.json, labels.json
 - [ ] 중복 코드 최대한 없게.
 - [ ] 콜백함수도 가급적 분리
 - [ ] 함수 합성 시도하기.
-  - [ ] pipeline 방식.
+  - [x] pipeline 방식.
   - [ ] 필요하면 currying 기법으로 합성가능하도록 바인딩처리.
 
 ### 3. ES Modules 활용
@@ -57,7 +57,9 @@ URL : /data-sources/issues.json, labels.json
 
 ---
 
-## 1차 회고
+## 230403 월요일 회고 (페어 프로그래밍)
+
+### 1차 회고
 
 ```js
 const fetchItems = async (fetchCallback) => {
@@ -89,7 +91,7 @@ const renderComponent = async (fetchCallback, getTempl, className) => {
 
 ---
 
-## 2차 회고
+### 2차 회고
 
 ```js
 const fetchItems = (fetchCallback) => async () => {
@@ -123,7 +125,7 @@ const renderComponent = async ({ fetchCallback, getTempl, className }) => {
 - 균형된 지식 수준이 페어 작업을 가능하게 한 것 같습니다.
 - pipe가 완성되었다고 생각했는데, 계속 디벨롭해야하는 상황입니다.
 
-## 3차 pipe 예상
+### 3차 pipe 예상
 
 ```js
 const renderComponent = async (props) => {
@@ -137,3 +139,20 @@ const renderComponent = async (props) => {
 
 - compose vs. pipe
 - 함수형프로그래밍의 철학 (모나드 개념, 커링 개념)
+
+## 230404 화요일 회고
+
+```js
+export const asyncPipe = (...functions) => {
+  return (initialValue) => {
+    return functions.reduce(async (previousPromiseResult, currentFn) => {
+      return currentFn(await previousPromiseResult)
+    }, Promise.resolve(initialValue))
+  }
+}
+```
+
+- asyncPipe 내부의 previousPromiseResult에서 await가 필요한 이유가 확실히 이해가지 않았는데 그 이유에 대해 알게 되었고, 그 과정에서 고차함수, 파이프 라인, async-await에 대해서 더 깊게 이해할 수 있었다.
+- 아래는 스스로 던진 질문과 대답.
+  - Q. 왜 asyncPipe의 previousPromise를 await 해야하는가?
+  - A. 처음 함수가 실행된 후의 previousPromiseResult는 fetchItems가 반환한 함수의 결과이다. 그리고 그 결과는 Promise 객체이다. 그래서 다음 함수의 인자로 값을 전달하기 위해서는 Pipe 내부에서 await를 해야한다. 처음에는 fetchItems가 반환하는 함수를 async-await로 감싸면 되지 않을까 생각했지만, 어차피 이 함수의 결과값 또한 Promise가 되는 꼴이므로 Promise 객체를 반환하는 함수를 사용한다면 pipe 내부에서 await이나 Promise 메서드를 사용해서 결과값을 기다리고 다음 함수의 인자로 넘겨줘야 한다.

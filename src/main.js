@@ -7,7 +7,7 @@ import {
 import { fetchIssues, fetchLabels } from './fetch.js'
 import { navigateTo } from './navigation.js'
 
-import { pipe } from './util'
+import { pipe, asyncPipe } from './util'
 
 const appElement = document.querySelector('#app')
 
@@ -15,6 +15,7 @@ const render = (element, template) => {
   element.innerHTML = template.join('')
 }
 
+// Todo: 함수 두개 합치기
 const renderIssues = async () => {
   const issues = await fetchIssues()
   const issueItems = issues.map(getIssueItemTpl)
@@ -43,13 +44,13 @@ const renderObject = {
 }
 
 const fetchItems = (fetchCallback) => {
-  return async () => {
-    return await fetchCallback()
+  return () => {
+    return fetchCallback()
   }
 }
 
 const templateRender = (getTempl) => {
-  return async (items) => {
+  return (items) => {
     return items.map(getTempl)
   }
 }
@@ -61,8 +62,8 @@ const createDOMwithItems = (className) => {
   }
 }
 
-const renderComponent = async ({ fetchCallback, getTempl, className }) => {
-  pipe(
+const renderComponent = ({ fetchCallback, getTempl, className }) => {
+  asyncPipe(
     fetchItems(fetchCallback),
     templateRender(getTempl),
     createDOMwithItems(className),
