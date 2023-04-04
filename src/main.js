@@ -1,9 +1,11 @@
 import { getIssueItemTpl, getIssueTpl } from './tpl';
 
-const app = document.getElementById('app');
-app.innerHTML = getIssueTpl();
+const appEl = document.querySelector('#app');
+appEl.innerHTML = getIssueTpl();
 
-const ul = document.querySelector('.issue-list ul');
+const issueListEl = document.querySelector('.issue-list ul');
+const openedTabEl = document.querySelector('.open-count');
+const closedTabEl = document.querySelector('.close-count');
 
 const getData = async () => {
   const res = await fetch('/data-sources/issues.json');
@@ -27,32 +29,27 @@ const getClosedItems = async () => {
 };
 
 const items = await getOpenedItems();
-
-ul.innerHTML = items.map((item) => getIssueItemTpl(item)).join('');
-
-const openCount = document.querySelector('.open-count');
-const closeCount = document.querySelector('.close-count');
-
+issueListEl.innerHTML = items.map((item) => getIssueItemTpl(item)).join('');
 
 const openItems = await getOpenedItems();
 const closeItems = await getClosedItems();
-openCount.innerHTML = `${openItems.length} Opens`;
-closeCount.innerHTML = `${closeItems.length} Closed`;
+openedTabEl.innerHTML = `${openItems.length} Opens`;
+closedTabEl.innerHTML = `${closeItems.length} Closed`;
 
-openCount.addEventListener('click', async () => {
+openedTabEl.addEventListener('click', async () => {
   const openItems = await getOpenedItems();
 
-  ul.innerHTML = openItems.map((item) => getIssueItemTpl(item)).join('');
+  issueListEl.innerHTML = openItems.map((item) => getIssueItemTpl(item)).join('');
 
-  openCount.classList.add('font-bold');
-  closeCount.classList.remove('font-bold');
+  openedTabEl.classList.add('font-bold');
+  closedTabEl.classList.remove('font-bold');
 });
 
-closeCount.addEventListener('click', async () => {
+closedTabEl.addEventListener('click', async () => {
   const closeItems = await getClosedItems();
 
-  ul.innerHTML = closeItems.map((item) => getIssueItemTpl(item)).join('');
+  issueListEl.innerHTML = closeItems.map((item) => getIssueItemTpl(item)).join('');
 
-  closeCount.classList.add('font-bold');
-  openCount.classList.remove('font-bold');
+  closedTabEl.classList.add('font-bold');
+  openedTabEl.classList.remove('font-bold');
 });
