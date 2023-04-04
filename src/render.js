@@ -12,8 +12,8 @@ const renderWith =
       renderFn
     )(data)
 
-const renderIssueList = node => data => {
-  node.innerHTML = data.reduce((html, item) => {
+const renderIssueList = data => {
+  $(".issue-list ul").innerHTML = data.reduce((html, item) => {
     return html + getIssueItemTpl(item)
   }, "")
 }
@@ -25,11 +25,7 @@ const renderCount = data => {
 }
 
 export const renderCountWithStatus = renderWith(renderCount)
-
-export const renderIssueWithStatus = renderWith(
-  renderIssueList($(".issue-list ul"))
-)
-
+export const renderIssueWithStatus = renderWith(renderIssueList)
 export const renderIssueWithOnClick = data => {
   const open = $(".open-count")
   const close = $(".close-count")
