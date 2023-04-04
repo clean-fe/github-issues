@@ -7,7 +7,7 @@ const issueListEl = document.querySelector('.issue-list ul');
 const openedTabEl = document.querySelector('.open-count');
 const closedTabEl = document.querySelector('.close-count');
 
-const getData = async () => {
+const getIssueList = async () => {
   const res = await fetch('/data-sources/issues.json');
   const data = await res.json();
 
@@ -15,14 +15,14 @@ const getData = async () => {
 };
 
 const getOpenedItems = async () => {
-  const items = await getData();
+  const items = await getIssueList();
   const openItems = items.filter((item) => item.status === 'open');
 
   return openItems;
 };
 
 const getClosedItems = async () => {
-  const items = await getData();
+  const items = await getIssueList();
   const closedItems = items.filter((item) => item.status === 'close');
 
   return closedItems;
