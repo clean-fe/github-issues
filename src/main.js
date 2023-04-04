@@ -1,4 +1,5 @@
 import { getIssueItemTpl, getIssueTpl } from './tpl';
+import { go } from "./util.js";
 
 const appEl = document.querySelector('#app');
 appEl.innerHTML = getIssueTpl();
@@ -28,8 +29,19 @@ const getClosedItems = async () => {
   return closedItems;
 };
 
-const items = await getOpenedItems();
-issueListEl.innerHTML = items.map((item) => getIssueItemTpl(item)).join('');
+const createTemplate = (issueList) => issueList.map(item => getIssueItemTpl(item));
+const joinArrayValues = (array) => array.join('');
+const renderItems = (element) => {
+  issueListEl.innerHTML = element;
+}
+
+const openedItems = await getOpenedItems();
+go(
+  openedItems,
+  createTemplate,
+  joinArrayValues,
+  renderItems,
+)
 
 const openItems = await getOpenedItems();
 const closeItems = await getClosedItems();
@@ -39,7 +51,12 @@ closedTabEl.innerHTML = `${closeItems.length} Closed`;
 openedTabEl.addEventListener('click', async () => {
   const openItems = await getOpenedItems();
 
-  issueListEl.innerHTML = openItems.map((item) => getIssueItemTpl(item)).join('');
+  go(
+    openItems,
+    createTemplate,
+    joinArrayValues,
+    renderItems,
+  )
 
   openedTabEl.classList.add('font-bold');
   closedTabEl.classList.remove('font-bold');
@@ -48,7 +65,12 @@ openedTabEl.addEventListener('click', async () => {
 closedTabEl.addEventListener('click', async () => {
   const closeItems = await getClosedItems();
 
-  issueListEl.innerHTML = closeItems.map((item) => getIssueItemTpl(item)).join('');
+  go(
+    closeItems,
+    createTemplate,
+    joinArrayValues,
+    renderItems,
+  )
 
   closedTabEl.classList.add('font-bold');
   openedTabEl.classList.remove('font-bold');
