@@ -1,7 +1,11 @@
-import {getIssueTpl, getIssueItemTpl, getLabelItemTpl, getLabelTpl} from "./tpl";
+import {getIssueTpl} from "./tpl";
 import {getIssue} from "./util/APIs/Issue";
-import {insertHtmlAfterBegin, insertHtmlBeforeEnd} from "./util/UI/ManagingDOM"
+import {
+  renderAfterBegin,
+  clearBeforeRender
+} from "./util/UI/ManagingDOM"
 import {pipe} from "./util/FP";
+import {findStatusTabDom, createIssueHtml, renderIssue, statusFilter, status} from "./components/Issue";
 
 const app = document.getElementById('app');
 
@@ -9,19 +13,16 @@ const app = document.getElementById('app');
 // init
 ;(() => {
   const mainViewComponent = getIssueTpl()
-  insertHtmlAfterBegin(app)(mainViewComponent)
+  renderAfterBegin(app)(mainViewComponent)
 })()
 
-const nonFilteredIssueList = await getIssue()
-let issueList = nonFilteredIssueList.filter(issue => 'open' === issue.status)
+// fetch
+const issueList = await getIssue()
 
 // MARK: issue list
 const ul = document.querySelector("#issues-wrapper > div.issue-list.flex.ml-auto > ul")
-const createIssueHtml = list => list.map(issue => getIssueItemTpl(issue)).join('')
-const clearBeforeRender = el => () => el.innerHTML = ''
-const clearIssueBeforeRender = clearBeforeRender(ul)
-const renderIssue = el => html => insertHtmlBeforeEnd(el)(html)
 const renderIssueAtUl = renderIssue(ul)
+const clearIssueBeforeRender = clearBeforeRender(ul)
 
 const renderIssueList = pipe(
     createIssueHtml,
@@ -29,22 +30,9 @@ const renderIssueList = pipe(
 )
 
 // MARK: counter label
-const findStatusTabDom = () => {
-  const statusTab = document.getElementsByClassName('statusTab')[0];
-  const statusOpen = statusTab.getElementsByClassName('open-count')[0];
-  const statusClosed = statusTab.getElementsByClassName('close-count')[0];
-  return {statusTab, statusOpen, statusClosed}
-}
-
-const {statusTab, statusOpen, statusClosed} = findStatusTabDom()
-
-const status = Object.freeze({
-  open: 'open',
-  close: 'close'
-})
-const statusFilter = status => list => list.filter(issue => status === issue.status)
-const openCounter = statusFilter(status.open)(nonFilteredIssueList).length ?? 0
-const closedCounter = statusFilter(status.close)(nonFilteredIssueList).length ?? 0
+const {statusOpen, statusClosed} = findStatusTabDom()
+const openCounter = statusFilter(status.open)(issueList).length ?? 0
+const closedCounter = statusFilter(status.close)(issueList).length ?? 0
 
 const handler = {
   set(target, property, value) {
@@ -58,11 +46,11 @@ const handler = {
 }
 
 const proxy = new Proxy(issueList, handler)
-proxy.target = issueList
+proxy.target = statusFilter(status.open)(issueList)
 
 statusOpen.addEventListener('click', async () => {
-  proxy.target = nonFilteredIssueList.filter(issue => 'open' === issue.status)
+  proxy.target = statusFilter(status.open)(issueList)
 })
 statusClosed.addEventListener('click', async () => {
-  proxy.target = nonFilteredIssueList.filter(issue => 'close' === issue.status)
+  proxy.target = statusFilter(status.close)(issueList)
 })
