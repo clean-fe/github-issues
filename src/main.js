@@ -23,3 +23,13 @@ const closeItems = items.filter(item => item.status === 'close');
 
 openCount.innerHTML = `${openItems.length} Opens`;
 closeCount.innerHTML = `${closeItems.length} Closed`;
+
+openCount.addEventListener('click', () => {
+  console.log('open 클릭')
+  // style 변경 -> bold 처리
+  // 리스트 렌더링 다시
+})
+
+closeCount.addEventListener('click', () => {
+  console.log('close 클릭')
+})
