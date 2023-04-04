@@ -12,7 +12,7 @@ const renderIssueTemplate = () => {
   $('#app').innerHTML = getIssueTpl()
 }
 
-const bindIssuesdata = (items) => {
+const bindIssuesData = (items) => {
   const $issue_list = $('.issue-list ul')
 
   items
@@ -25,7 +25,7 @@ pipePromises(
   renderIssueTemplate,
   getIssuesData,
   shareParameters(
-    bindIssuesdata,
+    bindIssuesData,
     bindStatusTabOpenElement,
     bindStatusTabCloseElement,
     bindStatusTabOpenClickEvent,

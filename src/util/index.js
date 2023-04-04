@@ -2,16 +2,13 @@ export const $ = (element) => document.querySelector(element)
 
 export const pipe =
   (...functions) =>
-  (value) => {
-    return functions.reduce((res, func) => {
-      return func(res)
-    }, value)
-  }
+  (value) =>
+    functions.reduce((res, func) => func(res), value)
 
 export const pipePromises =
   (...functions) =>
-  (x) =>
-    functions.reduce((p, fn) => p.then(fn), Promise.resolve(x))
+  (value) =>
+    functions.reduce((p, fn) => p.then(fn), Promise.resolve(value))
 
 export const shareParameters =
   (...functions) =>

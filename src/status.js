@@ -1,4 +1,4 @@
-import { $, pipe } from './util'
+import { $ } from './util'
 import { getIssueItemTpl } from './tpl'
 
 const getStatusElement = () => {
@@ -14,11 +14,13 @@ const getFilteredIssuesDataByStatus = (issuesData = [], status = 'open') => {
 
 export const bindStatusTabOpenElement = (items) => {
   const { $open_status } = getStatusElement()
+
   $open_status.innerHTML = `${getFilteredIssuesDataByStatus(items, 'open').length} opens`
 }
 
 export const bindStatusTabCloseElement = (items) => {
   const { $close_status } = getStatusElement()
+
   $close_status.innerHTML = `${getFilteredIssuesDataByStatus(items, 'close').length} closed`
 }
 
@@ -30,30 +32,38 @@ const renderIssues = (items) => {
   })
 }
 
-export const bindStatusTabOpenClickEvent = (items) => {
+const handleStatusFontChange = (status) => {
   const { $open_status, $close_status } = getStatusElement()
+
+  if (status === 'open') {
+    $open_status.classList.add('font-bold')
+    $close_status.classList.remove('font-bold')
+  } else {
+    $close_status.classList.add('font-bold')
+    $open_status.classList.remove('font-bold')
+  }
+}
+
+export const bindStatusTabOpenClickEvent = (items) => {
+  const { $open_status } = getStatusElement()
   const data = getFilteredIssuesDataByStatus(items, 'open')
 
   $open_status.addEventListener('click', () => {
     $('.issue-list ul').innerHTML = ''
 
     renderIssues(data)
-
-    $open_status.classList.add('font-bold')
-    $close_status.classList.remove('font-bold')
+    handleStatusFontChange('open')
   })
 }
 
 export const bindStatusTabCloseClickEvent = (items) => {
-  const { $open_status, $close_status } = getStatusElement()
+  const { $close_status } = getStatusElement()
   const data = getFilteredIssuesDataByStatus(items, 'close')
 
   $close_status.addEventListener('click', () => {
     $('.issue-list ul').innerHTML = ''
 
     renderIssues(data)
-
-    $close_status.classList.add('font-bold')
-    $open_status.classList.remove('font-bold')
+    handleStatusFontChange('close')
   })
 }
