@@ -1,16 +1,20 @@
-import { getIssueTpl, renderIssueList } from "./tpl"
-import { $, compose, render, filter } from "./utils"
+import { getIssueTpl } from "./tpl"
+import { $, compose, shareParameter } from "./utils"
 import { fetchData, ISSUE_URL } from "./api"
+import { renderIssueWithStatus, renderCountWithStatus } from "./status"
 
-$("#app").innerHTML = getIssueTpl()
-
-const renderWithStatus = (status = "open") =>
+const init = () =>
   compose(
     fetchData,
-    filter(v => v.status == status),
-    renderIssueList($(".issue-list ul"))
+    shareParameter(
+      renderIssueWithStatus("open"),
+      renderCountWithStatus("open"),
+      renderCountWithStatus("close")
+    )
   )(ISSUE_URL)
 
-renderWithStatus()
-$(".open-count").addEventListener("click", () => renderWithStatus("open"))
-$(".close-count").addEventListener("click", () => renderWithStatus("close"))
+init()
+$(".open-count").addEventListener("click", () => renderIssueWithStatus("open"))
+$(".close-count").addEventListener("click", () =>
+  renderIssueWithStatus("close")
+)

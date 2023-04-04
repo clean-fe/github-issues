@@ -11,3 +11,8 @@ export const filter = condition => arr => arr.filter(condition)
 export const render = node => template => (node.innerHTML = template())
 
 export const $ = element => document.querySelector(element)
+
+export const shareParameter =
+  (...functions) =>
+  param =>
+    functions.forEach(func => func(param))
