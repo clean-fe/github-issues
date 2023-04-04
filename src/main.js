@@ -15,6 +15,11 @@ const getData = async () => {
 const items = await getData();
 ul.innerHTML = items.map((item) => getIssueItemTpl(item)).join('');
 
-// open-count, close-count dom을 찾는다
-// items에서 opened, closed 를 각각 필터, length 구해서
-// 각각의 dom에 innerHTML 한다.
+const openCount = document.querySelector('.open-count');
+const closeCount = document.querySelector('.close-count');
+
+const openItems = items.filter(item => item.status === 'open');
+const closeItems = items.filter(item => item.status === 'close');
+
+openCount.innerHTML = `${openItems.length} Opens`;
+closeCount.innerHTML = `${closeItems.length} Closed`;
