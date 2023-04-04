@@ -6,30 +6,54 @@ app.innerHTML = getIssueTpl();
 const ul = document.querySelector('.issue-list ul');
 
 const getData = async () => {
-  const res = await fetch('/data-sources/issues.json')
+  const res = await fetch('/data-sources/issues.json');
   const data = await res.json();
 
   return data;
 };
 
 const items = await getData();
+
 ul.innerHTML = items.map((item) => getIssueItemTpl(item)).join('');
 
 const openCount = document.querySelector('.open-count');
 const closeCount = document.querySelector('.close-count');
 
-const openItems = items.filter(item => item.status === 'open');
-const closeItems = items.filter(item => item.status === 'close');
+// const openItems = items.filter(item => item.status === 'open');
+const closeItems = items.filter((item) => item.status === 'close');
 
+const getOpenedItems = async () => {
+  const items = await getData();
+  const openItems = items.filter((item) => item.status === 'open');
+
+  return openItems;
+};
+
+const getClosedItems = async () => {
+  const items = await getData();
+  const closedItems = items.filter((item) => item.status === 'close');
+
+  return closedItems;
+};
+
+const openItems = await getOpenedItems();
 openCount.innerHTML = `${openItems.length} Opens`;
 closeCount.innerHTML = `${closeItems.length} Closed`;
 
-openCount.addEventListener('click', () => {
-  console.log('open 클릭')
-  // style 변경 -> bold 처리
-  // 리스트 렌더링 다시
-})
+openCount.addEventListener('click', async () => {
+  const openItems = await getOpenedItems();
 
-closeCount.addEventListener('click', () => {
-  console.log('close 클릭')
-})
+  ul.innerHTML = openItems.map((item) => getIssueItemTpl(item)).join('');
+
+  openCount.classList.add('font-bold');
+  closeCount.classList.remove('font-bold');
+});
+
+closeCount.addEventListener('click', async () => {
+  const closeItems = await getClosedItems();
+
+  ul.innerHTML = closeItems.map((item) => getIssueItemTpl(item)).join('');
+
+  closeCount.classList.add('font-bold');
+  openCount.classList.remove('font-bold');
+});
