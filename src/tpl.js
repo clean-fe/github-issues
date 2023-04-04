@@ -241,9 +241,3 @@ export function getLabelItemTpl({ name, color, description }) {
             </li>
         `
 }
-
-export const renderIssueList = node => data => {
-  node.innerHTML = data.reduce((html, item) => {
-    return html + getIssueItemTpl(item)
-  }, "")
-}
