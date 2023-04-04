@@ -4,7 +4,6 @@ import {insertHtmlAfterBegin, insertHtmlBeforeEnd} from "./util/UI/ManagingDOM"
 import {pipe} from "./util/FP";
 
 const app = document.getElementById('app');
-let issueList = [];
 
 // MARK: page init
 // init
@@ -14,11 +13,11 @@ let issueList = [];
 })()
 
 const nonFilteredIssueList = await getIssue()
-issueList = nonFilteredIssueList.filter(issue => 'open' === issue.status)
+let issueList = nonFilteredIssueList.filter(issue => 'open' === issue.status)
 
 // MARK: issue list
 const ul = document.querySelector("#issues-wrapper > div.issue-list.flex.ml-auto > ul")
-const createIssueHtml = list => list.map(issue => getIssueItemTpl(issue))
+const createIssueHtml = list => list.map(issue => getIssueItemTpl(issue)).join('')
 const clearBeforeRender = el => () => el.innerHTML = ''
 const clearIssueBeforeRender = clearBeforeRender(ul)
 const renderIssue = el => html => insertHtmlBeforeEnd(el)(html)
@@ -62,7 +61,6 @@ const proxy = new Proxy(issueList, handler)
 proxy.target = issueList
 
 statusOpen.addEventListener('click', async () => {
-  // proxy.target = await getIssue().then(res => res.filter(issue => 'open' === issue.status))
   proxy.target = nonFilteredIssueList.filter(issue => 'open' === issue.status)
 })
 statusClosed.addEventListener('click', async () => {
