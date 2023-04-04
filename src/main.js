@@ -19,9 +19,6 @@ ul.innerHTML = items.map((item) => getIssueItemTpl(item)).join('');
 const openCount = document.querySelector('.open-count');
 const closeCount = document.querySelector('.close-count');
 
-// const openItems = items.filter(item => item.status === 'open');
-const closeItems = items.filter((item) => item.status === 'close');
-
 const getOpenedItems = async () => {
   const items = await getData();
   const openItems = items.filter((item) => item.status === 'open');
@@ -37,6 +34,7 @@ const getClosedItems = async () => {
 };
 
 const openItems = await getOpenedItems();
+const closeItems = await getClosedItems();
 openCount.innerHTML = `${openItems.length} Opens`;
 closeCount.innerHTML = `${closeItems.length} Closed`;
 
