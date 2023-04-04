@@ -9,9 +9,3 @@ export const compose =
 export const filter = condition => arr => arr.filter(condition)
 
 export const render = node => template => (node.innerHTML = template())
-
-export const fetchData = async url => {
-  const response = await fetch(url)
-  const data = await response.json()
-  return data
-}

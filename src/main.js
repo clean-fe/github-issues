@@ -1,6 +1,6 @@
 import { getIssueTpl, renderIssueList } from "./tpl"
-import { compose, render, filter, fetchData } from "./utils"
-const ISSUE_URL = "/data-sources/issues.json"
+import { compose, render, filter } from "./utils"
+import { fetchData, ISSUE_URL } from "./api"
 
 const app = document.getElementById("app")
 app.innerHTML = getIssueTpl()
