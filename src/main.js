@@ -35,18 +35,22 @@ const renderItems = (element) => {
   issueListEl.innerHTML = element;
 }
 
-const openedItems = await getOpenedItems();
-go(
-  openedItems,
-  createTemplate,
-  joinArrayValues,
-  renderItems,
-)
+const init = async () => {
+  const openedItems = await getOpenedItems();
+  const closeItems = await getClosedItems();
 
-const openItems = await getOpenedItems();
-const closeItems = await getClosedItems();
-openedTabEl.innerHTML = `${openItems.length} Opens`;
-closedTabEl.innerHTML = `${closeItems.length} Closed`;
+  go(
+    openedItems,
+    createTemplate,
+    joinArrayValues,
+    renderItems,
+  )
+
+  openedTabEl.innerHTML = `${openedItems.length} Opens`;
+  closedTabEl.innerHTML = `${closeItems.length} Closed`;
+}
+
+await init();
 
 const highlightTab = (selectedTab) => {
   if (selectedTab === 'open') {
