@@ -1,10 +1,10 @@
 import { getIssueTpl, getIssueItemTpl } from "./tpl.js";
-import { renderList, pipe } from "./utils.js";
-const initPage = document.getElementById("app");
-const issueUrl = "../data-sources/issues.json";
+import { $, fetchList, pipe } from "./utils.js";
+const initPage = $("#app");
+const issueUrl = "./data-sources/issues.json";
 
-const renderIssueList = (list) => {
-  const issueLists = document.querySelector("ul");
+const adjacentIssueList = (list) => {
+  const issueLists = $("ul");
 
   issueLists.insertAdjacentHTML(
     "afterbegin",
@@ -12,9 +12,16 @@ const renderIssueList = (list) => {
   );
 };
 
+const renderIssueList = () => {
+  fetchList(issueUrl).then((list) => {
+    adjacentIssueList(list);
+  });
+};
+
 const init = () => {
   initPage.insertAdjacentHTML("afterbegin", `${getIssueTpl()}`);
 };
 
-const render = () => pipe(init, renderList(issueUrl, renderIssueList))();
+const render = () => pipe(init, renderIssueList)();
+
 render();
