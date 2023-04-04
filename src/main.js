@@ -48,6 +48,19 @@ const closeItems = await getClosedItems();
 openedTabEl.innerHTML = `${openItems.length} Opens`;
 closedTabEl.innerHTML = `${closeItems.length} Closed`;
 
+const highlightTab = (selectedTab) => {
+  if (selectedTab === 'open') {
+    openedTabEl.classList.add('font-bold');
+    closedTabEl.classList.remove('font-bold');
+    return;
+  }
+
+  if (selectedTab === 'close') {
+    closedTabEl.classList.add('font-bold');
+    openedTabEl.classList.remove('font-bold');
+  }
+}
+
 openedTabEl.addEventListener('click', async () => {
   const openItems = await getOpenedItems();
 
@@ -58,8 +71,7 @@ openedTabEl.addEventListener('click', async () => {
     renderItems,
   )
 
-  openedTabEl.classList.add('font-bold');
-  closedTabEl.classList.remove('font-bold');
+  highlightTab('open');
 });
 
 closedTabEl.addEventListener('click', async () => {
@@ -72,6 +84,5 @@ closedTabEl.addEventListener('click', async () => {
     renderItems,
   )
 
-  closedTabEl.classList.add('font-bold');
-  openedTabEl.classList.remove('font-bold');
+  highlightTab('close');
 });
