@@ -1,6 +1,3 @@
-import { getIssueTpl } from './tpl';
-import './issue';
+import { setIssueOnDocument } from './issue';
 
-const $app = document.querySelector('#app');
-$app.innerHTML = getIssueTpl();
-setIssueOnDocument('#issues');
+setIssueOnDocument();
