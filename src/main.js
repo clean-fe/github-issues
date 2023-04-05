@@ -1,6 +1,5 @@
 import { getIssueTpl, getIssueItemTpl } from './tpl';
 import { getIssues } from './api/issues';
-import { getLabels } from './api/labels';
 
 import { arrayfilter } from './utils/array';
 
@@ -23,12 +22,10 @@ getIssues().then(data => {
   statusOpenEl.innerHTML = `${ISSUE_OPEN_DATA.length} Opens`;
   statusCloseEl.innerHTML = `${ISSUE_CLOSE_DATA.length} Closed`;
 
-  issueListEl.innerHTML = ISSUE_OPEN_DATA.map(item =>
-    getIssueItemTpl(item)
-  ).join('');
+  issueListEl.innerHTML = ISSUE_OPEN_DATA.reduce((html, item) => {
+    return (html += getIssueItemTpl(item));
+  }, '');
 });
-
-getLabels().then(data => console.log(data));
 
 statusEl.addEventListener('click', e => {
   if (e.target.tagName !== 'BUTTON') return;
@@ -44,12 +41,12 @@ statusEl.addEventListener('click', e => {
   e.target.classList.add('font-bold');
 
   if (e.target.dataset.status === 'open') {
-    issueListEl.innerHTML = ISSUE_OPEN_DATA.map(item =>
-      getIssueItemTpl(item)
-    ).join('');
+    issueListEl.innerHTML = ISSUE_OPEN_DATA.reduce((html, item) => {
+      return (html += getIssueItemTpl(item));
+    }, '');
   } else {
-    issueListEl.innerHTML = ISSUE_CLOSE_DATA.map(item =>
-      getIssueItemTpl(item)
-    ).join('');
+    issueListEl.innerHTML = ISSUE_CLOSE_DATA.reduce((html, item) => {
+      return (html += getIssueItemTpl(item));
+    }, '');
   }
 });
