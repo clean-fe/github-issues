@@ -1,14 +1,23 @@
-import { getIssueTpl, renderIssuesByStatus } from "./components/issues";
-import { CLICK_EVENT, addContainerEvent } from "./constants/addContainerEvent";
-import { closedIssuesContainer, openIssuesContainer, renderClosedIssuesStatus, renderOpenIssuesStatus } from "./containers/issues";
-import { $ } from "./constants/dom";
+import { renderIssueByStatus } from "./components/modules/issues";
+import { fetchJSON } from "./utils/fetch";
+import { shareParams } from "./components/commons/shareParams";
+import { compose } from "./components/commons/compose";
+import { renderCountByStatus } from "./components/modules/counts";
 
 const ISSUE_JSON = "/data-sources/issues.json"
 
-$("#app").innerHTML = getIssueTpl();
-
 const STATUS_OPEN = "open";
+const STATUS_CLOSED = "close";
 
-renderIssuesByStatus(STATUS_OPEN, $(".issue-list ul"), ISSUE_JSON);
-addContainerEvent(openIssuesContainer(document), CLICK_EVENT, renderOpenIssuesStatus);
-addContainerEvent(closedIssuesContainer(document), CLICK_EVENT, renderClosedIssuesStatus);
+const init = () => {
+    compose(
+        fetchJSON,
+        shareParams(
+            renderIssueByStatus(STATUS_OPEN),
+            renderCountByStatus(STATUS_OPEN),
+            renderCountByStatus(STATUS_CLOSED)
+        )
+    )(ISSUE_JSON)
+}
+
+init();

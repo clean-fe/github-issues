@@ -1,7 +1,9 @@
-import { renderIssuesByStatus } from "../components/issues";
+import { $ } from "../utils/dom";
 
-export const openIssuesContainer = (document) => document.querySelector(".open-count");
+export const openIssuesContainer = (document) => $(".open-count");
 export const renderOpenIssuesStatus = () => renderIssuesByStatus("open");
 
-export const closedIssuesContainer = (document) => document.querySelector(".close-count");
+export const closedIssuesContainer = (document) => $(".close-count");
 export const renderClosedIssuesStatus = () => renderIssuesByStatus("closed");
+
+export const issueListContainer = () => $(".issue-list ul");
