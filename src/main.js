@@ -3,12 +3,7 @@ import { fetchJSON } from "./utils/fetch";
 import { shareParams } from "./components/commons/shareParams";
 import { compose } from "./components/commons/compose";
 import { renderCountByStatus } from "./components/modules/counts";
-import { $ } from "./utils/dom";
-
-const ISSUE_JSON = "/data-sources/issues.json"
-
-const STATUS_OPEN = "open";
-const STATUS_CLOSED = "close";
+import { ISSUE_JSON, STATUS_CLOSED, STATUS_OPEN } from "./utils/constants";
 
 const init = () => {
     compose(

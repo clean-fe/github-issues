@@ -6,12 +6,11 @@ import { closedIssuesContainer, issueListContainer, openIssuesContainer } from "
 
 $("#app").innerHTML = getIssueTpl();
 
-const renderIssueList = () => {
-    return (data => {
-        issueListContainer(document).innerHTML = data.reduce((html, item) => {
-            return html + getIssueItemTpl(item)
-        }, "")
-    })
+const renderIssueList = (data) => {
+    const issueList = issueListContainer(document);
+    issueList.innerHTML = data.reduce(((html, item) => {
+        return html + getIssueItemTpl(item);
+    }), "");
 }
 
 export const renderIssueByStatus = renderComponent(renderIssueList);
