@@ -29,8 +29,8 @@ export function getIssueTpl() {
         </div>
 
         <div class="statusTab flex">
-          <div class="whitespace-nowrap open-count font-bold cursor-pointer">0 Opens</div>
-          <div class="whitespace-nowrap close-count ml-3 cursor-pointer">0 Closed</div>
+          <button type="button" class="whitespace-nowrap open-count font-bold cursor-pointer" data-status="open">0 Opens</button>
+          <button type="button" class="whitespace-nowrap close-count ml-3 cursor-pointer" data-status="closed">0 Closed</button>
         </div>
 
         <div class="details-list flex ml-auto">
