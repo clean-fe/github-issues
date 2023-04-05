@@ -41,13 +41,16 @@ const renderItems = (element) => {
   issueListEl.innerHTML = element;
 };
 
-const renderOpenedCount = (count) => {
-  openedTabEl.innerHTML = `${count} Opens`;
+const renderCount = (status) => (count) => {
+  const template = status === ISSUE_STATUS.OPEN ? `${count} Opens` : `${count} Closed`;
+  const el = status === ISSUE_STATUS.OPEN ? openedTabEl : closedTabEl;
+
+  el.innerHTML = template;
 };
 
-const renderClosedCount = (count) => {
-  closedTabEl.innerHTML = `${count} Closed`;
-};
+const renderOpenedCount = renderCount(ISSUE_STATUS.OPEN);
+
+const renderClosedCount = renderCount(ISSUE_STATUS.CLOSE);
 
 const renderOpenedIssueList = pipe(
   filterItem(ISSUE_STATUS.OPEN),
@@ -55,6 +58,7 @@ const renderOpenedIssueList = pipe(
   joinArrayValues,
   renderItems
 );
+
 const renderClosedIssueList = pipe(
   filterItem(ISSUE_STATUS.CLOSE),
   createTemplate,
