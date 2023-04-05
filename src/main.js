@@ -83,16 +83,18 @@ const init = async () => {
   renderClosedCount(closeItems.length);
 };
 
-await init();
-
-openedTabEl.addEventListener('click', async () => {
+const handleClickOpenedTab = async () => {
   const items = await getIssueList();
   renderOpenedIssueList(items);
   highlightTab(ISSUE_STATUS.OPEN);
-});
+};
 
-closedTabEl.addEventListener('click', async () => {
+const handleClickClosedTab = async () => {
   const items = await getIssueList();
   renderClosedIssueList(items);
   highlightTab(ISSUE_STATUS.CLOSE);
-});
+};
+
+await init();
+openedTabEl.addEventListener('click', handleClickOpenedTab);
+closedTabEl.addEventListener('click', handleClickClosedTab);
