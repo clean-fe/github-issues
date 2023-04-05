@@ -1,5 +1,3 @@
-import { request } from './api';
-import { $, setTpl } from './dom';
-import { pipe, go } from './fn';
-
-export { request, $, setTpl, pipe, go };
+export { request } from './api';
+export { $, setTpl } from './dom';
+export { pipe, go } from './fn';
