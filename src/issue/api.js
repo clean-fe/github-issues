@@ -1,11 +1,7 @@
-export const filterStatus = (status) => async (data) => {
-  const issueList = await data;
-  return issueList.filter((item) => item.status === status);
-};
+export const filterStatus = (status) => (list) => list.filter((item) => item.status === status);
 
-export const mapIssue = async (data) => {
-  const issueList = await data;
-  return issueList.map(({ title, tags, _id, status, openDate, milestones }) => ({
+export const mapIssue = (list) =>
+  list.map(({ title, tags, _id, status, openDate, milestones }) => ({
     title,
     tags,
     _id,
@@ -13,4 +9,3 @@ export const mapIssue = async (data) => {
     openDate,
     milestones,
   }));
-};
