@@ -1,6 +1,6 @@
 import { getIssueItemTpl } from './tpl';
 import { getIssueTpl } from './tpl';
-import { pipe, request, $, setTpl } from './utils';
+import { pipe, go, request, $, setTpl } from './utils';
 
 const ISSUE_URL = '/data-sources/issues.json';
 
@@ -9,10 +9,12 @@ const filterStatus = (status) => async (data) => {
   return issueList.filter((item) => item.status === status);
 };
 
+const mapIssue = (data) => {
+  // title, tags(tagName, color), _id, status, open-date, milestones
+};
+
 const openStatusList = await pipe(request, filterStatus('open'))(ISSUE_URL);
 const closeStatusList = await pipe(request, filterStatus('close'))(ISSUE_URL);
-
-const go = (a, ...fns) => fns.reduce((acc, fn) => fn(acc), a);
 
 const setIssueTpl = (issueCount) => go(issueCount, getIssueTpl, setTpl);
 
@@ -31,8 +33,8 @@ const toggleCountBtn = (setListTpl, $focused, $unfocused) => {
   $unfocused.style.fontWeight = 'normal';
 };
 
-const setInitialIssueTpl = () => {
-  setIssueTpl({ openCount: openStatusList.length, closeCount: closeStatusList.length })($('#app'));
+const setInitialIssueTpl = (issueCount) => {
+  setIssueTpl(issueCount)($('#app'));
   setIssueListTpl(openStatusList)($('#issues'));
 };
 
@@ -41,7 +43,7 @@ const addToggleCountEvents = () => {
   addToggleCountEvent(setIssueListTpl(openStatusList), $('.open-count'), $('.close-count'));
 };
 
-export const setIssueOnDocument = () => {
-  setInitialIssueTpl();
+export const setIssueOnDocument = async () => {
+  setInitialIssueTpl({ openCount: openStatusList.length, closeCount: closeStatusList.length });
   addToggleCountEvents();
 };
