@@ -3,6 +3,7 @@ import { fetchJSON } from "./utils/fetch";
 import { shareParams } from "./components/commons/shareParams";
 import { compose } from "./components/commons/compose";
 import { renderCountByStatus } from "./components/modules/counts";
+import { $ } from "./utils/dom";
 
 const ISSUE_JSON = "/data-sources/issues.json"
 

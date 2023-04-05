@@ -5,7 +5,6 @@ import { getIssueItemTpl, getIssueTpl } from "../layouts/issues.js";
 import { issueListContainer } from "../../containers/issues.js";
 
 $("#app").innerHTML = getIssueTpl();
-
 const renderIssueList = (node) => {
     return (data => {
         node.innerHTML = data.reduce((html, item) => {
@@ -14,7 +13,7 @@ const renderIssueList = (node) => {
     })
 }
 
-export const renderIssueByStatus = renderComponent(renderIssueList(issueListContainer));
+export const renderIssueByStatus = renderComponent(renderIssueList(issueListContainer(document)));
 
 export const createIssueListHtml = (data) => {
     if (!Array.isArray(data)) {
