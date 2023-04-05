@@ -1,6 +1,6 @@
-import { pipe, shareToChild } from './utils';
+import { pipe } from './utils';
 
-function countResult(issueList) {
+const getStatusCount = (issueList) => {
   return issueList.reduce(
     (acc, item) => {
       acc[item.status] += 1;
@@ -8,18 +8,37 @@ function countResult(issueList) {
     },
     { open: 0, close: 0 }
   );
-}
+};
 
-function renderOpenCount(countResult) {
-  const openCountEl = document.querySelector('.open-count');
-  openCountEl.innerHTML = `${countResult.open} Opens`;
-}
+const renderCount = (status, handleClickCount) => {
+  return (countResult) => {
+    const statusCountEl = document.querySelector('.statusTab');
+    const statusList = [
+      { statusText: 'open', labelText: 'Opens' },
+      { statusText: 'close', labelText: 'Closed' },
+    ];
 
-function renderClosedCount(countResult) {
-  const closeCountEl = document.querySelector('.close-count');
-  closeCountEl.innerHTML = `${countResult.close} Closed`;
-}
+    statusCountEl.innerHTML = '';
 
-export function statusTab(issueDataList) {
-  pipe(countResult, shareToChild(renderOpenCount, renderClosedCount))(issueDataList);
-}
+    statusList.forEach(({ statusText, labelText }) => {
+      statusCountEl.insertAdjacentHTML(
+        'beforeend',
+        `<div class="whitespace-nowrap ${statusText}-count 
+          ${statusText === status && `font-bold`} 
+          ${statusText === 'close' && 'ml-3'} cursor-pointer"
+          >
+          ${countResult[statusText]} ${labelText}
+        </div>`
+      );
+      const countEl = document.querySelector(`.${statusText}-count`);
+      countEl.addEventListener('click', () => {
+        handleClickCount(statusText);
+      });
+    });
+  };
+};
+
+export const statusTab = ({ status, onClickStatusTab }) => {
+  return (issueDataList) =>
+    pipe(getStatusCount, renderCount(status, onClickStatusTab))(issueDataList);
+};

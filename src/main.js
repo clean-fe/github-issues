@@ -1,21 +1,33 @@
 import { getIssueTpl } from './tpl';
 import { statusTab } from './statusTab';
 import { issueList } from './issueList';
-import { pipe, shareToChild } from './utils';
+import { pipe, renderTemplate, shareToChild } from './utils';
 
-function renderIssueTemplate(template) {
-  const appEl = document.querySelector('#app');
-  appEl.innerHTML = template;
-}
+const renderIssueTemplate = renderTemplate('#app');
 
-async function fetchIssues() {
+const fetchIssues = async () => {
   return await fetch('/data-sources/issues.json').then((response) => response.json());
-}
+};
 
-function main() {
-  // IssueTpl render-> 데이터 패칭 -> statusTab
-  //                            -> issueList
-  pipe(getIssueTpl, renderIssueTemplate, fetchIssues, shareToChild(statusTab, issueList))();
-}
+const main = () => {
+  let issueStatus = 'open';
+
+  const setStatus = (newStatus) => {
+    issueStatus = newStatus;
+    pipe(fetchIssues, renderChild(newStatus))();
+  };
+
+  const onClickStatusTab = (newStatus) => {
+    setStatus(newStatus);
+  };
+
+  const renderChild = (status) => {
+    return (fetchIssues) => {
+      shareToChild(statusTab({ status, onClickStatusTab }), issueList({ status }))(fetchIssues);
+    };
+  };
+
+  pipe(getIssueTpl, renderIssueTemplate, fetchIssues, renderChild(issueStatus))();
+};
 
 main();
