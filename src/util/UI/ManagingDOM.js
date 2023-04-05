@@ -16,7 +16,6 @@ const insertHtmlAfterEnd = insertHTML(position.afterEnd)
 
 const arrayCheck = something => something instanceof Array
 const htmlArrayRemoveComma = arr => arr.join('')
-
 const safeHtml = html => arrayCheck(html) ? htmlArrayRemoveComma(html) : html
 const renderBeforeBegin = el => html => insertHtmlBeforeBegin(el)(safeHtml(html))
 
@@ -26,7 +25,7 @@ const renderBeforeEnd = el => html => insertHtmlBeforeEnd(el)(safeHtml(html))
 
 const renderAfterEnd = el => html => insertHtmlAfterEnd(el)(safeHtml(html))
 
-const clearBeforeRender = el => () => el.innerHTML = ''
+const clearBeforeRender = el => (html = null) => { el.innerHTML = ''; return html }
 
 export {
   renderBeforeBegin,
