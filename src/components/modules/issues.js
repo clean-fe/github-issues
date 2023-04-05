@@ -3,6 +3,7 @@ import { $ } from "../../utils/dom.js";
 import { Result } from "../commons/result.js";
 import { getIssueItemTpl, getIssueTpl } from "../layouts/issues.js";
 import { closedIssuesContainer, issueListContainer, openIssuesContainer } from "../../containers/issues.js";
+import { STATUS_CLOSED, STATUS_OPEN } from "../../utils/constants.js";
 
 $("#app").innerHTML = getIssueTpl();
 
@@ -28,13 +29,13 @@ export const renderIssueByClick = (data) => {
     const closedIssues = closedIssuesContainer(document);
 
     openIssues.addEventListener("click", () => {
-        renderIssueByStatus(data.filter(item => item.status === "open"))
+        renderIssueByStatus(STATUS_OPEN)(data)
         openIssues.classList.add("font-bold")
         closedIssues.classList.remove("font-bold")
     })
 
     closedIssues.addEventListener("click", () => {
-        renderIssueByStatus(data.filter(item => item.status === "close"))
+        renderIssueByStatus(STATUS_CLOSED)(data)
         closedIssues.classList.add("font-bold")
         openIssues.classList.remove("font-bold")
     })
