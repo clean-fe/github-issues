@@ -1,3 +1,3 @@
-import { setIssueOnDocument } from './issue';
+import setIssueOnDocument from './issue';
 
 setIssueOnDocument();
