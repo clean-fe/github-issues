@@ -13,7 +13,7 @@ export const promisePipe =
       Promise.resolve(args)
     );
 
-export const fetchList = async (url) => {
+export const fetchAPI = async (url) => {
   const res = await fetch(`${url}`);
   const list = await res.json();
 

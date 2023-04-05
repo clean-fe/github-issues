@@ -1,5 +1,5 @@
 import { getIssueItemTpl } from "./tpl.js";
-import { $, fetchList, promisePipe, shareParams } from "./utils.js";
+import { $, fetchAPI, promisePipe, shareParams } from "./utils.js";
 const ISSUE_URL = "./data-sources/issues.json";
 const STATUS = {
   OPEN: "open",
@@ -67,6 +67,6 @@ const clickedIssues = (list) => {
 
 export const renderIssueList = () =>
   promisePipe(
-    fetchList,
+    fetchAPI,
     shareParams(countStatus, adjacentOpenIssueList, clickedIssues)
   )(ISSUE_URL);
