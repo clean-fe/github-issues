@@ -1,7 +1,7 @@
+import { ISSUE_STATUS } from './constant.js';
 import { getIssueItemTpl, getIssueTpl } from './tpl';
-import { pipe } from "./util.js";
-import { ISSUE_STATUS } from "./constant.js";
-import { API_ENDPOINT } from "./urls.js";
+import { API_ENDPOINT } from './urls.js';
+import { pipe } from './util.js';
 
 const appEl = document.querySelector('#app');
 appEl.innerHTML = getIssueTpl();
@@ -13,6 +13,7 @@ const closedTabEl = document.querySelector('.close-count');
 const getIssueList = async () => {
   const res = await fetch(API_ENDPOINT.ISSUE_LIST);
   const data = res.json();
+
   return data;
 };
 
@@ -30,36 +31,46 @@ const getClosedItems = async () => {
   return closedItems;
 };
 
-const filterItem = (status) => (items) => items.filter(item => item.status === status);
+const filterItem = (status) => (items) => items.filter((item) => item.status === status);
 
-const createTemplate = (issueList) => issueList.map(item => getIssueItemTpl(item));
+const createTemplate = (issueList) => issueList.map((item) => getIssueItemTpl(item));
 
 const joinArrayValues = (array) => array.join('');
 
 const renderItems = (element) => {
   issueListEl.innerHTML = element;
-}
+};
 
 const renderOpenedCount = (count) => {
   openedTabEl.innerHTML = `${count} Opens`;
-}
+};
 
 const renderClosedCount = (count) => {
   closedTabEl.innerHTML = `${count} Closed`;
-}
+};
 
-const renderOpenedIssueList = pipe(filterItem(ISSUE_STATUS.OPEN), createTemplate, joinArrayValues, renderItems);
-const renderClosedIssueList = pipe(filterItem(ISSUE_STATUS.CLOSE), createTemplate, joinArrayValues, renderItems);
+const renderOpenedIssueList = pipe(
+  filterItem(ISSUE_STATUS.OPEN),
+  createTemplate,
+  joinArrayValues,
+  renderItems
+);
+const renderClosedIssueList = pipe(
+  filterItem(ISSUE_STATUS.CLOSE),
+  createTemplate,
+  joinArrayValues,
+  renderItems
+);
 
 const init = async () => {
   const openedItems = await getOpenedItems();
   const closeItems = await getClosedItems();
-  const items = await getIssueList()
+  const items = await getIssueList();
 
   renderOpenedIssueList(items);
   renderOpenedCount(openedItems.length);
   renderClosedCount(closeItems.length);
-}
+};
 
 await init();
 
@@ -67,6 +78,7 @@ const highlightTab = (selectedTab) => {
   if (selectedTab === ISSUE_STATUS.OPEN) {
     openedTabEl.classList.add('font-bold');
     closedTabEl.classList.remove('font-bold');
+
     return;
   }
 
@@ -74,7 +86,7 @@ const highlightTab = (selectedTab) => {
     closedTabEl.classList.add('font-bold');
     openedTabEl.classList.remove('font-bold');
   }
-}
+};
 
 openedTabEl.addEventListener('click', async () => {
   const items = await getIssueList();
