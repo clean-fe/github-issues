@@ -1,4 +1,4 @@
-import { renderIssueByStatus } from "./components/modules/issues";
+import { renderIssueByClick, renderIssueByStatus } from "./components/modules/issues";
 import { fetchJSON } from "./utils/fetch";
 import { shareParams } from "./components/commons/shareParams";
 import { compose } from "./components/commons/compose";
@@ -16,7 +16,8 @@ const init = () => {
         shareParams(
             renderIssueByStatus(STATUS_OPEN),
             renderCountByStatus(STATUS_OPEN),
-            renderCountByStatus(STATUS_CLOSED)
+            renderCountByStatus(STATUS_CLOSED),
+            renderIssueByClick
         )
     )(ISSUE_JSON)
 }
