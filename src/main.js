@@ -10,7 +10,7 @@ const closedTabEl = document.querySelector('.close-count');
 
 const getIssueList = async () => {
   const res = await fetch('/data-sources/issues.json');
-  const data = await res.json();
+  const data = res.json();
 
   return data;
 };
@@ -35,6 +35,14 @@ const renderItems = (element) => {
   issueListEl.innerHTML = element;
 }
 
+const renderOpenedCount = (count) => {
+  openedTabEl.innerHTML = `${count} Opens`;
+}
+
+const renderClosedCount = (count) => {
+  closedTabEl.innerHTML = `${count} Closed`;
+}
+
 const init = async () => {
   const openedItems = await getOpenedItems();
   const closeItems = await getClosedItems();
@@ -46,8 +54,8 @@ const init = async () => {
     renderItems,
   )
 
-  openedTabEl.innerHTML = `${openedItems.length} Opens`;
-  closedTabEl.innerHTML = `${closeItems.length} Closed`;
+  renderOpenedCount(openedItems.length);
+  renderClosedCount(closeItems.length);
 }
 
 await init();
