@@ -17,20 +17,6 @@ const getIssueList = async () => {
   return data;
 };
 
-const getOpenedItems = async () => {
-  const items = await getIssueList();
-  const openItems = items.filter((item) => item.status === ISSUE_STATUS.OPEN);
-
-  return openItems;
-};
-
-const getClosedItems = async () => {
-  const items = await getIssueList();
-  const closedItems = items.filter((item) => item.status === ISSUE_STATUS.CLOSE);
-
-  return closedItems;
-};
-
 const filterItem = (status) => (items) => items.filter((item) => item.status === status);
 
 const createTemplate = (issueList) => issueList.map((item) => getIssueItemTpl(item));
@@ -74,13 +60,14 @@ const renderOpenedIssueList = renderIssueList(ISSUE_STATUS.OPEN);
 const renderClosedIssueList = renderIssueList(ISSUE_STATUS.CLOSE);
 
 const init = async () => {
-  const openedItems = await getOpenedItems();
-  const closeItems = await getClosedItems();
   const items = await getIssueList();
+  const openedIssueCount = items.filter((item) => item.status === ISSUE_STATUS.OPEN).length;
+  const closedIssueCount = items.filter((item) => item.status === ISSUE_STATUS.CLOSE).length;
 
   renderOpenedIssueList(items);
-  renderOpenedCount(openedItems.length);
-  renderClosedCount(closeItems.length);
+  renderOpenedCount(openedIssueCount);
+  renderClosedCount(closedIssueCount);
+  highlightTab(ISSUE_STATUS.OPEN);
 };
 
 const handleClickOpenedTab = async () => {
