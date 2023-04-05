@@ -5,6 +5,8 @@ const position = Object.freeze({
   afterEnd: 'afterend'
 })
 
+// TODO: Refactor 'insertAdjacentHTML' to 'insertAdjacentElement'.
+// tpl.js 의 string return 이 element 생성 방식으로 바뀌어야 사용할 수 있다. 많이 빡셀듯...
 const insertHTML = position => el => html => el.insertAdjacentHTML(position, html)
 
 const insertHtmlBeforeBegin = insertHTML(position.beforeBegin)
