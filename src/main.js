@@ -1,6 +1,12 @@
 import router from "./util/Router";
+import attachNavigationEvent from "./util/Navigator"
 
-router('/')
+// MARK: init
+(() => {
+  router('/')
+  attachNavigationEvent()
+})()
+
 
 
 // import {getIssueTpl} from "./tpl";
