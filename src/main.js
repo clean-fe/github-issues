@@ -11,7 +11,6 @@ const closedTabEl = document.querySelector('.close-count');
 const getIssueList = async () => {
   const res = await fetch('/data-sources/issues.json');
   const data = res.json();
-
   return data;
 };
 
@@ -29,6 +28,7 @@ const getClosedItems = async () => {
   return closedItems;
 };
 
+const filterItem = (status) => (items) => items.filter(item => item.status === status);
 const createTemplate = (issueList) => issueList.map(item => getIssueItemTpl(item));
 const joinArrayValues = (array) => array.join('');
 const renderItems = (element) => {
@@ -43,13 +43,15 @@ const renderClosedCount = (count) => {
   closedTabEl.innerHTML = `${count} Closed`;
 }
 
-const renderIssueList = pipe(createTemplate, joinArrayValues, renderItems);
+const renderOpenedIssueList = pipe(filterItem('open'), createTemplate, joinArrayValues, renderItems);
+const renderClosedIssueList = pipe(filterItem('close'), createTemplate, joinArrayValues, renderItems);
 
 const init = async () => {
   const openedItems = await getOpenedItems();
   const closeItems = await getClosedItems();
+  const items = await getIssueList()
 
-  renderIssueList(openedItems);
+  renderOpenedIssueList(items);
   renderOpenedCount(openedItems.length);
   renderClosedCount(closeItems.length);
 }
@@ -70,13 +72,13 @@ const highlightTab = (selectedTab) => {
 }
 
 openedTabEl.addEventListener('click', async () => {
-  const openedItems = await getOpenedItems();
-  renderIssueList(openedItems);
+  const items = await getIssueList();
+  renderOpenedIssueList(items);
   highlightTab('open');
 });
 
 closedTabEl.addEventListener('click', async () => {
-  const closeItems = await getClosedItems();
-  renderIssueList(closeItems);
+  const items = await getIssueList();
+  renderClosedIssueList(items);
   highlightTab('close');
 });
