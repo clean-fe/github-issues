@@ -1,4 +1,4 @@
-export function getIssueTpl(openCount, closeCount) {
+export function getIssueTpl({ openCount, closeCount }) {
   return `
     <div id="issue-wrapper" class="w-9/12 m-auto min-w-min">
     <div id="header" class="flex justify-between">

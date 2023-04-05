@@ -2,23 +2,21 @@ import { getIssueItemTpl } from './tpl';
 import { getIssueTpl } from './tpl';
 import { pipe, request, $, setTpl } from './utils';
 
-const issueUrl = '/data-sources/issues.json';
+const ISSUE_URL = '/data-sources/issues.json';
 
 const filterStatus = (status) => async (data) => {
   const issueList = await data;
   return issueList.filter((item) => item.status === status);
 };
 
-const getOpenStatusList = await pipe(request, filterStatus('open'))(issueUrl);
-const getCloseStatusList = await pipe(request, filterStatus('close'))(issueUrl);
+const openStatusList = await pipe(request, filterStatus('open'))(ISSUE_URL);
+const closeStatusList = await pipe(request, filterStatus('close'))(ISSUE_URL);
 
-const setIssueTpl = setTpl(getIssueTpl(getOpenStatusList.length, getCloseStatusList.length));
+const go = (a, ...fns) => fns.reduce((acc, fn) => fn(acc), a);
 
-const setIssueListTpl = (list) =>
-  setTpl(list.reduce((acc, curr) => (acc += getIssueItemTpl(curr)), ''));
+const setIssueTpl = go({ openCount: openStatusList.length, closeCount: closeStatusList.length }, getIssueTpl, setTpl);
 
-const setOpenIssueListTpl = setIssueListTpl(getOpenStatusList);
-const setCloseIssueListTpl = setIssueListTpl(getCloseStatusList);
+const setIssueListTpl = (list) => setTpl(list.reduce((acc, curr) => (acc += getIssueItemTpl(curr)), ''));
 
 const addToggleCountEvent = (setListTpl, $target, $nontarget) => {
   $target.addEventListener('click', () => {
@@ -34,12 +32,12 @@ const toggleCountBtn = (setListTpl, $focused, $unfocused) => {
 
 const setInitialIssueTpl = () => {
   setIssueTpl($('#app'));
-  setOpenIssueListTpl($('#issues'));
+  setIssueListTpl(openStatusList)($('#issues'));
 };
 
 const addToggleCountEvents = () => {
-  addToggleCountEvent(setCloseIssueListTpl, $('.close-count'), $('.open-count'));
-  addToggleCountEvent(setOpenIssueListTpl, $('.open-count'), $('.close-count'));
+  addToggleCountEvent(setIssueListTpl(closeStatusList), $('.close-count'), $('.open-count'));
+  addToggleCountEvent(setIssueListTpl(openStatusList), $('.open-count'), $('.close-count'));
 };
 
 export const setIssueOnDocument = () => {
