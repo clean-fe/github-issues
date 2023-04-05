@@ -5,11 +5,13 @@ import {getIssueTpl, getLabelTpl} from "../tpl";
 const routes = [
   {
     path: '/',
-    template: getIssueTpl()
+    template: getIssueTpl(),
+    component: () => import('../view/IssueView')
   },
   {
     path: '/label',
-    template: getLabelTpl()
+    template: getLabelTpl(),
+    component: () => import('../view/LabelView')
   }
 ]
 
@@ -23,9 +25,10 @@ const renderView = html => pipe(
 )(html)
 
 const route = routes => path => {
-  const view = routes.filter(v => v.path === path)[0]?.template
+  const view = routes.filter(v => v.path === path)[0]
   if (view) {
-    renderView(view)
+    renderView(view.template)
+    view.component()  // This will not be contained in pipe stream.
   } else {
     alert('404 not found')
   }
