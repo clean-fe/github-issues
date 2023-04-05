@@ -2,10 +2,15 @@ import { getIssueItemTpl } from "./tpl.js";
 import { $, fetchList, promisePipe, shareParams } from "./utils.js";
 const issueUrl = "./data-sources/issues.json";
 
-// fetch리스트를 parsing -> filter(open과 close)한 함수 -> count 함수 -> 렌더링함수(open) -> 클릭 이벤트 함수 (전체적으로 리팩토링 해야한다..ㄱ-)
 const filterStatus = (list, status) => {
   const filteredList = list.filter((item) => item.status === status);
   return filteredList;
+};
+
+const renderClickedList = (list, status) => {
+  return filterStatus(list, status)
+    .map((item) => getIssueItemTpl(item))
+    .join("");
 };
 
 const statusCounts = (list) => {
@@ -22,12 +27,7 @@ const statusCounts = (list) => {
 const adjacentIssueList = (list) => {
   const issueLists = $("ul");
 
-  issueLists.insertAdjacentHTML(
-    "afterbegin",
-    `${filterStatus(list, "open")
-      .map((item) => getIssueItemTpl(item))
-      .join("")}`
-  );
+  issueLists.insertAdjacentHTML("afterbegin", renderClickedList(list, "open"));
 };
 
 const clickedIssues = (list) => {
@@ -36,9 +36,7 @@ const clickedIssues = (list) => {
   const closedCount = $(".close-count");
 
   const openClickRender = () => {
-    issueLists.innerHTML = `<ul>${filterStatus(list, "open")
-      .map((item) => getIssueItemTpl(item))
-      .join("")}</ul>`;
+    issueLists.innerHTML = `<ul>${renderClickedList(list, "open")}</ul>`;
 
     if (!openCount.classList.contains("font-bold")) {
       openCount.classList.add("font-bold");
@@ -47,9 +45,7 @@ const clickedIssues = (list) => {
   };
 
   const closedClickRedner = () => {
-    issueLists.innerHTML = `<ul>${filterStatus(list, "close")
-      .map((item) => getIssueItemTpl(item))
-      .join("")}</ul>`;
+    issueLists.innerHTML = `<ul>${renderClickedList(list, "close")}</ul>`;
 
     if (!closedCount.classList.contains("font-bold")) {
       closedCount.classList.add("font-bold");
