@@ -1,5 +1,5 @@
 import { getIssueItemTpl, getIssueTpl } from './tpl';
-import { go } from "./util.js";
+import { pipe } from "./util.js";
 
 const appEl = document.querySelector('#app');
 appEl.innerHTML = getIssueTpl();
@@ -43,17 +43,13 @@ const renderClosedCount = (count) => {
   closedTabEl.innerHTML = `${count} Closed`;
 }
 
+const renderIssueList = pipe(createTemplate, joinArrayValues, renderItems);
+
 const init = async () => {
   const openedItems = await getOpenedItems();
   const closeItems = await getClosedItems();
 
-  go(
-    openedItems,
-    createTemplate,
-    joinArrayValues,
-    renderItems,
-  )
-
+  renderIssueList(openedItems);
   renderOpenedCount(openedItems.length);
   renderClosedCount(closeItems.length);
 }
@@ -74,27 +70,13 @@ const highlightTab = (selectedTab) => {
 }
 
 openedTabEl.addEventListener('click', async () => {
-  const openItems = await getOpenedItems();
-
-  go(
-    openItems,
-    createTemplate,
-    joinArrayValues,
-    renderItems,
-  )
-
+  const openedItems = await getOpenedItems();
+  renderIssueList(openedItems);
   highlightTab('open');
 });
 
 closedTabEl.addEventListener('click', async () => {
   const closeItems = await getClosedItems();
-
-  go(
-    closeItems,
-    createTemplate,
-    joinArrayValues,
-    renderItems,
-  )
-
+  renderIssueList(closeItems);
   highlightTab('close');
 });
