@@ -52,32 +52,6 @@ const renderOpenedCount = renderCount(ISSUE_STATUS.OPEN);
 
 const renderClosedCount = renderCount(ISSUE_STATUS.CLOSE);
 
-const renderOpenedIssueList = pipe(
-  filterItem(ISSUE_STATUS.OPEN),
-  createTemplate,
-  joinArrayValues,
-  renderItems
-);
-
-const renderClosedIssueList = pipe(
-  filterItem(ISSUE_STATUS.CLOSE),
-  createTemplate,
-  joinArrayValues,
-  renderItems
-);
-
-const init = async () => {
-  const openedItems = await getOpenedItems();
-  const closeItems = await getClosedItems();
-  const items = await getIssueList();
-
-  renderOpenedIssueList(items);
-  renderOpenedCount(openedItems.length);
-  renderClosedCount(closeItems.length);
-};
-
-await init();
-
 const highlightTab = (selectedTab) => {
   if (selectedTab === ISSUE_STATUS.OPEN) {
     openedTabEl.classList.add('font-bold');
@@ -91,6 +65,25 @@ const highlightTab = (selectedTab) => {
     openedTabEl.classList.remove('font-bold');
   }
 };
+
+const renderIssueList = (status) =>
+  pipe(filterItem(status), createTemplate, joinArrayValues, renderItems);
+
+const renderOpenedIssueList = renderIssueList(ISSUE_STATUS.OPEN);
+
+const renderClosedIssueList = renderIssueList(ISSUE_STATUS.CLOSE);
+
+const init = async () => {
+  const openedItems = await getOpenedItems();
+  const closeItems = await getClosedItems();
+  const items = await getIssueList();
+
+  renderOpenedIssueList(items);
+  renderOpenedCount(openedItems.length);
+  renderClosedCount(closeItems.length);
+};
+
+await init();
 
 openedTabEl.addEventListener('click', async () => {
   const items = await getIssueList();
