@@ -1,33 +1,39 @@
 import { getIssueItemTpl } from "./tpl.js";
 import { $, fetchList, promisePipe, shareParams } from "./utils.js";
-const issueUrl = "./data-sources/issues.json";
-
-const filterStatus = (list, status) => {
-  const filteredList = list.filter((item) => item.status === status);
-  return filteredList;
+const ISSUE_URL = "./data-sources/issues.json";
+const STATUS = {
+  OPEN: "open",
+  CLOSED: "close",
 };
 
-const renderClickedList = (list, status) => {
+const filterStatus = (list, status) => {
+  return list.filter((item) => item.status === status);
+};
+
+const renderStatusList = (list, status) => {
   return filterStatus(list, status)
     .map((item) => getIssueItemTpl(item))
     .join("");
 };
 
-const statusCounts = (list) => {
+const countStatus = (list) => {
   const openCount = $(".open-count");
   const closedCount = $(".close-count");
 
-  const openCountList = filterStatus(list, "open");
-  const closedCountList = filterStatus(list, "close");
+  const openCountList = filterStatus(list, STATUS.OPEN);
+  const closedCountList = filterStatus(list, STATUS.CLOSED);
 
   openCount.innerText = `${openCountList.length} Opens`;
   closedCount.innerText = `${closedCountList.length} Closed`;
 };
 
-const adjacentIssueList = (list) => {
+const adjacentOpenIssueList = (list) => {
   const issueLists = $("ul");
 
-  issueLists.insertAdjacentHTML("afterbegin", renderClickedList(list, "open"));
+  issueLists.insertAdjacentHTML(
+    "afterbegin",
+    renderStatusList(list, STATUS.OPEN)
+  );
 };
 
 const clickedIssues = (list) => {
@@ -35,34 +41,32 @@ const clickedIssues = (list) => {
   const openCount = $(".open-count");
   const closedCount = $(".close-count");
 
-  const openClickRender = () => {
-    issueLists.innerHTML = `<ul>${renderClickedList(list, "open")}</ul>`;
+  const updateIssueList = (list, status) => {
+    issueLists.innerHTML = `<ul>${renderStatusList(list, status)}</ul>`;
+    const selectedCount = status === STATUS.OPEN ? openCount : closedCount;
+    const unselectedCount = status === STATUS.OPEN ? closedCount : openCount;
 
-    if (!openCount.classList.contains("font-bold")) {
-      openCount.classList.add("font-bold");
-      closedCount.classList.remove("font-bold");
-    }
+    selectedCount.classList.add("font-bold");
+    unselectedCount.classList.remove("font-bold");
   };
 
-  const closedClickRedner = () => {
-    issueLists.innerHTML = `<ul>${renderClickedList(list, "close")}</ul>`;
-
-    if (!closedCount.classList.contains("font-bold")) {
-      closedCount.classList.add("font-bold");
-      openCount.classList.remove("font-bold");
-    }
+  const clickedStatus = (list, status) => () => {
+    updateIssueList(list, status);
   };
 
-  const openClicked = openCount.addEventListener("click", openClickRender);
+  const openClicked = openCount.addEventListener(
+    "click",
+    clickedStatus(list, STATUS.OPEN)
+  );
 
   const closedClicked = closedCount.addEventListener(
     "click",
-    closedClickRedner
+    clickedStatus(list, STATUS.CLOSED)
   );
 };
 
 export const renderIssueList = () =>
   promisePipe(
     fetchList,
-    shareParams(statusCounts, adjacentIssueList, clickedIssues)
-  )(issueUrl);
+    shareParams(countStatus, adjacentOpenIssueList, clickedIssues)
+  )(ISSUE_URL);
