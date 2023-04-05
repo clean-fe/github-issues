@@ -15,31 +15,18 @@ const render = (element, template) => {
   element.innerHTML = template.join('')
 }
 
-// Todo: 함수 두개 합치기
-const renderIssues = async () => {
-  const issues = await fetchIssues()
-  const issueItems = issues.map(getIssueItemTpl)
-  const issueList = document.querySelector('.issue-list')
-  render(issueList, issueItems)
-}
-
-const renderLabels = async () => {
-  const labels = await fetchLabels()
-  const labelItems = labels.map(getLabelItemTpl)
-  const labelList = document.querySelector('.label-list')
-  render(labelList, labelItems)
-}
-
 const renderObject = {
   issue: {
     fetchCallback: fetchIssues,
     getTempl: getIssueItemTpl,
     className: '.issue-list',
+    status: 'open',
   },
   label: {
     fetchCallback: fetchLabels,
     getTempl: getLabelItemTpl,
     className: '.label-list',
+    status: null,
   },
 }
 
@@ -49,8 +36,11 @@ const fetchItems = (fetchCallback) => {
   }
 }
 
-const templateRender = (getTempl) => {
+const templateRender = (getTempl, status) => {
   return (items) => {
+    if (status) {
+      return items.filter((item) => item.status === status).map(getTempl)
+    }
     return items.map(getTempl)
   }
 }
@@ -59,15 +49,46 @@ const createDOMwithItems = (className) => {
   return (items) => {
     const list = document.querySelector(className)
     render(list, items)
+    return items
   }
 }
 
-const renderComponent = ({ fetchCallback, getTempl, className }) => {
+const updateIssueCount = (openCountElement, closeCountElement) => {
+  return (items) => {
+    const openCount = items.filter((item) => item.status === 'open').length
+    const closeCount = items.filter((item) => item.status === 'close').length
+
+    openCountElement.textContent = `${openCount} Open`
+    closeCountElement.textContent = `${closeCount} Closed`
+
+    return items
+  }
+}
+
+const renderComponent = ({ fetchCallback, getTempl, className, status }) => {
+  const openCountElement = document.querySelector('.open-count')
+  const closeCountElement = document.querySelector('.close-count')
+
   asyncPipe(
     fetchItems(fetchCallback),
-    templateRender(getTempl),
+    updateIssueCount(openCountElement, closeCountElement),
+    templateRender(getTempl, status),
     createDOMwithItems(className),
   )()
+}
+
+const handleIssueStatus = () => {
+  const openButton = document.querySelector('.open-count')
+  const closeButton = document.querySelector('.close-count')
+
+  openButton.addEventListener('click', () => {
+    renderObject.issue.status = 'open'
+    renderComponent(renderObject.issue)
+  })
+  closeButton.addEventListener('click', () => {
+    renderObject.issue.status = 'close'
+    renderComponent(renderObject.issue)
+  })
 }
 
 const navigate = (path) => {
@@ -76,6 +97,7 @@ const navigate = (path) => {
   if (path === '/') {
     appElement.innerHTML = getIssueTpl()
     renderComponent(renderObject.issue)
+    handleIssueStatus()
   }
   if (path === '/label') {
     appElement.innerHTML = getLabelTpl()
