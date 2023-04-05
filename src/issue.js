@@ -14,9 +14,10 @@ const closeStatusList = await pipe(request, filterStatus('close'))(ISSUE_URL);
 
 const go = (a, ...fns) => fns.reduce((acc, fn) => fn(acc), a);
 
-const setIssueTpl = go({ openCount: openStatusList.length, closeCount: closeStatusList.length }, getIssueTpl, setTpl);
+const setIssueTpl = (issueCount) => go(issueCount, getIssueTpl, setTpl);
 
-const setIssueListTpl = (list) => setTpl(list.reduce((acc, curr) => (acc += getIssueItemTpl(curr)), ''));
+const reduceIssueItemTpl = (list) => list.reduce((acc, curr) => (acc += getIssueItemTpl(curr)), '');
+const setIssueListTpl = (list) => go(list, reduceIssueItemTpl, setTpl);
 
 const addToggleCountEvent = (setListTpl, $target, $nontarget) => {
   $target.addEventListener('click', () => {
@@ -31,7 +32,7 @@ const toggleCountBtn = (setListTpl, $focused, $unfocused) => {
 };
 
 const setInitialIssueTpl = () => {
-  setIssueTpl($('#app'));
+  setIssueTpl({ openCount: openStatusList.length, closeCount: closeStatusList.length })($('#app'));
   setIssueListTpl(openStatusList)($('#issues'));
 };
 
