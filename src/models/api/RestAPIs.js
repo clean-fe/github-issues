@@ -3,9 +3,10 @@ const issue = Object.freeze({
 })
 
 const label = Object.freeze({
-  get: '/label'
+  get: '/data-sources/labels.json'
 })
 
 export {
-  issue
+  issue,
+  label
 }

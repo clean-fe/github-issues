@@ -29,5 +29,4 @@ export {
   clearIssueBeforeRender,
   renderIssueList,
   statusFilter,
-  // status
 }

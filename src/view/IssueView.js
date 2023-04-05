@@ -35,4 +35,3 @@ statusOpen.addEventListener('click', async () => {
 statusClosed.addEventListener('click', async () => {
   proxy.target = statusFilter(status.close)(issueList)
 })
-
