@@ -59,7 +59,7 @@ export function getIssueTpl() {
 
       </div>
       <div class="issue-list flex ml-auto">
-        <ul></ul>
+        <ul id="issue-wrapper__ul"></ul>
       </div>
     </div>
   </div>
@@ -215,7 +215,7 @@ export function getLabelTpl() {
       </div>
 
     </div>
-    <ul class="label-list ml-auto text-sm bg-white">
+    <ul class="label-list ml-auto text-sm bg-white" id="label-wrapper__ul">
 
     </ul>
   </div>

@@ -1,4 +1,4 @@
-import {getOptions, customFetch} from "../MyFetch.js";
-import {issue} from "../../models/api/RestAPIs.js";
+import {getOptions, customFetch} from "../MyFetch";
+import {issue} from "../../models/api/RestAPIs";
 
 export const getIssue = customFetch(getOptions)(issue.get)

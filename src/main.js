@@ -1,6 +1,6 @@
 import router, {app} from "./util/Router";
 import attachNavigationEvent from "./util/Navigator"
-import {mutationObserver} from "./util/UI/Observer.js";
+import {mutationObserver} from "./util/UI/Observer";
 
 // MARK: init
 (() => {

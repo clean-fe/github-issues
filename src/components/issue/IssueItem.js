@@ -1,9 +1,9 @@
-import {getIssue} from "../../util/APIs/Issue";
 import {getIssueItemTpl} from "../../tpl";
-import {clearBeforeRender, renderAfterBegin, renderBeforeEnd} from "../../util/UI/ManagingDOM";
-import {pipe} from "../../util/FP.js";
 
-const ul = document.querySelector("#issues-wrapper > div.issue-list.flex.ml-auto > ul")
+import {clearBeforeRender, renderBeforeEnd} from "../../util/UI/ManagingDOM";
+import {pipe} from "../../util/FP";
+
+const issueUl = document.getElementById('issue-wrapper__ul')
 
 const findStatusTabDom = () => {
   const statusTab = document.getElementsByClassName('statusTab')[0];
@@ -15,8 +15,8 @@ const findStatusTabDom = () => {
 // MARK: render issue functions
 const createIssueHtml = list => list.map(issue => getIssueItemTpl(issue))
 const renderIssue = el => html => renderBeforeEnd(el)(html)
-const renderIssueAtUl = renderIssue(ul)
-const clearIssueBeforeRender = clearBeforeRender(ul)
+const renderIssueAtUl = renderIssue(issueUl)
+const clearIssueBeforeRender = clearBeforeRender(issueUl)
 const renderIssueList = pipe(
     createIssueHtml,
     renderIssueAtUl
