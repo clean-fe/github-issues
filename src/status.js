@@ -44,26 +44,23 @@ const handleStatusFontChange = (status) => {
   }
 }
 
+const statusEventCallback = (items, status) => {
+  $('.issue-list ul').innerHTML = ''
+
+  const data = getFilteredIssuesDataByStatus(items, status)
+
+  renderIssues(data)
+  handleStatusFontChange(status)
+}
+
 export const bindStatusTabOpenClickEvent = (items) => {
   const { $open_status } = getStatusElement()
-  const data = getFilteredIssuesDataByStatus(items, 'open')
 
-  $open_status.addEventListener('click', () => {
-    $('.issue-list ul').innerHTML = ''
-
-    renderIssues(data)
-    handleStatusFontChange('open')
-  })
+  $open_status.addEventListener('click', () => statusEventCallback(items, 'open'))
 }
 
 export const bindStatusTabCloseClickEvent = (items) => {
   const { $close_status } = getStatusElement()
-  const data = getFilteredIssuesDataByStatus(items, 'close')
 
-  $close_status.addEventListener('click', () => {
-    $('.issue-list ul').innerHTML = ''
-
-    renderIssues(data)
-    handleStatusFontChange('close')
-  })
+  $close_status.addEventListener('click', () => statusEventCallback(items, 'close'))
 }
