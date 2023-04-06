@@ -1,3 +1,3 @@
-export const arrayfilter = (data, key, value) => {
-  return data.filter(item => item[key] === value);
+export const arrayfilter = (data, fn) => {
+  return data.filter();
 };

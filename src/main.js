@@ -3,10 +3,14 @@ import { getIssues } from './api/issues';
 
 import { arrayfilter } from './utils/array';
 
+import { getElement } from './utils/element';
+
 const appEl = document.querySelector('#app');
 appEl.innerHTML = getIssueTpl();
 
 const issueListEl = document.querySelector('.issue-list ul');
+
+getElement('.issue-list ul');
 
 const statusEl = document.querySelector('.statusTab');
 const statusOpenEl = document.querySelector('.open-count');
