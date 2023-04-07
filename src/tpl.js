@@ -1,5 +1,5 @@
 export function getIssueTpl() {
-	return `
+  return `
     <div id="issue-wrapper" class="w-9/12 m-auto min-w-min">
     <div id="header" class="flex justify-between">
 
@@ -29,8 +29,8 @@ export function getIssueTpl() {
         </div>
 
         <div class="statusTab flex">
-          <div class="whitespace-nowrap open-count font-bold cursor-pointer">0 Opens</div>
-          <div class="whitespace-nowrap close-count ml-3 cursor-pointer">0 Closed</div>
+          <button class="whitespace-nowrap open-count font-bold cursor-pointer">0 Opens</button>
+          <button class="whitespace-nowrap close-count ml-3 cursor-pointer">0 Closed</button>
         </div>
 
         <div class="details-list flex ml-auto">
@@ -58,16 +58,16 @@ export function getIssueTpl() {
         </div>
 
       </div>
-      <div class="issue-list flex ml-auto">
+      <div class="issue-list ml-auto">
         <ul></ul>
       </div>
     </div>
   </div>
-    `;
+    `
 }
 
 export function getIssueItemTpl(item) {
-    return `
+  return `
         <li> 
           <div class="py-4">
               <input type="checkbox">
@@ -79,15 +79,17 @@ export function getIssueItemTpl(item) {
                     ${item.tags.reduce((html, { tagName, color }) => {
                       return `
                         ${html} <span class="rounded-lg border text-white p-1" style="background-color:${color}">${tagName}</span>
-                      `;
+                      `
                     }, ``)}
                   </div>
               </div>
               <div class="issue-description text-xs mt-2">
-                ${item._id} ${item.status}ed ${item['open-date']} ${item.milestones}
+                ${item._id} ${item.status}ed ${item['open-date']} ${
+    item.milestones
+  }
               </div>
           </div>
-        </li>`;
+        </li>`
 }
 
 export function getLabelTpl() {
@@ -225,7 +227,7 @@ export function getLabelTpl() {
 }
 
 export function getLabelItemTpl({ name, color, description }) {
-		return `
+  return `
             <li class="label-item flex items-center ml-4 py-3 justify-between border-b ">
                 <div class="issue-title flex"> 
                     <span class="rounded-lg border p-1 px-2" style="background-color:#${color}">${name}</span> 
@@ -237,5 +239,5 @@ export function getLabelItemTpl({ name, color, description }) {
                     <button class="delete-button">delete</button>
                 </div>
             </li>
-        `;
+        `
 }
