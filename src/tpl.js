@@ -1,5 +1,5 @@
 export function getIssueTpl() {
-	return `
+	return 
     <div id="issue-wrapper" class="w-9/12 m-auto min-w-min">
     <div id="header" class="flex justify-between">
 
@@ -63,11 +63,11 @@ export function getIssueTpl() {
       </div>
     </div>
   </div>
-    `;
+    ;
 }
 
 export function getIssueItemTpl(item) {
-    return `
+    return 
         <li> 
           <div class="py-4">
               <input type="checkbox">
@@ -87,11 +87,11 @@ export function getIssueItemTpl(item) {
                 ${item._id} ${item.status}ed ${item['open-date']} ${item.milestones}
               </div>
           </div>
-        </li>`;
+        </li>;
 }
 
 export function getLabelTpl() {
-  return `
+  return 
   <div id="label-wrapper" class="w-9/12 m-auto min-w-min">
 
   <div id="header" class="flex justify-between">
@@ -99,7 +99,7 @@ export function getLabelTpl() {
     <div class="filter-menu w-2/3 px-3 py-1 flex base-outer items-center">
       <form action="/" class="p-1 w-full">
         <input type="text" class="w-full bg-slate-100 focus:outline-none" name="filter-text" id="filter-input"
-          placeholder="search all filter...">
+          placeholder="search all filter..." />
       </form>
     </div>
 
@@ -120,7 +120,6 @@ export function getLabelTpl() {
 
     <div id="label-input-wrapper" class="flex justify-between items-start mb-2">
 
-      <!--new label name-->
       <dl
         class="form-group my-2">
         <dt class=" flex justify-between items-center">
@@ -133,14 +132,12 @@ export function getLabelTpl() {
           <text-expander keys=":" data-emoji-url="/autocomplete/emoji?use_colon_emoji=true">
             <input type="text" data-maxlength="50" autocomplete="off" required="" pattern="^(?!(\.|\.\.)$).*$"
               id="label-name-input" name="label[name]"
-              class="w-full p-2 base-outer focus:outline-none" placeholder="Label name" value="" >
+              class="w-full p-2 base-outer focus:outline-none" placeholder="Label name" value="" />
           </text-expander>
         </dd>
         <dd class="" hidden="" id="label--name-error"></dd>
       </dl>
-      <!--END new label name-->
 
-      <!--new label description-->
       <dl
         class="form-group my-2">
         <dt class="flex justify-between items-center ">
@@ -154,13 +151,11 @@ export function getLabelTpl() {
           <input type="text" id="label-description-input" name="label[description]"
             class="w-full p-2 base-outer focus:outline-none"
             placeholder="Description" value="" 
-            maxlength="100">
+            maxlength="100" />
         </dd>
         <dd class="" hidden="" id="label--description-error"></dd>
       </dl>
-      <!--END new label description-->
-
-      <!--new label color-->
+ 
       <dl class="form-group my-2">
         <dt>
           <label class="f5">Color</label>
@@ -179,14 +174,12 @@ export function getLabelTpl() {
           <div class="ml-2">
             <input type="text" id="label-color-value" name="label-color[description]"
             class="w-full p-2 base-outer focus:outline-none"
-            placeholder="#color" value="" maxlength="100">
+            placeholder="#color" value="" maxlength="100" />
           </div>
 
         </dd>
       </dl>
-      <!--END new label color-->
 
-      <!--new label actions-->
       <div
         class="form-group my-2 flex mt-10">
         <button type="button" class="base-outer p-2 mr-4"> Cancel
@@ -194,7 +187,7 @@ export function getLabelTpl() {
         <button id="label-create-button" type="submit" class="base-outer p-2 mr-4 bg-green-700 opacity-50 text-white" disabled=""> Create label
         </button>
       </div>
-      <!--END new label actions-->
+
 
     </div>
 
@@ -221,11 +214,11 @@ export function getLabelTpl() {
   </div>
     <button class="refresh-labels base-outer p-2 mt-2 float-right">update labels</button>
 </div>
-  `
+  
 }
 
 export function getLabelItemTpl({ name, color, description }) {
-		return `
+		return 
             <li class="label-item flex items-center ml-4 py-3 justify-between border-b ">
                 <div class="issue-title flex"> 
                     <span class="rounded-lg border p-1 px-2" style="background-color:#${color}">${name}</span> 
@@ -237,5 +230,5 @@ export function getLabelItemTpl({ name, color, description }) {
                     <button class="delete-button">delete</button>
                 </div>
             </li>
-        `;
+        ;
 }
