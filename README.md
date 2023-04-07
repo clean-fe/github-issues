@@ -156,3 +156,45 @@ export const asyncPipe = (...functions) => {
 - 아래는 스스로 던진 질문과 대답.
   - Q. 왜 asyncPipe의 previousPromise를 await 해야하는가?
   - A. 처음 함수가 실행된 후의 previousPromiseResult는 fetchItems가 반환한 함수의 결과이다. 그리고 그 결과는 Promise 객체이다. 그래서 다음 함수의 인자로 값을 전달하기 위해서는 Pipe 내부에서 await를 해야한다. 처음에는 fetchItems가 반환하는 함수를 async-await로 감싸면 되지 않을까 생각했지만, 어차피 이 함수의 결과값 또한 Promise가 되는 꼴이므로 Promise 객체를 반환하는 함수를 사용한다면 pipe 내부에서 await이나 Promise 메서드를 사용해서 결과값을 기다리고 다음 함수의 인자로 넘겨줘야 한다.
+
+## 230405 수요일 회고
+
+```js
+const templateRender = (getTempl, status) => {
+  return (items) => {
+    if (status) {
+      return items.filter((item) => item.status === status).map(getTempl)
+    }
+    return items.map(getTempl)
+  }
+}
+
+const updateIssueCount = (openCountElement, closeCountElement) => {
+  return (items) => {
+    const openCount = items.filter((item) => item.status === 'open').length
+    const closeCount = items.filter((item) => item.status === 'close').length
+
+    openCountElement.textContent = `${openCount} Open`
+    closeCountElement.textContent = `${closeCount} Closed`
+
+    return items
+  }
+}
+
+const renderComponent = ({ fetchCallback, getTempl, className, status }) => {
+  const openCountElement = document.querySelector('.open-count')
+  const closeCountElement = document.querySelector('.close-count')
+
+  asyncPipe(
+    fetchItems(fetchCallback),
+    updateIssueCount(openCountElement, closeCountElement),
+    templateRender(getTempl, status),
+    createDOMwithItems(className),
+  )()
+}
+```
+
+- 갯수를 보여주는 updateIssueCount 함수를 추가했습니다.
+- 상태에 따른 필터링을 적용해 templateRender 함수를 수정했습니다.
+- 상태탭(Open, Close)을 누를 때마다 파이프라인이 다시 실행되어서 fetchItems를 다시 실행하고 있는데, fetch를 다시 하는 게 아니라 리스트를 상태로 가지고 있고, 이를 각 상태에 맞춰 필터링할 수 있는 방법을 고민중입니다.
+- 상태도 마찬가지로, renderObject라는 객체에 status로 가지고 있고, 이를 변경하고 있는데 전역 객체에 접근해서 상태를 변경하는 방식이 안티패턴에 가깝다고 느꼈습니다. 이를 수정할 수 있는 방법을 고민중입니다.
