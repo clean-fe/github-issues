@@ -13,7 +13,7 @@ import { getIssueTpl, getIssueItemTpl } from './tpl';
 
 import { isStringMatched } from './utils/evaluation';
 
-async function App() {
+async function Issue() {
   const issueData = await getIssues();
   const issueOpenData = filter(item => item.status === 'open', issueData);
 
@@ -51,4 +51,4 @@ async function App() {
   });
 }
 
-export default App;
+export default Issue;
