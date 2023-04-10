@@ -15,15 +15,9 @@ import { isStringMatched } from './utils/evaluation';
 
 async function App() {
   const issueData = await getIssues();
-  const issueOpenData = filter(
-    issueData => issueData.status === 'open',
-    issueData
-  );
+  const issueOpenData = filter(item => item.status === 'open', issueData);
 
-  const issueCloseData = filter(
-    issueData => issueData.status === 'close',
-    issueData
-  );
+  const issueCloseData = filter(item => item.status === 'close', issueData);
 
   drawHtml(getElement('#app'), getIssueTpl());
   drawHtml(getElement('.open-count'), `${issueOpenData.length} Opens`);
