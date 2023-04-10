@@ -1,4 +1,4 @@
-import { $ } from '../utils';
+import { $, request } from '../utils';
 import { getLabelItemTpl, getLabelTpl } from '../tpl.js';
 import Labels from '../../data-sources/labels.json';
 import { observable, observe } from '../core/observer.js';
@@ -18,9 +18,14 @@ export class LabelButton {
 }
 
 export class LabelList {
-  list = [];
   constructor() {
-    const labelListTpl = Labels.reduce(
+    observe(() => this.render());
+    request('../data-sources/labels.json').then((res) => {
+      LabelStore.labelList = res;
+    });
+  }
+  render() {
+    const labelListTpl = LabelStore.labelList.reduce(
       (acc, curr) =>
         (acc += getLabelItemTpl({
           name: curr.name,
