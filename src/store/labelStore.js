@@ -1,8 +1,10 @@
-export const LabelStore = {
+import { observable } from '../core/observer.js';
+
+export const LabelStore = observable({
   isFormOpened: false,
-  inputLabelText: '',
+  inputLabelText: 'hello~~',
   inputLabelDesc: '',
   inputLabelColor: '#21f',
   labelList: [],
   labelCount: 0,
-};
+});
