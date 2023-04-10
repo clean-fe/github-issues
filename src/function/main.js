@@ -1,4 +1,4 @@
-import { getIssueTpl } from './tpl';
+import { getIssueTpl } from '../tpl';
 import { statusTab } from './statusTab';
 import { issueList } from './issueList';
 import { pipe, renderTemplate, shareToChild } from './utils';
