@@ -219,10 +219,10 @@ export function getLabelTpl() {
 
     </ul>
   </div>
-    <button class="refresh-labels base-outer p-2 mt-2 float-right">update labels</button>
-</div>
+  </div>
   `;
 }
+// <button class="refresh-labels base-outer p-2 mt-2 float-right">update labels</button>
 
 export function getLabelItemTpl({ name, color, description }) {
   return `
