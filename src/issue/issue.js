@@ -6,8 +6,9 @@ import { setInitialIssueTpl } from './render';
 const ISSUE_URL = '/data-sources/issues.json';
 
 const setIssueOnDocument = async () => {
-  const openStatusList = await pipe(request, mapIssue, filterStatus('open'))(ISSUE_URL);
-  const closeStatusList = await pipe(request, mapIssue, filterStatus('close'))(ISSUE_URL);
+  const statusList = await pipe(request, mapIssue)(ISSUE_URL);
+  const openStatusList = filterStatus('open')(statusList);
+  const closeStatusList = filterStatus('close')(statusList);
 
   setInitialIssueTpl(openStatusList, closeStatusList);
   addToggleCountEvents(openStatusList, closeStatusList);
