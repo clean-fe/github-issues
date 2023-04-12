@@ -1,10 +1,10 @@
 import { $ } from '../../../utils';
-import LabelItem from '../LabelItem';
+import LabelItem from './LabelItem';
 
 class LabelList {
-  constructor({ listModel }) {
-    listModel.subscribe(this.render.bind(this));
-    this.render(listModel.labelList);
+  constructor({ model }) {
+    model.subscribe(this.render.bind(this));
+    this.render(model.labelList);
   }
 
   render(labelList) {
