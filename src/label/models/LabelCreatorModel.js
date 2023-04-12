@@ -21,7 +21,7 @@ class LabelCreatorModel extends Observable {
       ...this.#newLabel,
       ...property,
     };
-    this.notify(this.#newLabel);
+    this.isAllInputFilled && this.notify(this.#newLabel);
   }
 
   get isAllInputFilled() {
