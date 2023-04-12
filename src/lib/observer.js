@@ -10,8 +10,9 @@ const observable = (state) => {
       return target[prop];
     },
     set: (target, prop, value) => {
+      target[prop] = value;
       observerSet.forEach((observer) => observer()); // set 할때마다 해야할 일 -> 등록된 옵저버들 실행
-      return (target[prop] = value);
+      return true;
     },
   });
 };
