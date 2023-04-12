@@ -1,6 +1,6 @@
 import { request } from '../../utils';
 import { API_URL } from '../../constants';
-import Observable from '../../Observable';
+import Observable from './Observable';
 
 class LabelListModel extends Observable {
   #labelList = [];

@@ -1,9 +1,8 @@
-import { getLabelTpl } from '../tpl';
-import { $ } from '../utils/dom';
-import LabelList from './views/LabelList';
-import LabelCreator from './views/LabelCreator';
-import LabelListModel from './models/LabelListModel';
-import LabelCreatorModel from './models/LabelCreatorModel';
+import { getLabelTpl } from '../../../tpl';
+import { $ } from '../../../utils';
+import LabelList from '../LabelList';
+import LabelCreator from '../LabelCreator';
+import { LabelListModel, LabelCreatorModel } from '../../models';
 
 class Label {
   #model = null;

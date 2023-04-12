@@ -9,9 +9,9 @@ const router = () => {
   const { pathname } = window.location;
   switch (pathname) {
     case ROUTER_PATH.LABEL:
-      Promise.all([import('./label'), import('./label/models/LabelModel')]).then(
+      Promise.all([import('./label/views/Label'), import('./label/models/LabelModel')]).then(
         ([{ default: Label }, { default: LabelModel }]) => {
-          new Label({ model: new LabelModel() });
+          new Label({ model: LabelModel });
         },
       );
       break;

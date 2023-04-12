@@ -1,4 +1,4 @@
-import Observable from '../../Observable';
+import Observable from './Observable';
 
 class LabelModel extends Observable {
   #isNewLabelClicked = false;
@@ -17,4 +17,4 @@ class LabelModel extends Observable {
   }
 }
 
-export default LabelModel;
+export default new LabelModel();
