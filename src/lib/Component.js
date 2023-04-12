@@ -22,6 +22,7 @@ export class Component {
     // state가 변할때마다 1) 렌더, 2) 이벤트 바인딩 진행
     observe(() => {
       this.render();
+      this.setDOMs();
       this.setEvent();
       this.mounted();
     });
@@ -34,6 +35,9 @@ export class Component {
 
   // 템플릿 담당
   template() {}
+
+  // template 내 이벤트 연결할 자식 돔요소 등록
+  setDOMs() {}
 
   // 이벤트 바인딩
   setEvent() {}
