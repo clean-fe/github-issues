@@ -16,7 +16,9 @@ App.prototype = Object.create(Component.prototype);
 App.prototype.constructor = App;
 
 App.prototype.template = function () {
-  return getLabelTpl();
+  return getLabelTpl({
+    labelsLength: this.state.labels.length,
+  });
 };
 
 App.prototype.setEvent = function () {
@@ -27,16 +29,22 @@ App.prototype.setEvent = function () {
 
 App.prototype.initState = async function () {
   return {
-    isFormEnabled: false,
+    isFormEnabled: true,
     labels: await fetchLabels(),
   };
+};
+
+App.prototype.handleCreateLabel = function ({ name, description, color }) {
+  this.state.labels = [...this.state.labels, { name, description, color }];
 };
 
 App.prototype.mounted = async function () {
   const { isFormEnabled, labels } = this.state;
 
   if (isFormEnabled) {
-    new LabelForm($('#form-wrapper'));
+    new LabelForm($('#form-wrapper'), {
+      onCreateLabel: this.handleCreateLabel.bind(this),
+    });
   }
 
   new LabelList($('.label-list'), {

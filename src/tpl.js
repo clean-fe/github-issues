@@ -90,7 +90,7 @@ export function getIssueItemTpl(item) {
         </li>`;
 }
 
-export function getLabelTpl() {
+export function getLabelTpl({ labelsLength }) {
   return `
   <div id="label-wrapper" class="w-9/12 m-auto min-w-min">
 
@@ -115,7 +115,7 @@ export function getLabelTpl() {
     <div class="label-header h-16 flex justify-between items-center border-b">
 
       <div class="mr-3 d-none pl-4">
-        <div class="whitespace-nowrap open-count font-bold cursor-pointer">6 Labels</div>
+        <div class="whitespace-nowrap open-count font-bold cursor-pointer">${labelsLength} Labels</div>
       </div>
 
       <div class="details-list flex ml-auto">
@@ -150,13 +150,13 @@ export function getLabelItemTpl({ name, color, description }) {
         `;
 }
 
-export function getLabelForm() {
+export function getLabelForm({ name, description }) {
   return `
       <form class="p-3 mb-3 mt-6 border rounded-sm font-bold" id="new-label-form" action="/labels" accept-charset="UTF-8" method="post">
     <div class="form-group mt-0 mb-2"
       data-url-template="/labels/preview/" data-default-name="Label preview">
 
-      <span id="label-preview" class="rounded-lg border bg-pink-700 p-2 px-3 mt-2 inline-block">
+      <span id="label-preview" class="rounded-lg border p-2 px-3 mt-2 inline-block">
         Label preview
       </span>
     </div>
@@ -212,7 +212,7 @@ export function getLabelForm() {
 
           <button id="new-label-color" type="button"
             data-view-component="true"
-            class="rounded-md border px-1 bg-pink-700 font-bold text-4xl"
+            class="rounded-md border px-1 font-bold text-4xl"
             aria-labelledby="tooltip-1664858299420-7732">
             ⟳
           </button>
@@ -234,7 +234,10 @@ export function getLabelForm() {
         class="form-group my-2 flex mt-10">
         <button type="button" class="base-outer p-2 mr-4"> Cancel
         </button>
-        <button id="label-create-button" type="submit" class="base-outer p-2 mr-4 bg-green-700 opacity-50 text-white" disabled=""> Create label
+        <button id="label-create-button" type="submit" class="base-outer p-2 mr-4 bg-green-700 text-white ${
+          (name.trim().length <= 0 || description.trim().length <= 0) && 'opacity-50'
+        }" 
+        ${(name.trim().length <= 0 || description.trim().length <= 0) && 'disabled'}> Create label
         </button>
       </div>
       <!--END new label actions-->
