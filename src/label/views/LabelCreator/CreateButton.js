@@ -1,11 +1,7 @@
 import { $ } from '../../../utils';
 
 class CreateButton {
-  constructor({ listModel, creatorModel }) {
-    this.#init({ listModel, creatorModel });
-  }
-
-  #init({ listModel, creatorModel }) {
+  static enable({ listModel, creatorModel }) {
     const $button = $('#label-create-button');
     $button.disabled = false;
     $button.classList.remove('opacity-50');

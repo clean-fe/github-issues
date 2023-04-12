@@ -1,11 +1,7 @@
 import { $ } from '../../../utils';
 
 class LabelColor {
-  constructor({ creatorModel, listModel }) {
-    this.init({ creatorModel, listModel });
-  }
-
-  init({ creatorModel, listModel }) {
+  static init({ creatorModel, listModel }) {
     $('#new-label-color').addEventListener('click', ({ target }) => {
       const color =
         '#' + listModel.labelList[Math.floor(Math.random() * listModel.labelList.length)].color;
