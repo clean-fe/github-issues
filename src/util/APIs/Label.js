@@ -1,4 +1,4 @@
 import {getOptions, customFetch} from "../../data/repositories/utils/MyFetch.js";
-import {label} from "../../models/api/RestAPIs";
+import $K from "../../Constants"
 
-export const getLabel = customFetch(getOptions)(label.get)
+export const getLabel = customFetch(getOptions)($K.EndPoints.Label.Get)

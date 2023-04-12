@@ -1,4 +1,4 @@
 import {getOptions, customFetch} from "../../data/repositories/utils/MyFetch.js";
-import {issue} from "../../models/api/RestAPIs";
+import $K from "../../Constants"
 
-export const getIssue = customFetch(getOptions)(issue.get)
+export const getIssue = customFetch(getOptions)($K.EndPoints.Issue.Get)
