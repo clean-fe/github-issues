@@ -25,7 +25,7 @@ class Label {
   render() {
     $('#app').innerHTML = getLabelTpl();
 
-    new LabelList({ listModel: LabelListModel });
+    new LabelList({ model: LabelListModel });
     this.#model.isNewLabelClicked &&
       new LabelCreator({ creatorModel: LabelCreatorModel, listModel: LabelListModel });
   }
