@@ -13,11 +13,11 @@ class LabelCreator {
 
   render({ creatorModel, listModel }) {
     [LabelName, LabelDescription, LabelColor].forEach((Component) => {
-      new Component({ creatorModel, listModel });
+      Component.init({ creatorModel, listModel });
     });
 
     if (creatorModel.isAllInputFilled) {
-      new CreateButton({ creatorModel, listModel });
+      CreateButton.enable({ creatorModel, listModel });
     }
   }
 }
