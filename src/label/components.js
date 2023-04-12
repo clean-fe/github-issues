@@ -1,7 +1,6 @@
 import { $, request } from '../utils';
 import { getLabelItemTpl, getLabelTpl } from '../tpl.js';
-import Labels from '../../data-sources/labels.json';
-import { observable, observe } from '../core/observer.js';
+import { create, observable, observe } from '../core/observer.js';
 import { LabelStore } from '../store/labelStore.js';
 import { LabelColor } from '../constant.js';
 export class LabelButton {
@@ -10,22 +9,31 @@ export class LabelButton {
     labelBtn.addEventListener('click', () => {
       $('#app').innerHTML = getLabelTpl();
       new LabelList();
-      new NewLabelBtn('.new-label-button').addEvent();
-      new ColorInput('#new-label-color').addEvent();
-      new LabelPreview('#label-preview');
+      // new NewLabelBtn('.new-label-button').addEvent();
+      // new ColorInput('#new-label-color').addEvent();
+      // new LabelPreview('#label-preview');
     });
   }
 }
 
 export class LabelList {
+  store = {};
   constructor() {
-    observe(() => this.render());
+    this.store = create((set) => ({
+      labelList: [],
+      addLabelList: (newLabel) =>
+        set((state) => ({ labelList: [...state.labelList, newLabel] })),
+    }));
+    this.store.subscribe((state) => this.render(state.labelList));
     request('../data-sources/labels.json').then((res) => {
-      LabelStore.labelList = res;
+      this.store.setState((state) => ({
+        ...state,
+        labelList: res,
+      }));
     });
   }
-  render() {
-    const labelListTpl = LabelStore.labelList.reduce(
+  render(labelList) {
+    const labelListTpl = labelList.reduce(
       (acc, curr) =>
         (acc += getLabelItemTpl({
           name: curr.name,
@@ -34,6 +42,7 @@ export class LabelList {
         })),
       '',
     );
+
     $('.label-list').innerHTML = labelListTpl;
   }
 }
@@ -43,7 +52,7 @@ export class NewLabelBtn {
   $labelForm = $('#new-label-form');
   constructor(className) {
     this.className = className;
-    observe(() => this.toggle(LabelStore.isFormOpened));
+    observe('isFormOpened', () => this.toggle(LabelStore.isFormOpened));
   }
   addEvent() {
     $(this.className).addEventListener('click', () => {
@@ -59,10 +68,11 @@ export class NewLabelBtn {
 
 class ColorInput {
   $target;
-  colorIdx = 0;
+  color = LabelColor[0];
   constructor(selector) {
     this.$target = $(selector);
     observe(
+      'inputLabelColor',
       () => (this.$target.style.backgroundColor = LabelStore.inputLabelColor),
     );
   }
@@ -82,7 +92,7 @@ class LabelPreview {
   $target;
   constructor(selector) {
     this.$target = $(selector);
-    observe(() => this.observeFn());
+    observe(['inputLabelText', 'inputLabelColor'], () => this.observeFn());
   }
   observeFn() {
     this.$target.style.backgroundColor = LabelStore.inputLabelColor;
