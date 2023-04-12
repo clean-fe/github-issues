@@ -1,3 +1,5 @@
+import { ROUTER_PATH } from './constants';
+
 export const navigate = (path) => {
   history.pushState({}, '', path);
   router();
@@ -6,11 +8,15 @@ export const navigate = (path) => {
 const router = () => {
   const { pathname } = window.location;
   switch (pathname) {
-    case '/': // TODO: label 개발 후 issue 페이지로 변경
-    case '/label':
-      import('./label').then(({ default: Label }) => Label);
+    case ROUTER_PATH.LABEL:
+      Promise.all([import('./label'), import('./label/models/LabelModel')]).then(
+        ([{ default: Label }, { default: LabelModel }]) => {
+          new Label({ model: new LabelModel() });
+        },
+      );
       break;
-    case '/issue':
+    case ROUTER_PATH.ISSUE:
+    case ROUTER_PATH.ROOT: // TODO: label 개발 후 issue 페이지로 변경
     default:
       import('./issue').then(({ default: setIssueOnDocument }) => setIssueOnDocument());
       break;
