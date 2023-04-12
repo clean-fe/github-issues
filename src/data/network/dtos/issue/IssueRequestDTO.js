@@ -9,7 +9,6 @@ class IssueRequestDTO {
       milestones,
       assignee,
       subtask,
-      commentsCount
   ) {
     this.title = title;
     this.tags = tags;
@@ -20,7 +19,6 @@ class IssueRequestDTO {
     this.milestones = milestones;
     this.assignee = assignee;
     this.subtask = subtask;
-    this.commentsCount = commentsCount;
   }
 }
 
