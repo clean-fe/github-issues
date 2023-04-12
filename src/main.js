@@ -3,7 +3,7 @@ import { Component } from './lib/Component.js';
 import { fetchLabels } from './api/fetcher.js';
 import { getLabelTpl } from './tpl.js';
 
-import LabelList from './components/LabelList.js';
+import { LabelList, LabelForm } from './components';
 
 function App($target) {
   // 클래스 프로토타입으로부터 상속 받기 위해 해야하는 일 1...
@@ -21,19 +21,26 @@ App.prototype.template = function () {
 
 App.prototype.setEvent = function () {
   $('.new-label-button').addEventListener('click', () => {
-    $('#new-label-form').classList.toggle('hidden');
+    this.state.isFormEnabled = true;
   });
 };
 
 App.prototype.initState = async function () {
   return {
+    isFormEnabled: false,
     labels: await fetchLabels(),
   };
 };
 
 App.prototype.mounted = async function () {
+  const { isFormEnabled, labels } = this.state;
+
+  if (isFormEnabled) {
+    new LabelForm($('#form-wrapper'));
+  }
+
   new LabelList($('.label-list'), {
-    labels: this.state.labels,
+    labels,
   });
 };
 
