@@ -2,14 +2,15 @@ let currentObserver = null;
 
 // observable 한 객체 생성
 const observable = (state) => {
-  const observersMap = new Set();
+  const observerSet = new Set();
+
   return new Proxy(state, {
     get: (target, prop) => {
-      if (currentObserver) observersMap.add(currentObserver); // getter가 호출되면서 옵저버를 등록
+      if (currentObserver) observerSet.add(currentObserver); // getter가 호출되면서 옵저버를 등록
       return target[prop];
     },
     set: (target, prop, value) => {
-      observersMap.forEach((observer) => observer()); // set 할때마다 해야할 일 -> 등록된 옵저버들 실행
+      observerSet.forEach((observer) => observer()); // set 할때마다 해야할 일 -> 등록된 옵저버들 실행
       return (target[prop] = value);
     },
   });
