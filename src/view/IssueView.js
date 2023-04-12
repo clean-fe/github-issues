@@ -1,4 +1,4 @@
-import {getIssue} from "../util/APIs/Issue";
+import {getIssue} from "../data/network/APIEndpoints";
 import {findStatusTabDom, clearIssueBeforeRender, renderIssueList, statusFilter} from "../components/issue/IssueItem";
 
 // MARK: define global variables
