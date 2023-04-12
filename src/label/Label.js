@@ -1,4 +1,4 @@
-import { LabelButton, NewLabelBtn } from './components.js';
+import { LabelButton } from './components.js';
 
 export class Label {
   constructor() {

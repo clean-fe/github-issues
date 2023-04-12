@@ -1,35 +1,66 @@
 import { $, request } from '../utils';
 import { getLabelItemTpl, getLabelTpl } from '../tpl.js';
-import { create, observable, observe } from '../core/observer.js';
-import { LabelStore } from '../store/labelStore.js';
-import { LabelColor } from '../constant.js';
+import { labelFormStore, labelListStore } from '../store/labelStore.js';
+
 export class LabelButton {
   addEvent() {
     const labelBtn = $('#label-btn');
     labelBtn.addEventListener('click', () => {
       $('#app').innerHTML = getLabelTpl();
-      new LabelList();
-      // new NewLabelBtn('.new-label-button').addEvent();
-      // new ColorInput('#new-label-color').addEvent();
-      // new LabelPreview('#label-preview');
+      this.initLabelPage();
+    });
+  }
+  initLabelPage() {
+    const labelForm = LabelForm();
+    labelForm.init();
+    new LabelList({
+      setList: labelListStore.setLabelList,
+      subscribe: labelListStore.subscribe,
+    });
+    new NewLabelBtn({
+      subscribe: labelFormStore.subscribe,
+      toggleFormOpened: labelFormStore.toggleFormOpened,
+      revealForm: labelForm.revealForm,
+      hideForm: labelForm.hideForm,
     });
   }
 }
 
+const LabelForm = (selector = '#new-label-form') => {
+  const $target = $(selector);
+  return {
+    $target,
+    init() {
+      new LabelNameInput({
+        changeLabelName: labelFormStore.changeLabelName,
+        subscribe: labelListStore.subscribe,
+      });
+      new LabelDescriptionInput({
+        changeLabelDescription: labelFormStore.changeLabelDescription,
+        subscribe: labelFormStore.subscribe,
+      });
+      new ColorInput({
+        subscribe: labelFormStore.subscribe,
+        changeColor: labelFormStore.changeColor,
+      });
+      new LabelPreview({ subscribe: labelFormStore.subscribe });
+    },
+    revealForm() {
+      $target.classList.remove('hidden');
+    },
+    hideForm() {
+      $target.classList.add('hidden');
+    },
+  };
+};
+
 export class LabelList {
-  store = {};
-  constructor() {
-    this.store = create((set) => ({
-      labelList: [],
-      addLabelList: (newLabel) =>
-        set((state) => ({ labelList: [...state.labelList, newLabel] })),
-    }));
-    this.store.subscribe((state) => this.render(state.labelList));
+  $target;
+  constructor({ selector = '.label-list', setList, subscribe }) {
+    this.$target = $(selector);
+    subscribe((state) => this.render(state.labelList));
     request('../data-sources/labels.json').then((res) => {
-      this.store.setState((state) => ({
-        ...state,
-        labelList: res,
-      }));
+      setList(res);
     });
   }
   render(labelList) {
@@ -42,60 +73,97 @@ export class LabelList {
         })),
       '',
     );
-
-    $('.label-list').innerHTML = labelListTpl;
+    this.$target.innerHTML = labelListTpl;
   }
 }
 
 export class NewLabelBtn {
-  className = '';
-  $labelForm = $('#new-label-form');
-  constructor(className) {
-    this.className = className;
-    observe('isFormOpened', () => this.toggle(LabelStore.isFormOpened));
+  $target;
+
+  constructor({
+    selector = '.new-label-button',
+    subscribe,
+    toggleFormOpened,
+    revealForm,
+    hideForm,
+  }) {
+    this.$target = $(selector);
+    this.addEvent(toggleFormOpened);
+
+    subscribe((state) => (state.isFormOpened ? revealForm() : hideForm()));
   }
-  addEvent() {
-    $(this.className).addEventListener('click', () => {
-      LabelStore.isFormOpened = !LabelStore.isFormOpened;
+  addEvent(clickEventHandler) {
+    this.$target.addEventListener('click', () => {
+      clickEventHandler();
     });
-  }
-  toggle(isOpened) {
-    isOpened
-      ? this.$labelForm.classList.add('hidden')
-      : this.$labelForm.classList.remove('hidden');
   }
 }
 
 class ColorInput {
   $target;
-  color = LabelColor[0];
-  constructor(selector) {
+  constructor({ selector = '#new-label-color', subscribe, changeColor }) {
     this.$target = $(selector);
-    observe(
-      'inputLabelColor',
-      () => (this.$target.style.backgroundColor = LabelStore.inputLabelColor),
-    );
+    this.addEvent(changeColor);
+    subscribe((state) => this.render(state.labelColors[state.labelColorIdx]));
   }
-  addEvent() {
+  addEvent(clickEventHandler) {
     this.$target.addEventListener('click', () => {
-      LabelStore.inputLabelColor = this.getNextColor();
+      clickEventHandler();
     });
   }
-  getNextColor() {
-    this.colorIdx =
-      this.colorIdx === LabelColor.length - 1 ? 0 : this.colorIdx + 1;
-    return LabelColor[this.colorIdx];
+  render(selectedColor) {
+    this.$target.style.backgroundColor = selectedColor;
+  }
+}
+
+class TextInput {
+  $target;
+  constructor({ selector, inputChangeHandler }) {
+    this.$target = $(selector);
+    this.addEvent(inputChangeHandler);
+  }
+  addEvent(inputChangeHandler) {
+    this.$target.addEventListener('change', (event) => {
+      inputChangeHandler(event.target.value);
+    });
+  }
+  render(text) {
+    console.log(text);
+    this.$target.innerText = text;
+  }
+}
+
+class LabelNameInput extends TextInput {
+  constructor({ selector = '#label-name-input', changeLabelName, subscribe }) {
+    super({ selector, inputChangeHandler: changeLabelName });
+    subscribe((state) => this.render(state.labelName));
+  }
+}
+
+class LabelDescriptionInput extends TextInput {
+  constructor({
+    selector = '#label-description-input',
+    changeLabelDescription,
+    subscribe,
+  }) {
+    super({ selector, inputChangeHandler: changeLabelDescription });
+    subscribe((state) => this.render(state.labelDescription));
   }
 }
 
 class LabelPreview {
   $target;
-  constructor(selector) {
+  constructor({ selector = '#label-preview', subscribe }) {
     this.$target = $(selector);
-    observe(['inputLabelText', 'inputLabelColor'], () => this.observeFn());
+    subscribe((state) =>
+      this.render({
+        color: state.labelColors[state.labelColorIdx],
+        labelName: state.labelName,
+      }),
+    );
   }
-  observeFn() {
-    this.$target.style.backgroundColor = LabelStore.inputLabelColor;
-    this.$target.innerText = LabelStore.inputLabelText;
+  render({ labelName, color }) {
+    this.$target.style.backgroundColor = color;
+    this.$target.innerText = labelName;
   }
 }
