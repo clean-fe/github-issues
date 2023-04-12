@@ -1,12 +1,12 @@
-class LabelName {
-  constructor({ creatorModel }) {
-    this.init({ creatorModel });
-  }
+import { $, debounce } from '../../../utils';
 
-  init({ creatorModel }) {
-    $('#label-name-input').addEventListener('input', ({ target }) => {
-      creatorModel.setLabelProperty({ name: target.value });
+class LabelName {
+  static init({ creatorModel }) {
+    const debounceSetLabelProperty = debounce((e) => {
+      creatorModel.setLabelProperty({ name: e.target.value });
     });
+
+    $('#label-name-input').addEventListener('input', debounceSetLabelProperty);
   }
 }
 
