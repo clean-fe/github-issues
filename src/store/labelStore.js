@@ -7,8 +7,15 @@ export const labelListStore = create((set) => ({
   setLabelList: (labelList) => set(() => ({ labelList })),
 }));
 
-export const labelFormStore = create((set) => ({
+const initialLabelState = {
   isFormOpened: false,
+  labelColorIdx: 0,
+  labelName: 'review request',
+  labelDescription: ',',
+};
+
+export const labelFormStore = create((set) => ({
+  ...initialLabelState,
   labelColors: [
     '#0075CA',
     '#A2EEEF',
@@ -17,9 +24,6 @@ export const labelFormStore = create((set) => ({
     '#E4E669',
     '#B8BBBE',
   ],
-  labelColorIdx: 0,
-  labelName: 'review request',
-  labelDescription: '',
   toggleFormOpened: () =>
     set((state) => ({
       isFormOpened: !state.isFormOpened,
@@ -39,4 +43,5 @@ export const labelFormStore = create((set) => ({
     set(() => ({
       labelDescription,
     })),
+  resetLabelState: () => set(initialLabelState),
 }));

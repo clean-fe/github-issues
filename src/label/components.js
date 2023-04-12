@@ -44,6 +44,7 @@ const LabelForm = (selector = '#new-label-form') => {
         changeColor: labelFormStore.changeColor,
       });
       new LabelPreview({ subscribe: labelFormStore.subscribe });
+      new CreateButton({ subscribe: labelFormStore.subscribe });
     },
     revealForm() {
       $target.classList.remove('hidden');
@@ -128,7 +129,6 @@ class TextInput {
     });
   }
   render(text) {
-    console.log(text);
     this.$target.innerText = text;
   }
 }
@@ -165,5 +165,31 @@ class LabelPreview {
   render({ labelName, color }) {
     this.$target.style.backgroundColor = color;
     this.$target.innerText = labelName;
+  }
+}
+
+class CreateButton {
+  $target;
+  constructor({ selector = '#label-create-button', subscribe }) {
+    this.$target = $(selector);
+    this.addEvent();
+    subscribe((state) => state.labelName && this.render());
+  }
+  addEvent() {
+    this.$target.addEventListener('click', (e) => {
+      e.preventDefault();
+      const formState = labelFormStore.getState();
+      labelListStore.addLabelList({
+        name: formState.labelName,
+        color: formState.labelColors[formState.labelColorIdx].slice(1),
+        description: formState.labelDescription,
+      });
+      labelFormStore.resetLabelState();
+    });
+  }
+
+  render() {
+    this.$target.disabled = false;
+    this.$target.classList.remove('opacity-50');
   }
 }
