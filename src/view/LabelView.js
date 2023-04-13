@@ -1,6 +1,6 @@
-import {getLabel} from "../util/APIs/Label";
+import {getLabel} from "../data/network/APIEndpoints";
 import {clearLabelBeforeRender, renderLabelList} from "../components/label/LabelItem";
-import {pipe} from "../util/FP";
+import {pipe} from "../application/FP.js";
 
 // fetch
 const labelList = await getLabel()
