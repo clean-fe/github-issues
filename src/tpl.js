@@ -1,5 +1,5 @@
-export function getIssueTpl() {
-	return `
+export function getIssueTpl({ openCount, closeCount }) {
+  return `
     <div id="issue-wrapper" class="w-9/12 m-auto min-w-min">
     <div id="header" class="flex justify-between">
 
@@ -29,8 +29,8 @@ export function getIssueTpl() {
         </div>
 
         <div class="statusTab flex">
-          <div class="whitespace-nowrap open-count font-bold cursor-pointer">0 Opens</div>
-          <div class="whitespace-nowrap close-count ml-3 cursor-pointer">0 Closed</div>
+          <div class="whitespace-nowrap open-count font-bold cursor-pointer">${openCount} Opens</div>
+          <div class="whitespace-nowrap close-count ml-3 cursor-pointer">${closeCount} Closed</div>
         </div>
 
         <div class="details-list flex ml-auto">
@@ -59,7 +59,7 @@ export function getIssueTpl() {
 
       </div>
       <div class="issue-list flex ml-auto">
-        <ul></ul>
+        <ul id="issues"></ul>
       </div>
     </div>
   </div>
@@ -67,7 +67,7 @@ export function getIssueTpl() {
 }
 
 export function getIssueItemTpl(item) {
-    return `
+  return `
         <li> 
           <div class="py-4">
               <input type="checkbox">
@@ -221,11 +221,11 @@ export function getLabelTpl() {
   </div>
     <button class="refresh-labels base-outer p-2 mt-2 float-right">update labels</button>
 </div>
-  `
+  `;
 }
 
 export function getLabelItemTpl({ name, color, description }) {
-		return `
+  return `
             <li class="label-item flex items-center ml-4 py-3 justify-between border-b ">
                 <div class="issue-title flex"> 
                     <span class="rounded-lg border p-1 px-2" style="background-color:#${color}">${name}</span> 
