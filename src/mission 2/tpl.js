@@ -207,7 +207,7 @@ export function getLabelTpl({ isLabelFormHidden, color, labelList, labelName, la
     <div class="label-header h-16 flex justify-between items-center border-b">
 
       <div class="mr-3 d-none pl-4">
-        <div class="whitespace-nowrap open-count font-bold cursor-pointer">6 Labels</div>
+        <div class="whitespace-nowrap open-count font-bold cursor-pointer">${labelList.length} Labels</div>
       </div>
 
       <div class="details-list flex ml-auto">
