@@ -1,7 +1,7 @@
 import {getIssueItemTpl} from "../../tpl";
 
-import {clearBeforeRender, renderBeforeEnd} from "../../util/UI/ManagingDOM";
-import {pipe} from "../../util/FP";
+import {clearBeforeRender, renderBeforeEnd} from "../../presentation/utils/Render.js";
+import {pipe} from "../../application/FP.js";
 
 const issueUl = document.getElementById('issue-wrapper__ul')
 

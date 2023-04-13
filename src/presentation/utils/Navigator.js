@@ -1,6 +1,5 @@
-import router from "../../util/Router.js";
-
-export default function attachNavigationEvent() {
-  const nav = document.getElementsByTagName('nav')[0]
-  nav.addEventListener('click', evt => router(evt.target?.dataset?.path))
+export default class Navigator {
+  navigate(url) {
+    history.pushState({}, '', url)
+  }
 }

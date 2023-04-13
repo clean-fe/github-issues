@@ -1,7 +1,7 @@
 import {getIssueTpl, getLabelTpl} from "../tpl";
 
-import {clearBeforeRender, renderAfterBegin} from "./UI/ManagingDOM";
-import {pipe} from "./FP";
+import {clearBeforeRender, renderAfterBegin} from "../presentation/utils/Render.js";
+import {pipe} from "../application/FP.js";
 
 const routes = [
   {
