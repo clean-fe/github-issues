@@ -1,18 +1,23 @@
-import {$, pipe, request} from '../utils';
+import { $, pipe, request } from '../utils';
 import { mapIssue, filterStatus } from './api';
 import { addToggleCountEvents } from './event';
 import { setInitialIssueTpl } from './render';
 
-const ISSUE_URL = '/data-sources/issues.json';
+const ISSUE_URL = '/issues';
 
 const setIssueOnDocument = async () => {
-  const openStatusList = await pipe(request, mapIssue, filterStatus('open'))(ISSUE_URL);
-  const closeStatusList = await pipe(request, mapIssue, filterStatus('close'))(ISSUE_URL);
+  const getAsyncDataPipe = pipe(request, mapIssue);
 
-  $('#issue-btn').addEventListener('click',()=>{
-    setInitialIssueTpl(openStatusList,closeStatusList)
-  })
+  const list = await getAsyncDataPipe(ISSUE_URL);
+  const getSelectedIssue = (status) => filterStatus(status)(list);
 
+  const openStatusList = getSelectedIssue('open');
+
+  const closeStatusList = getSelectedIssue('close');
+
+  $('#issue-btn').addEventListener('click', () => {
+    setInitialIssueTpl(openStatusList, closeStatusList);
+  });
 
   setInitialIssueTpl(openStatusList, closeStatusList);
   addToggleCountEvents(openStatusList, closeStatusList);

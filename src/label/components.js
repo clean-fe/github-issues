@@ -60,7 +60,7 @@ export class LabelList {
   constructor({ selector = '.label-list', setList, subscribe }) {
     this.$target = $(selector);
     subscribe((state) => this.render(state.labelList));
-    request('../data-sources/labels.json').then((res) => {
+    request('/labels').then((res) => {
       setList(res);
     });
   }
