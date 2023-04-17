@@ -1,10 +1,14 @@
+import { resolve } from "path";
 import { defineConfig } from "vite";
 import babel from "vite-plugin-babel";
 
 export default defineConfig({
-  root: "src",
   build: {
-    outDir: "./dist",
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+      },
+    },
+    plugins: [babel()],
   },
-  plugins: [babel()],
 });
