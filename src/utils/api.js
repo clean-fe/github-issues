@@ -18,6 +18,11 @@ export const request = async ({
     if (!res.ok) throw new Error(String(res.status));
     return res.json();
   } catch (err) {
+    if (err.name === 'AbortError') {
+      console.error('Aborted: ', err);
+      return;
+    }
+    console.error(err);
     alert(getErrorMessage(+err.message));
   }
 };

@@ -17,12 +17,14 @@ export class LabelButton {
         './components/LabelForm.js',
         './components/LabelList.js',
         './components/NewLabelButton.js',
+        './components/UpdateLabelButton.js',
       ].map((file) => import(file)),
     ).then(
       ([
         { default: LabelForm },
         { default: LabelList },
         { default: NewLabelBtn },
+        { default: UpdateLabelButton },
       ]) => {
         const labelForm = LabelForm();
         labelForm.init();
@@ -36,6 +38,7 @@ export class LabelButton {
           revealForm: labelForm.revealForm,
           hideForm: labelForm.hideForm,
         });
+        new UpdateLabelButton({ setList: labelListStore.setLabelList });
       },
     );
   }
