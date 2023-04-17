@@ -1,3 +1,1 @@
-import LabelCreator from './LabelCreator';
-
-export default LabelCreator;
+export { default } from './LabelCreator';
