@@ -10,12 +10,12 @@ class LabelList {
   }
 
   async #init() {
-    Store.subscribe(this.#STATE_KEY, this.render.bind(this));
+    Store.subscribe(this.#STATE_KEY, this.#render.bind(this));
     Store.setState(this.#STATE_KEY, await getData(API_URL.LABEL));
-    this.render();
+    this.#render();
   }
 
-  render() {
+  #render() {
     const $labelList = $('.label-list');
     const labelList = Store.getState(this.#STATE_KEY) ?? [];
     $labelList.innerHTML = labelList.reduce((acc, labelItem) => (acc += LabelItem(labelItem)), '');

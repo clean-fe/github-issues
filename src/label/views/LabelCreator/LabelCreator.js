@@ -11,10 +11,10 @@ class LabelCreator {
 
   #init() {
     $('#new-label-form').classList.remove('hidden');
-    this.render();
+    this.#render();
   }
 
-  render() {
+  #render() {
     [LabelProperty('name'), LabelProperty('description'), LabelColor].forEach((Component) => {
       Component();
     });

@@ -13,7 +13,7 @@ class Label {
 
   #init() {
     Store.subscribe(STATE_KEY, this.#renderCreator.bind(this));
-    this.render();
+    this.#render();
     this.#addEventOfCreator();
   }
 
@@ -24,7 +24,7 @@ class Label {
     });
   }
 
-  render() {
+  #render() {
     $('#app').innerHTML = getLabelTpl();
 
     new LabelList();
