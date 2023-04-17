@@ -22,6 +22,7 @@ class LabelForm extends Component {
     this.$nameInput = $('#label-name-input');
     this.$labelPreview = $('#label-preview');
     this.$desciptionInput = $('#label-description-input');
+    this.$cancelButton = $('#cancel-button');
     this.$colorButton = $('#new-label-color');
     this.$colorInput = $('#label-color-value');
     this.$labelCreateButton = $('#label-create-button');
@@ -52,6 +53,8 @@ class LabelForm extends Component {
     this.$colorButton.addEventListener('click', () => {
       this.state.color = getRandomColor();
     });
+
+    this.$cancelButton.addEventListener('click', this.props.onCancelCreateLabel);
 
     this.$nameInput.addEventListener('change', (event) => {
       this.state.name = event.target.value;

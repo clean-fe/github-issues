@@ -33,7 +33,7 @@ App.prototype.setEvent = function () {
 
 App.prototype.initState = async function () {
   return {
-    isFormEnabled: true,
+    isFormEnabled: false,
     labels: await fetchLabels(),
   };
 };
@@ -42,12 +42,17 @@ App.prototype.handleCreateLabel = function ({ name, description, color }) {
   this.state.labels = [...this.state.labels, { name, description, color }];
 };
 
+App.prototype.handleCancelCreateLabel = function () {
+  this.state.isFormEnabled = false;
+};
+
 App.prototype.mounted = async function () {
   const { isFormEnabled, labels } = this.state;
 
   if (isFormEnabled) {
     new LabelForm($('#form-wrapper'), {
       onCreateLabel: this.handleCreateLabel.bind(this),
+      onCancelCreateLabel: this.handleCancelCreateLabel.bind(this),
     });
   }
 
