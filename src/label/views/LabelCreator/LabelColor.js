@@ -20,7 +20,6 @@ const LabelColor = () => {
       ...Store.getState(STATE_KEY),
       color,
     });
-    console.log(Store.getState(STATE_KEY));
   });
 };
 
