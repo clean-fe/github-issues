@@ -43,5 +43,8 @@ export const labelFormStore = create((set) => ({
     set(() => ({
       labelDescription,
     })),
-  resetLabelState: () => set(initialLabelState),
+  resetLabelState: () =>
+    set((state) => ({
+      ...initialLabelState,
+    })),
 }));

@@ -8,7 +8,7 @@ const ISSUE_URL = '/issues';
 const setIssueOnDocument = async () => {
   const getAsyncDataPipe = pipe(request, mapIssue);
 
-  const list = await getAsyncDataPipe(ISSUE_URL);
+  const list = await getAsyncDataPipe({ url: ISSUE_URL });
   const getSelectedIssue = (status) => filterStatus(status)(list);
 
   const openStatusList = getSelectedIssue('open');

@@ -1,6 +1,5 @@
 import { $ } from '../utils/index.js';
 import { getLabelTpl } from '../tpl.js';
-import { labelFormStore, labelListStore } from '../store/labelStore.js';
 
 export class LabelButton {
   addEvent() {
@@ -14,6 +13,10 @@ export class LabelButton {
     const { LabelList, NewLabelBtn, LabelForm } = await import(
       './components.js'
     );
+    const { labelFormStore, labelListStore } = await import(
+      '../store/labelStore.js'
+    );
+
     const labelForm = LabelForm();
     labelForm.init();
     new LabelList({

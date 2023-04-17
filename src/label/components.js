@@ -36,7 +36,7 @@ export class LabelList {
   constructor({ selector = '.label-list', setList, subscribe }) {
     this.$target = $(selector);
     subscribe((state) => this.render(state.labelList));
-    request('/labels').then((res) => {
+    request({ url: '/labels' }).then((res) => {
       setList(res);
     });
   }
@@ -152,14 +152,22 @@ class CreateButton {
     subscribe((state) => state.labelName && this.render());
   }
   addEvent() {
-    this.$target.addEventListener('click', (e) => {
+    this.$target.addEventListener('click', async (e) => {
       e.preventDefault();
       const formState = labelFormStore.getState();
-      labelListStore.addLabelList({
-        name: formState.labelName,
-        color: formState.labelColors[formState.labelColorIdx].slice(1),
-        description: formState.labelDescription,
+      const response = await request({
+        url: '/labels',
+        method: 'POST',
+        data: {
+          name: formState.labelName,
+          color: formState.labelColors[formState.labelColorIdx].slice(1),
+          description: formState.labelDescription,
+        },
       });
+      if (response) {
+        labelListStore.setLabelList(response);
+      }
+
       labelFormStore.resetLabelState();
     });
   }
