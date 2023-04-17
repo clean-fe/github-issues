@@ -36,19 +36,18 @@ class LabelForm extends Component {
     this.$colorInput.value = colorString;
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    const { name, description, color } = this.state;
+    this.props.onCreateLabel({
+      name,
+      description,
+      color,
+    });
+  }
+
   setEvent() {
-    this.$form.addEventListener(
-      'submit',
-      ((event) => {
-        event.preventDefault();
-        const { name, description, color } = this.state;
-        this.props.onCreateLabel({
-          name,
-          description,
-          color,
-        });
-      }).bind(this)
-    );
+    this.$form.addEventListener('submit', this.handleSubmit);
 
     this.$colorButton.addEventListener('click', () => {
       this.state.color = getRandomColor();
