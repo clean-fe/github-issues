@@ -5,6 +5,10 @@ import { getLabelTpl } from './tpl.js';
 
 import { LabelList, LabelForm } from './components';
 
+//msw worker
+import { worker } from './mocks/browser.js';
+worker.start();
+
 function App($target) {
   // 클래스 프로토타입으로부터 상속 받기 위해 해야하는 일 1...
   const instance = Reflect.construct(Component, [$target], App);
