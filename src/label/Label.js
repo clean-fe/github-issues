@@ -1,5 +1,6 @@
 import { $ } from '../utils/index.js';
 import { getLabelTpl } from '../tpl.js';
+import { labelFormStore, labelListStore } from '../store/labelStore.js';
 
 export class LabelButton {
   addEvent() {
@@ -10,24 +11,32 @@ export class LabelButton {
     });
   }
   async initLabelPage() {
-    const { LabelList, NewLabelBtn, LabelForm } = await import(
-      './components.js'
+    // TODO: 이미 가지고 있는 파일이면 불러오지 않게
+    Promise.all(
+      [
+        './components/LabelForm.js',
+        './components/LabelList.js',
+        './components/NewLabelButton.js',
+      ].map((file) => import(file)),
+    ).then(
+      ([
+        { default: LabelForm },
+        { default: LabelList },
+        { default: NewLabelBtn },
+      ]) => {
+        const labelForm = LabelForm();
+        labelForm.init();
+        new LabelList({
+          setList: labelListStore.setLabelList,
+          subscribe: labelListStore.subscribe,
+        });
+        new NewLabelBtn({
+          subscribe: labelFormStore.subscribe,
+          toggleFormOpened: labelFormStore.toggleFormOpened,
+          revealForm: labelForm.revealForm,
+          hideForm: labelForm.hideForm,
+        });
+      },
     );
-    const { labelFormStore, labelListStore } = await import(
-      '../store/labelStore.js'
-    );
-
-    const labelForm = LabelForm();
-    labelForm.init();
-    new LabelList({
-      setList: labelListStore.setLabelList,
-      subscribe: labelListStore.subscribe,
-    });
-    new NewLabelBtn({
-      subscribe: labelFormStore.subscribe,
-      toggleFormOpened: labelFormStore.toggleFormOpened,
-      revealForm: labelForm.revealForm,
-      hideForm: labelForm.hideForm,
-    });
   }
 }

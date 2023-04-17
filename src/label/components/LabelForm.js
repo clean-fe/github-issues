@@ -1,8 +1,7 @@
-import { $, request } from '../utils';
-import { getLabelItemTpl, getLabelTpl } from '../tpl.js';
-import { labelFormStore, labelListStore } from '../store/labelStore.js';
+import { $, request } from '../../utils/index.js';
+import { labelFormStore, labelListStore } from '../../store/labelStore.js';
 
-export const LabelForm = (selector = '#new-label-form') => {
+const LabelForm = (selector = '#new-label-form') => {
   const $target = $(selector);
   return {
     $target,
@@ -30,51 +29,6 @@ export const LabelForm = (selector = '#new-label-form') => {
     },
   };
 };
-
-export class LabelList {
-  $target;
-  constructor({ selector = '.label-list', setList, subscribe }) {
-    this.$target = $(selector);
-    subscribe((state) => this.render(state.labelList));
-    request({ url: '/labels' }).then((res) => {
-      setList(res);
-    });
-  }
-  render(labelList) {
-    const labelListTpl = labelList.reduce(
-      (acc, curr) =>
-        (acc += getLabelItemTpl({
-          name: curr.name,
-          color: curr.color,
-          description: curr.description,
-        })),
-      '',
-    );
-    this.$target.innerHTML = labelListTpl;
-  }
-}
-
-export class NewLabelBtn {
-  $target;
-
-  constructor({
-    selector = '.new-label-button',
-    subscribe,
-    toggleFormOpened,
-    revealForm,
-    hideForm,
-  }) {
-    this.$target = $(selector);
-    this.addEvent(toggleFormOpened);
-
-    subscribe((state) => (state.isFormOpened ? revealForm() : hideForm()));
-  }
-  addEvent(clickEventHandler) {
-    this.$target.addEventListener('click', () => {
-      clickEventHandler();
-    });
-  }
-}
 
 class ColorInput {
   $target;
@@ -177,3 +131,5 @@ class CreateButton {
     this.$target.classList.remove('opacity-50');
   }
 }
+
+export default LabelForm;
