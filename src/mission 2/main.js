@@ -1,9 +1,8 @@
 import { model } from "./Model.js";
 import { ViewModel } from "./ViewModel.js";
-import { getLabelTpl } from "./tpl";
-main();
+import { getLabelTpl } from "./tpl.js";
 
-function main() {
+export function main() {
   new ViewModel({
     element: "#app",
     view: getLabelTpl,
