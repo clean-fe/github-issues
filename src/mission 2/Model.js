@@ -1,3 +1,5 @@
+import { fetchGetLabels } from "../api.js";
+
 export const model = {
   data: {
     isLabelFormHidden: true,
@@ -12,8 +14,7 @@ export const model = {
   },
 
   async fetchLabelList() {
-    const response = await fetch("../../data-sources/labels.json");
-    const labelList = await response.json();
+    const labelList = await fetchGetLabels();
     return labelList;
   },
 
