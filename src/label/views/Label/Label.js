@@ -2,14 +2,17 @@ import { getLabelTpl } from '../../../tpl';
 import { $ } from '../../../utils';
 import LabelList from '../LabelList';
 import LabelCreator from '../LabelCreator';
-import { LabelListModel, LabelCreatorModel } from '../../models';
+import Store from '../../store';
+
+const STATE_KEY = 'isNewLabelClicked';
 
 class Label {
-  #model = null;
-  constructor({ model }) {
-    // TODO: 전역 상태
-    this.#model = model;
-    this.#model.subscribe(this.render.bind(this));
+  constructor() {
+    this.#init();
+  }
+
+  #init() {
+    Store.subscribe(STATE_KEY, this.#renderCreator.bind(this));
     this.render();
     this.#addEventOfCreator();
   }
@@ -17,16 +20,18 @@ class Label {
   #addEventOfCreator() {
     $('.new-label-button').addEventListener('click', (e) => {
       e.preventDefault();
-      this.#model.isNewLabelClicked = true;
+      Store.setState(STATE_KEY, true);
     });
   }
 
   render() {
     $('#app').innerHTML = getLabelTpl();
 
-    new LabelList({ model: LabelListModel });
-    this.#model.isNewLabelClicked &&
-      new LabelCreator({ creatorModel: LabelCreatorModel, listModel: LabelListModel });
+    new LabelList();
+  }
+
+  #renderCreator() {
+    Store.getState(STATE_KEY) && new LabelCreator();
   }
 }
 

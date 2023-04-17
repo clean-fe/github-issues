@@ -1,13 +1,16 @@
 import { $, debounce } from '../../../utils';
+import Store from '../../store';
 
-class LabelName {
-  static init({ creatorModel }) {
-    const debounceSetLabelProperty = debounce((e) => {
-      creatorModel.setLabelProperty({ name: e.target.value });
+const LabelName = () => {
+  const debounceSetLabelProperty = debounce((e) => {
+    Store.setState('newLabel', {
+      ...Store.getState('newLabel'),
+      name: e.target.value,
     });
+    console.log(Store.getState('newLabel'));
+  });
 
-    $('#label-name-input').addEventListener('input', debounceSetLabelProperty);
-  }
-}
+  $('#label-name-input').addEventListener('input', debounceSetLabelProperty);
+};
 
 export default LabelName;

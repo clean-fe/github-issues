@@ -1,13 +1,41 @@
 import { $ } from '../../../utils';
+import Store from '../../store';
 
 class CreateButton {
-  static enable({ listModel, creatorModel }) {
-    const $button = $('#label-create-button');
-    $button.disabled = false;
-    $button.classList.remove('opacity-50');
-    $button.addEventListener('click', (e) => {
+  #$button;
+  constructor() {
+    this.#$button = $('#label-create-button');
+    this.#init();
+  }
+
+  #init() {
+    Store.subscribe('newLabel', this.#render.bind(this));
+    this.#render();
+    this.#addEvent();
+  }
+
+  get #isAllInputFilled() {
+    const newLabel = Store.getState('newLabel') ?? {};
+    const { name, description, color } = newLabel;
+    return name && description && color;
+  }
+
+  #render() {
+    if (!this.#isAllInputFilled) return;
+    this.#$button.disabled = false;
+    this.#$button.classList.remove('opacity-50');
+  }
+
+  #addEvent() {
+    this.#$button.addEventListener('click', (e) => {
       e.preventDefault();
-      listModel.addLabel(creatorModel.newLabel);
+      Store.setState('labelList', [
+        ...Store.getState('labelList'), //
+        Store.getState('newLabel'), //
+      ]);
+      // TODO: postData
+      Store.setState('isNewLabelClicked', false);
+      $('#new-label-form').classList.add('hidden');
     });
   }
 }

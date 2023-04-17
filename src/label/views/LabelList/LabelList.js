@@ -1,18 +1,23 @@
-import { $ } from '../../../utils';
+import { $, getData } from '../../../utils';
 import LabelItem from './LabelItem';
+import Store from '../../store';
+import { API_URL } from '../../../constants';
 
 class LabelList {
-  constructor({ model }) {
-    model.subscribe(this.render.bind(this));
-    this.render(model.labelList);
+  constructor() {
+    this.#init();
   }
 
-  render(labelList) {
+  async #init() {
+    Store.subscribe('labelList', this.render.bind(this));
+    Store.setState('labelList', await getData(API_URL.LABEL));
+    this.render();
+  }
+
+  render() {
     const $labelList = $('.label-list');
-    $labelList.innerHTML = labelList.reduce(
-      (acc, labelItem) => (acc += LabelItem.render(labelItem)),
-      '',
-    );
+    const labelList = Store.getState('labelList') ?? [];
+    $labelList.innerHTML = labelList.reduce((acc, labelItem) => (acc += LabelItem(labelItem)), '');
   }
 }
 

@@ -3,22 +3,25 @@ import LabelColor from './LabelColor';
 import LabelDescription from './LabelDescription';
 import LabelName from './LabelName';
 import { $ } from '../../../utils';
+import Store from '../../store';
 
 class LabelCreator {
-  constructor({ creatorModel, listModel }) {
-    creatorModel.subscribe(this.render.bind(this, { creatorModel, listModel }));
-    $('#new-label-form').classList.remove('hidden');
-    this.render({ creatorModel, listModel });
+  constructor() {
+    this.#init();
   }
 
-  render({ creatorModel, listModel }) {
+  #init() {
+    $('#new-label-form').classList.remove('hidden');
+    Store.subscribe('isAllInputFilled', this.render.bind(this));
+    this.render();
+  }
+
+  render() {
     [LabelName, LabelDescription, LabelColor].forEach((Component) => {
-      Component.init({ creatorModel, listModel });
+      Component();
     });
 
-    if (creatorModel.isAllInputFilled) {
-      CreateButton.enable({ creatorModel, listModel });
-    }
+    new CreateButton();
   }
 }
 export default LabelCreator;
