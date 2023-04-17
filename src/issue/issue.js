@@ -1,12 +1,12 @@
-import { pipe, request } from '../utils';
-import { mapIssue, filterStatus } from './api';
+import { getData } from '../utils';
+import { mapIssue, filterStatus } from './select';
 import { addToggleCountEvents } from './event';
 import { setInitialIssueTpl } from './render';
 
 const ISSUE_URL = '/data-sources/issues.json';
 
 const setIssueOnDocument = async () => {
-  const statusList = await pipe(request, mapIssue)(ISSUE_URL);
+  const statusList = await getData(ISSUE_URL, mapIssue);
   const openStatusList = filterStatus('open')(statusList);
   const closeStatusList = filterStatus('close')(statusList);
 
