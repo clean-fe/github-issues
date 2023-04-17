@@ -3,7 +3,7 @@ import { Component } from './lib/Component.js';
 import { fetchLabels } from './api/fetcher.js';
 import { getLabelTpl } from './tpl.js';
 
-import { LabelList, LabelForm } from './components';
+import LabelList from './components/LabelList.js';
 
 //msw worker
 import { worker } from './mocks/browser.js';
@@ -50,9 +50,11 @@ App.prototype.mounted = async function () {
   const { isFormEnabled, labels } = this.state;
 
   if (isFormEnabled) {
-    new LabelForm($('#form-wrapper'), {
-      onCreateLabel: this.handleCreateLabel.bind(this),
-      onCancelCreateLabel: this.handleCancelCreateLabel.bind(this),
+    import('./components').then(({ LabelForm }) => {
+      new LabelForm($('#form-wrapper'), {
+        onCreateLabel: this.handleCreateLabel.bind(this),
+        onCancelCreateLabel: this.handleCancelCreateLabel.bind(this),
+      });
     });
   }
 
