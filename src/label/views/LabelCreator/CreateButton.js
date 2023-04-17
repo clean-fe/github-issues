@@ -3,19 +3,24 @@ import Store from '../../store';
 
 class CreateButton {
   #$button;
+  #STATE_KEY = {
+    newLabel: 'newLabel',
+    labelList: 'labelList',
+    isNewLabelClicked: 'isNewLabelClicked',
+  };
   constructor() {
     this.#$button = $('#label-create-button');
     this.#init();
   }
 
   #init() {
-    Store.subscribe('newLabel', this.#render.bind(this));
+    Store.subscribe(this.#STATE_KEY.newLabel, this.#render.bind(this));
     this.#render();
     this.#addEvent();
   }
 
   get #isAllInputFilled() {
-    const newLabel = Store.getState('newLabel') ?? {};
+    const newLabel = Store.getState(this.#STATE_KEY.newLabel) ?? {};
     const { name, description, color } = newLabel;
     return name && description && color;
   }
@@ -29,12 +34,12 @@ class CreateButton {
   #addEvent() {
     this.#$button.addEventListener('click', (e) => {
       e.preventDefault();
-      Store.setState('labelList', [
-        ...Store.getState('labelList'), //
-        Store.getState('newLabel'), //
+      Store.setState(this.#STATE_KEY.labelList, [
+        ...Store.getState(this.#STATE_KEY.labelList), //
+        Store.getState(this.#STATE_KEY.newLabel), //
       ]);
-      // TODO: postData
-      Store.setState('isNewLabelClicked', false);
+      // TODO: postData, newLabel reset
+      Store.setState(this.#STATE_KEY.isNewLabelClicked, false);
       $('#new-label-form').classList.add('hidden');
     });
   }

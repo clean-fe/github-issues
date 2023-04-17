@@ -8,17 +8,19 @@ const getRandColor = () => {
 };
 
 const LabelColor = () => {
+  const STATE_KEY = 'newLabel';
+
   $('#new-label-color').addEventListener('click', ({ target }) => {
     const color = getRandColor();
     target.style.backgroundColor = color;
     $('#label-preview').style.backgroundColor = color;
     $('#label-color-value').value = color;
 
-    Store.setState('newLabel', {
-      ...Store.getState('newLabel'),
+    Store.setState(STATE_KEY, {
+      ...Store.getState(STATE_KEY),
       color,
     });
-    console.log(Store.getState('newLabel'));
+    console.log(Store.getState(STATE_KEY));
   });
 };
 
