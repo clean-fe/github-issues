@@ -7,20 +7,27 @@ const request = async (url) => {
 
 export const getData = async (url, ...mappers) => await pipe(request, ...mappers)(url);
 
-export const postData = async (url, data) => {
-  try {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+export const postData = async ({
+  url,
+  bodyData,
+  onSuccess = (response) => {},
+  onError = (response) => {},
+  onSettled = (response) => {},
+}) => {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(bodyData),
+  });
 
-    if (!res.ok) throw new Error(res.statusText);
+  onSettled(res);
 
-    return true;
-  } catch (e) {
-    console.error(e);
+  if (!res.ok) {
+    onError(res);
+    return;
   }
+
+  onSuccess(res);
 };

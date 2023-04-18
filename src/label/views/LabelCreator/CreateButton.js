@@ -1,5 +1,6 @@
-import { $ } from '../../../utils';
+import { $, postData } from '../../../utils';
 import Store from '../../store';
+import { API_URL } from '../../../constants';
 
 const STATE_KEY = {
   newLabel: 'newLabel',
@@ -28,12 +29,22 @@ const CreateButton = () => {
 
   $button.addEventListener('click', (e) => {
     e.preventDefault();
+    const newLabelList = [...labelListStore.getState(), newLabelStore.getState()];
 
-    labelListStore.setState([
-      ...labelListStore.getState(), //
-      newLabelStore.getState(), //
-    ]);
-    isNewLabelClickedStore.setState(false);
+    postData({
+      url: API_URL.LABEL,
+      bodyData: newLabelList,
+      onError: (response) => {
+        console.error(response);
+        alert('라벨 생성에 실패했습니다.');
+      },
+      onSuccess: () => {
+        labelListStore.setState(newLabelList);
+      },
+      onSettled: () => {
+        isNewLabelClickedStore.setState(false);
+      },
+    });
   });
 };
 
