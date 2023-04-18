@@ -3,23 +3,25 @@ import LabelColor from './LabelColor';
 import LabelProperty from './LabelProperty';
 import { $ } from '../../../utils';
 import Store from '../../store';
+import { STORE_KEY } from '../../../constants';
 
 class LabelCreator {
   #store;
+  #STATE_KEY = STORE_KEY.IS_NEW_LABEL_CLICKED;
 
-  constructor() {
-    this.#store = Store('isNewLabelClicked');
+  constructor(Store) {
+    this.#store = Store;
     this.#init();
   }
 
   #init() {
-    this.#store.subscribe(this.#show.bind(this));
+    this.#store(this.#STATE_KEY).subscribe(this.#show.bind(this));
     this.#show();
     this.#render();
   }
 
   #show() {
-    const isNewLabelClicked = Store('isNewLabelClicked').getState();
+    const isNewLabelClicked = this.#store(this.#STATE_KEY).getState();
     isNewLabelClicked
       ? $('#new-label-form').classList.remove('hidden')
       : $('#new-label-form').classList.add('hidden');
@@ -28,7 +30,7 @@ class LabelCreator {
   #render() {
     [CreateButton, LabelProperty('name'), LabelProperty('description'), LabelColor].forEach(
       (Component) => {
-        Component();
+        Component(Store);
       },
     );
   }

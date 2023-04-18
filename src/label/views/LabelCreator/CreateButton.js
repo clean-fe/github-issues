@@ -1,24 +1,17 @@
 import { $, postData } from '../../../utils';
-import Store from '../../store';
-import { API_URL } from '../../../constants';
-
-const STATE_KEY = {
-  newLabel: 'newLabel',
-  labelList: 'labelList',
-  isNewLabelClicked: 'isNewLabelClicked',
-};
+import { API_URL, STORE_KEY } from '../../../constants';
 
 const isAllInputFilled = (newLabel) => {
   const { name, description, color } = newLabel;
   return name && description && color;
 };
 
-const CreateButton = () => {
+const CreateButton = (Store) => {
   const [$button, newLabelStore, labelListStore, isNewLabelClickedStore] = [
     $('#label-create-button'),
-    Store(STATE_KEY.newLabel),
-    Store(STATE_KEY.labelList),
-    Store(STATE_KEY.isNewLabelClicked),
+    Store(STORE_KEY.NEW_LABEL),
+    Store(STORE_KEY.LABEL_LIST),
+    Store(STORE_KEY.IS_NEW_LABEL_CLICKED),
   ];
 
   newLabelStore.subscribe(() => {

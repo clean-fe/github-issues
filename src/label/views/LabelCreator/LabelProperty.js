@@ -1,9 +1,8 @@
+import { STORE_KEY } from '../../../constants';
 import { $, debounce } from '../../../utils';
-import Store from '../../store';
 
-const LabelProperty = (propType) => () => {
-  const STATE_KEY = 'newLabel';
-  const store = Store(STATE_KEY);
+const LabelProperty = (propType) => (Store) => {
+  const store = Store(STORE_KEY.NEW_LABEL);
 
   const debounceSetLabelProperty = debounce((e) => {
     e.preventDefault();

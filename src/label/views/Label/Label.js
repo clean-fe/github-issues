@@ -2,19 +2,21 @@ import { getLabelTpl } from '../../../tpl';
 import { $ } from '../../../utils';
 import LabelList from '../LabelList';
 import LabelCreator from '../LabelCreator';
-import Store from '../../store';
+import { STORE_KEY } from '../../../constants';
 
 class Label {
   #store;
+  #STATE_KEY = STORE_KEY.IS_NEW_LABEL_CLICKED;
 
-  constructor() {
-    this.#store = Store('isNewLabelClicked');
+  constructor(Store) {
+    this.#store = Store;
     this.#init();
   }
 
   #init() {
-    this.#store.subscribe(this.#renderCreator.bind(this));
-    this.#store.setState(false);
+    const store = this.#store(this.#STATE_KEY);
+    store.subscribe(this.#renderCreator.bind(this));
+    store.setState(false);
     this.#render();
     this.#addEventOfCreator();
   }
@@ -22,18 +24,19 @@ class Label {
   #addEventOfCreator() {
     $('.new-label-button').addEventListener('click', (e) => {
       e.preventDefault();
-      this.#store.setState(true);
+      this.#store(this.#STATE_KEY).setState(true);
     });
   }
 
   #render() {
     $('#app').innerHTML = getLabelTpl();
 
-    new LabelList();
+    new LabelList(this.#store);
   }
 
   #renderCreator() {
-    this.#store.getState() && new LabelCreator();
+    const isNewLabelClicked = this.#store(this.#STATE_KEY).getState();
+    isNewLabelClicked && new LabelCreator(this.#store);
   }
 }
 

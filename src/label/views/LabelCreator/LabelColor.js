@@ -1,5 +1,5 @@
+import { STORE_KEY } from '../../../constants';
 import { $ } from '../../../utils';
-import Store from '../../store';
 
 const getRandomColor = (labelList) => {
   const colorList = labelList.map(({ color }) => color);
@@ -7,15 +7,10 @@ const getRandomColor = (labelList) => {
   return color;
 };
 
-const LabelColor = () => {
-  const STATE_KEY = {
-    newLabel: 'newLabel',
-    labelList: 'labelList',
-  };
-
+const LabelColor = (Store) => {
   $('#new-label-color').addEventListener('click', ({ target }) => {
-    const labelListStore = Store(STATE_KEY.labelList);
-    const newLabelStore = Store(STATE_KEY.newLabel);
+    const labelListStore = Store(STORE_KEY.LABEL_LIST);
+    const newLabelStore = Store(STORE_KEY.NEW_LABEL);
 
     const color = getRandomColor(labelListStore.getState());
     target.style.backgroundColor = color;
