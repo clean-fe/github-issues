@@ -4,10 +4,10 @@ import Store from '../../store';
 import { API_URL } from '../../../constants';
 
 class LabelList {
-  #STATE_KEY = 'labelList';
   #store;
+
   constructor() {
-    this.#store = Store(this.#STATE_KEY);
+    this.#store = Store('labelList');
     this.#init();
   }
 

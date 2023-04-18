@@ -12,7 +12,7 @@ const router = () => {
       import('./label/views/Label').then(({ default: Label }) => new Label());
       break;
     case ROUTER_PATH.ISSUE:
-    case ROUTER_PATH.ROOT: // TODO: label 개발 후 issue 페이지로 변경
+    case ROUTER_PATH.ROOT:
     default:
       import('./issue').then(({ default: setIssueOnDocument }) => setIssueOnDocument());
       break;
