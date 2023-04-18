@@ -2,7 +2,6 @@ import CreateButton from './CreateButton';
 import LabelColor from './LabelColor';
 import LabelProperty from './LabelProperty';
 import { $ } from '../../../utils';
-import Store from '../../store';
 import { STORE_KEY } from '../../../constants';
 
 class LabelCreator {
