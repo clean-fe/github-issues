@@ -23,12 +23,12 @@ const renderBeforeEnd = el => html => insertHtmlBeforeEnd(el)(safeHtml(html))
 
 const renderAfterEnd = el => html => insertHtmlAfterEnd(el)(safeHtml(html))
 
-const clearBeforeRender = el => (html = null) => { el.innerHTML = ''; return html }
+const renderInnerHTML = el => (html = '') => el.innerHTML = safeHtml(html)
 
 export {
   renderBeforeBegin,
   renderAfterBegin,
   renderBeforeEnd,
   renderAfterEnd,
-  clearBeforeRender
+  renderInnerHTML
 }

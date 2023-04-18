@@ -50,7 +50,6 @@ const attachNavigationEvent = () => {
   })
 }
 
-
 export {
   router,
   attachNavigationEvent

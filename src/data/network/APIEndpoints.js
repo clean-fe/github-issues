@@ -1,5 +1,5 @@
-import {getIssue} from "./APIs/Issue.js";
-import {getLabel} from "./APIs/Label.js";
+import {getIssue} from "./APIs/Issue";
+import {getLabel} from "./APIs/Label";
 
 export {
   getIssue,
