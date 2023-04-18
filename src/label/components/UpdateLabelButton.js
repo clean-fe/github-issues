@@ -2,29 +2,34 @@ import { $, request } from '../../utils/index.js';
 
 class UpdateLabelButton {
   $target;
-  controllers = [];
+
   constructor({ selector = '.refresh-labels', setList }) {
     this.$target = $(selector);
     this.addEvent();
     this.setList = setList;
   }
   addEvent() {
+    let controllers = [];
     this.$target.addEventListener('click', async () => {
       const controller = new AbortController();
-      this.controllers = this.controllers.concat(controller);
+      controllers = controllers.concat(controller);
       setTimeout(() => {
-        this.controllers.forEach((controller, idx) => {
+        controllers.forEach((controller, idx) => {
           if (idx) controller.abort();
         });
-        this.controllers = [];
+        controllers = [];
       }, 1_000);
 
-      const res = await request({
-        url: '/labels-delay',
-        signal: controller.signal,
-      });
+      const res = await this.getUpdatedLabelsWithSignal(controller.signal);
       this.setList(res);
     });
+  }
+  async getUpdatedLabelsWithSignal(signal) {
+    const labels = await request({
+      url: '/labels-delay',
+      signal,
+    });
+    return labels;
   }
 }
 

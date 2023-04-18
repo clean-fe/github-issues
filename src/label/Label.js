@@ -12,34 +12,31 @@ export class LabelButton {
   }
   async initLabelPage() {
     // TODO: 이미 가지고 있는 파일이면 불러오지 않게
-    Promise.all(
+    const [
+      { default: LabelForm },
+      { default: LabelList },
+      { default: NewLabelBtn },
+      { default: UpdateLabelButton },
+    ] = await Promise.all(
       [
         './components/LabelForm.js',
         './components/LabelList.js',
         './components/NewLabelButton.js',
         './components/UpdateLabelButton.js',
       ].map((file) => import(file)),
-    ).then(
-      ([
-        { default: LabelForm },
-        { default: LabelList },
-        { default: NewLabelBtn },
-        { default: UpdateLabelButton },
-      ]) => {
-        const labelForm = LabelForm();
-        labelForm.init();
-        new LabelList({
-          setList: labelListStore.setLabelList,
-          subscribe: labelListStore.subscribe,
-        });
-        new NewLabelBtn({
-          subscribe: labelFormStore.subscribe,
-          toggleFormOpened: labelFormStore.toggleFormOpened,
-          revealForm: labelForm.revealForm,
-          hideForm: labelForm.hideForm,
-        });
-        new UpdateLabelButton({ setList: labelListStore.setLabelList });
-      },
     );
+    const labelForm = LabelForm();
+    labelForm.init();
+    new LabelList({
+      setList: labelListStore.setLabelList,
+      subscribe: labelListStore.subscribe,
+    });
+    new NewLabelBtn({
+      subscribe: labelFormStore.subscribe,
+      toggleFormOpened: labelFormStore.toggleFormOpened,
+      revealForm: labelForm.revealForm,
+      hideForm: labelForm.hideForm,
+    });
+    new UpdateLabelButton({ setList: labelListStore.setLabelList });
   }
 }
