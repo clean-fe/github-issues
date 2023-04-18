@@ -1,6 +1,7 @@
 import { model } from "./Model.js";
 import { ViewModel } from "./ViewModel.js";
 import { getLabelTpl } from "./tpl.js";
+import { getRandomColor } from "../utils/getRandomColor.js";
 
 export function main() {
   new ViewModel({
@@ -40,7 +41,7 @@ export function main() {
         target: "#new-label-color",
         eventName: "click",
         handler() {
-          this.model.data.color = this.model.getRandomColor();
+          this.model.data.color = getRandomColor();
         },
       },
       {
