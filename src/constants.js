@@ -12,4 +12,6 @@ export const API_URL = {
 
 export const STORE_KEY = {
   LABEL_LIST: 'labelList',
+  NEW_LABEL: 'newLabel',
+  IS_NEW_LABEL_CLICKED: 'isNewLabelClicked',
 };
