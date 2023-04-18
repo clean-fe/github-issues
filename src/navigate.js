@@ -9,7 +9,9 @@ const router = () => {
   const { pathname } = window.location;
   switch (pathname) {
     case ROUTER_PATH.LABEL:
-      import('./label/views/Label').then(({ default: Label }) => new Label());
+      Promise.all([import('./label/views/Label'), import('./label/store')]).then(
+        ([{ default: Label }, { default: Store }]) => new Label(Store),
+      );
       break;
     case ROUTER_PATH.ISSUE:
     case ROUTER_PATH.ROOT:
