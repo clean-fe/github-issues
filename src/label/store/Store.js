@@ -26,7 +26,6 @@ const Store = () => {
     const setState = (newState) => {
       const isExist = Boolean(store[key]);
       store[key] = isExist ? { ...store[key], state: newState } : assignWith(newState);
-      console.log(`[store] key: ${key}, store: ${JSON.stringify(store[key])}`);
       notify(newState);
     };
 
