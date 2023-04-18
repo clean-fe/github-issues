@@ -5,8 +5,9 @@ const LabelProperty = (propType) => () => {
   const STATE_KEY = 'newLabel';
 
   const debounceSetLabelProperty = debounce((e) => {
-    Store.setState(STATE_KEY, {
-      ...Store.getState(STATE_KEY),
+    const store = Store(STATE_KEY);
+    store.setState({
+      ...store.getState(),
       [propType]: e.target.value,
     });
   });

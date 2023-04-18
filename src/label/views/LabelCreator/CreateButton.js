@@ -1,48 +1,40 @@
 import { $ } from '../../../utils';
 import Store from '../../store';
 
-class CreateButton {
-  #$button;
-  #STATE_KEY = {
-    newLabel: 'newLabel',
-    labelList: 'labelList',
-    isNewLabelClicked: 'isNewLabelClicked',
-  };
-  constructor() {
-    this.#$button = $('#label-create-button');
-    this.#init();
-  }
+const STATE_KEY = {
+  newLabel: 'newLabel',
+  labelList: 'labelList',
+  isNewLabelClicked: 'isNewLabelClicked',
+};
 
-  #init() {
-    Store.subscribe(this.#STATE_KEY.newLabel, this.#render.bind(this));
-    this.#render();
-    this.#addEvent();
-  }
+const isAllInputFilled = (newLabel) => {
+  const { name, description, color } = newLabel;
+  return name && description && color;
+};
 
-  get #isAllInputFilled() {
-    const newLabel = Store.getState(this.#STATE_KEY.newLabel) ?? {};
-    const { name, description, color } = newLabel;
-    return name && description && color;
-  }
+const CreateButton = () => {
+  const [$button, newLabelStore, labelListStore, isNewLabelClickedStore] = [
+    $('#label-create-button'),
+    Store(STATE_KEY.newLabel),
+    Store(STATE_KEY.labelList),
+    Store(STATE_KEY.isNewLabelClicked),
+  ];
 
-  #render() {
-    if (!this.#isAllInputFilled) return;
-    this.#$button.disabled = false;
-    this.#$button.classList.remove('opacity-50');
-  }
+  newLabelStore.subscribe(() => {
+    if (!isAllInputFilled(newLabelStore.getState() ?? {})) return;
+    $button.disabled = false;
+    $button.classList.remove('opacity-50');
+  });
 
-  #addEvent() {
-    this.#$button.addEventListener('click', (e) => {
-      e.preventDefault();
-      Store.setState(this.#STATE_KEY.labelList, [
-        ...Store.getState(this.#STATE_KEY.labelList), //
-        Store.getState(this.#STATE_KEY.newLabel), //
-      ]);
-      // TODO: postData, newLabel reset
-      Store.setState(this.#STATE_KEY.isNewLabelClicked, false);
-      $('#new-label-form').classList.add('hidden');
-    });
-  }
-}
+  $button.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    labelListStore.setState([
+      ...labelListStore.getState(), //
+      newLabelStore.getState(), //
+    ]);
+    isNewLabelClickedStore.setState(false);
+  });
+};
 
 export default CreateButton;

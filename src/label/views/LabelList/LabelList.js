@@ -5,19 +5,21 @@ import { API_URL } from '../../../constants';
 
 class LabelList {
   #STATE_KEY = 'labelList';
+  #store;
   constructor() {
+    this.#store = Store(this.#STATE_KEY);
     this.#init();
   }
 
   async #init() {
-    Store.subscribe(this.#STATE_KEY, this.#render.bind(this));
-    Store.setState(this.#STATE_KEY, await getData(API_URL.LABEL));
+    this.#store.setState(await getData(API_URL.LABEL));
+    this.#store.subscribe(this.#render.bind(this));
     this.#render();
   }
 
   #render() {
     const $labelList = $('.label-list');
-    const labelList = Store.getState(this.#STATE_KEY) ?? [];
+    const labelList = this.#store.getState() ?? [];
     $labelList.innerHTML = labelList.reduce((acc, labelItem) => (acc += LabelItem(labelItem)), '');
   }
 }

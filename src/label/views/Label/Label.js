@@ -4,15 +4,17 @@ import LabelList from '../LabelList';
 import LabelCreator from '../LabelCreator';
 import Store from '../../store';
 
-const STATE_KEY = 'isNewLabelClicked';
-
 class Label {
+  #store;
+
   constructor() {
+    this.#store = Store('isNewLabelClicked');
     this.#init();
   }
 
   #init() {
-    Store.subscribe(STATE_KEY, this.#renderCreator.bind(this));
+    this.#store.subscribe(this.#renderCreator.bind(this));
+    this.#store.setState(false);
     this.#render();
     this.#addEventOfCreator();
   }
@@ -20,7 +22,7 @@ class Label {
   #addEventOfCreator() {
     $('.new-label-button').addEventListener('click', (e) => {
       e.preventDefault();
-      Store.setState(STATE_KEY, true);
+      this.#store.setState(true);
     });
   }
 
@@ -31,7 +33,7 @@ class Label {
   }
 
   #renderCreator() {
-    Store.getState(STATE_KEY) && new LabelCreator();
+    this.#store.getState() && new LabelCreator();
   }
 }
 

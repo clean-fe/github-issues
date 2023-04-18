@@ -1,41 +1,41 @@
-const mapper = (state) => Object.assign(state, { observers: [] });
+const assignWith = (state) => Object.assign({ state }, { observers: [] });
 
 const Store = () => {
-  const store = {
-    labelList: mapper([]),
-    newLabel: mapper({}),
-    isNewLabelClicked: mapper(false),
-  };
+  const store = {};
 
-  const getState = (key) => {
-    if (!store[key]) return false;
-    return store[key].state;
-  };
-  const subscribe = (key, callback) => {
-    if (!store[key]) return false;
-    store[key].observers.push(callback);
-  };
-  const unsubscribe = (key, callback) => {
-    if (!store[key]) return false;
-    store[key].observers = store[key].observers.filter((observer) => observer !== callback);
-  };
-  const notify = (key, newState) => {
-    if (!store[key]) return false;
-    store[key].observers.forEach((observer) => observer(newState));
-  };
-  const setState = (key, newState) => {
-    store[key] = {
-      ...store[key],
-      state: newState,
+  /**
+   * @param {string} key
+   * @returns {object} { getState, setState, subscribe, unsubscribe }
+   */
+  return (key) => {
+    const getState = () => {
+      if (!store[key]) return false;
+      return store[key].state;
     };
-    notify(key, store[key]);
-  };
+    const subscribe = (callback) => {
+      if (!store[key]) setState({});
+      store[key].observers.push(callback);
+    };
+    const unsubscribe = (callback) => {
+      store[key].observers = store[key].observers.filter((observer) => observer !== callback);
+    };
+    const notify = (newState) => {
+      if (!store[key]) return false;
+      store[key].observers.forEach((observer) => observer(newState));
+    };
+    const setState = (newState) => {
+      const isExist = Boolean(store[key]);
+      store[key] = isExist ? { ...store[key], state: newState } : assignWith(newState);
+      console.log(`[store] key: ${key}, store: ${JSON.stringify(store[key])}`);
+      notify(newState);
+    };
 
-  return {
-    getState,
-    setState,
-    subscribe,
-    unsubscribe,
+    return {
+      getState,
+      setState,
+      subscribe,
+      unsubscribe,
+    };
   };
 };
 
