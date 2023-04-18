@@ -1,9 +1,4 @@
-import router, {app} from "./util/Router";
-import attachNavigationEvent from "./util/Navigator.js"
+import {router, attachNavigationEvent} from "./presentation/utils/Router.js";
 
-// MARK: init
-(() => {
-  router('/')
-  attachNavigationEvent()
-})()
-
+await router('/')
+attachNavigationEvent()

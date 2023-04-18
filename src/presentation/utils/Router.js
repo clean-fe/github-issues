@@ -1,3 +1,5 @@
+// MARK - Router
+
 const getCurrentUrl = () => history.state?.current
 
 const isUrlChanged = url => url !== getCurrentUrl()
@@ -26,19 +28,30 @@ const route = routes => {
   return async path => {
     const view = routes.filter(v => v.path === path)[0]
     if (view?.path) {
-      if (isUrlChanged(view.path)) {
-        navigate(view.path)
-        currentView = null  // 이전 View 소멸...(꼭 필요한가?)
-        const module = await view.component()
-        const ViewClass = module.default
-        currentView = new ViewClass()
-      } else {
-        currentView?.refresh()
-      }
+      navigate(view.path)
+      currentView = null  // 이전 View 소멸...(꼭 필요한가?)
+      const module = await view.component()
+      const ViewClass = module.default
+      currentView = new ViewClass()
     } else {
       alert('404 not found')
     }
   }
 }
+const router = route(routes)
 
-export default route(routes)
+// MARK - Attach Navigation Event
+
+const attachNavigationEvent = () => {
+  const nav = document.getElementsByTagName('nav')[0]
+  nav.addEventListener('click', evt => {
+    const path = evt.target?.dataset?.path
+    if (path) return router(path)
+  })
+}
+
+
+export {
+  router,
+  attachNavigationEvent
+}
