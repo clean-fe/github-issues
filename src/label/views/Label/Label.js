@@ -14,9 +14,6 @@ class Label {
   }
 
   #init() {
-    const store = this.#store(this.#STATE_KEY);
-    store.subscribe(this.#renderCreator.bind(this));
-    store.setState(false);
     this.#render();
     this.#addEventOfCreator();
   }
@@ -32,11 +29,7 @@ class Label {
     $('#app').innerHTML = getLabelTpl();
 
     new LabelList(this.#store);
-  }
-
-  #renderCreator() {
-    const isNewLabelClicked = this.#store(this.#STATE_KEY).getState();
-    isNewLabelClicked && new LabelCreator(this.#store);
+    new LabelCreator(this.#store).render();
   }
 }
 

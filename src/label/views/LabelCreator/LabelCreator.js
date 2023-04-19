@@ -14,22 +14,25 @@ class LabelCreator {
   }
 
   #init() {
-    this.#store(this.#STATE_KEY).subscribe(this.#show.bind(this));
+    const newLabelClickedStore = this.#store(this.#STATE_KEY);
+    newLabelClickedStore.setState(false);
+    newLabelClickedStore.subscribe(this.#show.bind(this));
     this.#show();
-    this.#render();
+    this.render();
   }
 
   #show() {
-    const isNewLabelClicked = this.#store(this.#STATE_KEY).getState();
+    const newLabelClickedStore = this.#store(this.#STATE_KEY);
+    const isNewLabelClicked = newLabelClickedStore.getState();
     isNewLabelClicked
       ? $('#new-label-form').classList.remove('hidden')
       : $('#new-label-form').classList.add('hidden');
   }
 
-  #render() {
-    [CreateButton, LabelProperty('name'), LabelProperty('description'), LabelColor].forEach(
+  render() {
+    [LabelProperty('name'), LabelProperty('description'), LabelColor, CreateButton].forEach(
       (Component) => {
-        Component(Store);
+        Component(this.#store);
       },
     );
   }
