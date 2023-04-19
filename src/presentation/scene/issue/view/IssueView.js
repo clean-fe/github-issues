@@ -25,7 +25,7 @@ export default class IssueView extends View {
         createIssueHtml,
         renderWithTemplate
     )
-    render(data)
+    return render(data)
   }
 
 }

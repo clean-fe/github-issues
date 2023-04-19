@@ -26,7 +26,7 @@ export default class LabelView extends View{
         createIssueHtml,
         renderWithTemplate
     )
-    render(data)
+    return render(data)
   }
 
 }

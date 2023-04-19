@@ -1,12 +1,12 @@
 // MARK - Router
 
-const getCurrentUrl = () => history.state?.current
+const getCurrentUrl = () => history.state?.path
 
-const isUrlChanged = url => url !== getCurrentUrl()
+const isUrlChanged = currentPath => currentPath !== getCurrentUrl()
 
-const navigate = url => {
-  if (isUrlChanged(url)) {
-    history.pushState({current: url}, '', url)
+const navigate = view => {
+  if (isUrlChanged(view.path)) {
+    history.pushState({name: view.name, path: view.path}, '', view.path)
   }
 }
 
@@ -27,8 +27,8 @@ const route = routes => {
   let currentView = undefined
   return async path => {
     const view = routes.filter(v => v.path === path)[0]
-    if (view?.path) {
-      navigate(view.path)
+    if (view) {
+      navigate(view)
       currentView = null  // 이전 View 소멸...(꼭 필요한가?)
       const module = await view.component()
       const ViewClass = module.default
