@@ -7,6 +7,7 @@ const request = async (url) => {
 
 export const getData = async (url, ...mappers) => await pipe(request, ...mappers)(url);
 
+let controller;
 export const postData = async ({
   url,
   bodyData,
@@ -14,20 +15,34 @@ export const postData = async ({
   onError = (response) => {},
   onSettled = (response) => {},
 }) => {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(bodyData),
-  });
-
-  onSettled(res);
-
-  if (!res.ok) {
-    onError(res);
-    return;
+  if (controller) {
+    controller.abort();
   }
 
-  onSuccess(res);
+  controller = new AbortController();
+  const { signal } = controller;
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(bodyData),
+      signal,
+    });
+
+    onSettled(res);
+
+    if (res.ok) {
+      onSuccess(res);
+      return;
+    }
+
+    onError(res);
+  } catch (error) {
+    error.name === 'AbortError'
+      ? console.log(`[controller]: 요청이 취소되었습니다; ${error.message}`)
+      : console.error(`[controller]: 알 수 없는 오류 발생; ${error}`);
+  }
 };
