@@ -1,12 +1,10 @@
 import View from "../../common/View";
 import LabelViewModel from "../view_model/LabelViewModel";
 import {getLabelTpl, getLabelItemTpl} from "../../../utils/tpl";  // View 렌더링 템플릿
-import {renderInnerHTML, renderWithTemplate} from "../../../utils/Render";
-import {pipe} from "../../../../application/FP";
-import IssueView from "../../issue/view/IssueView.js";
+import {$, renderWithTemplate} from "../../../utils/Render";
 
 const ObserverList = Object.freeze({
-  labelList: 'labelList'
+  renderLabelList: 'renderLabelList'
 })
 
 export default class LabelView extends View {
@@ -14,12 +12,12 @@ export default class LabelView extends View {
     super('label initializer')
     this.renderApp(getLabelTpl())
     this.viewModel = new LabelViewModel()
-    this.viewModel.subscribe(ObserverList.labelList, this.renderLabelList)
+    this.viewModel.subscribe(ObserverList.renderLabelList, this.renderLabelList)
     this.getLabelList()
   }
 
   getLabelList() {
-    const _ = this.viewModel.getData(ObserverList.labelList)
+    const _ = this.viewModel.getData(ObserverList.renderLabelList)
   }
 
 }
