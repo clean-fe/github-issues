@@ -1,16 +1,15 @@
-import { getIssueTpl } from "./tpl.js";
-import { fromEvent, pipe } from "./utils.js";
-import { renderApp, renderIssues } from "./render.js";
-import { handleClickTab, handleInputSearch } from "./eventHandlers.js";
+import { getLabelTpl } from "./tpl.js";
+import { View } from "./view.js";
+
+const app = document.querySelector("#app");
+app.insertAdjacentHTML("beforeend", getLabelTpl());
+
+const view = new View();
+
+async function main() {
+  await view.getLabelData();
+  const labelItems = view.render().join("");
+  app.insertAdjacentHTML("beforeend", labelItems);
+}
 
 main();
-
-function main() {
-  pipe(
-    renderApp(getIssueTpl),
-    renderIssues((issue) => issue.status === "open")
-  )();
-
-  fromEvent(document, "input").subscribe(handleInputSearch);
-  fromEvent(document, "click").subscribe(handleClickTab);
-}
