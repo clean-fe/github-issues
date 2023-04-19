@@ -12,9 +12,9 @@ class LabelList {
   }
 
   async #init() {
-    const store = this.#store(this.#STATE_KEY);
-    store.setState(await getData(API_URL.LABEL));
-    store.subscribe(this.#render.bind(this));
+    const labelListStore = this.#store(this.#STATE_KEY);
+    labelListStore.setState(await getData(API_URL.LABEL));
+    labelListStore.subscribe(this.#render.bind(this));
     this.#render();
   }
 

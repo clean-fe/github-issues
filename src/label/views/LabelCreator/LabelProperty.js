@@ -2,13 +2,13 @@ import { STORE_KEY } from '../../../constants';
 import { $, debounce } from '../../../utils';
 
 const LabelProperty = (propType) => (Store) => {
-  const store = Store(STORE_KEY.NEW_LABEL);
+  const newLabelStore = Store(STORE_KEY.NEW_LABEL);
 
   const debounceSetLabelProperty = debounce((e) => {
     e.preventDefault();
 
-    store.setState({
-      ...store.getState(),
+    newLabelStore.setState({
+      ...newLabelStore.getState(),
       [propType]: e.target.value,
     });
   });
