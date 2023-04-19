@@ -7,9 +7,9 @@ export default class IssueViewModel extends Observable {
     this.model = new IssueModel(this) // delegate 패턴... ViewModel 과 Model 의 결합도가 높아져서 별로이려나...?
   }
 
-  async getData(options) {
+  async getData(key, options) {
     const response = await this.model.fetchGetIssue()
-    this.notify(response)
+    this.notify(key, response)
   }
 
 }

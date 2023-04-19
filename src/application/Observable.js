@@ -1,17 +1,22 @@
 export default class Observable {
   constructor() {
-    this.observers = new Set();
+    this.observers = new Map();
   }
 
-  subscribe(observer) {
-    this.observers.add(observer);
+  subscribe(key, closure) {
+    this.observers.set(key, closure);
   }
 
-  unsubscribe(observer) {
-    this.observers.delete(observer);
+  unsubscribe(key) {
+    this.observers.delete(key);
   }
 
-  notify(data) {
-    this.observers.forEach(observer => observer(data));
+  notify(key, data) {
+    const closure = this.observers.get(key)
+    if (closure) closure(data)
+  }
+
+  notifyAll(data) {
+    this.observers.forEach(closure => closure(data));
   }
 }

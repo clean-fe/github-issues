@@ -4,18 +4,21 @@ import {getLabelTpl, getLabelItemTpl} from "../../../utils/tpl";  // View 렌더
 import {renderInnerHTML} from "../../../utils/Render";
 import {pipe} from "../../../../application/FP";
 
+const ObserverList = Object.freeze({
+  labelList: 'labelList'
+})
 
-export default class LabelView extends View{
+export default class LabelView extends View {
   constructor() {
     super('label initializer')
     this.renderApp(getLabelTpl())
     this.viewModel = new LabelViewModel()
-    this.viewModel.subscribe(this.renderLabelList)
+    this.viewModel.subscribe(ObserverList.labelList, this.renderLabelList)
     this.getLabelList()
   }
 
   getLabelList() {
-    const _= this.viewModel.getData()
+    const _ = this.viewModel.getData(ObserverList.labelList)
   }
 
   renderLabelList(data) {
