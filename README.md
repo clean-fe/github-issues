@@ -1,6 +1,6 @@
 # MEMO
 
-### this
+## this
 
 The value of this depends on in which context it appears: function, class, or global.
 
@@ -23,8 +23,24 @@ The value of this depends on in which context it appears: function, class, or gl
 - **this with a getter or setter** :
   this in getters and setters is based on which object the property is accessed on, not which object the property is defined on. A function used as getter or setter has its this bound to the object from which the property is being set or gotten.
 
+## MVC
+
+MVC (Model-View-Controller) is a pattern in software design commonly used to implement user interfaces, data, and controlling logic.
+
+![Model View Controller example, mdn](https://developer.mozilla.org/en-US/docs/Glossary/MVC/model-view-controller-light-blue.png)
+![MVC, wiki](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/MVC-Process.svg/200px-MVC-Process.svg.png)
+
+## MVVM
+
+Model–view–viewmodel (MVVM) is an architectural pattern in computer software that facilitates the separation of the development of the graphical user interface (GUI; the view)—be it via a markup language or GUI code—from the development of the business logic or back-end logic (the model) such that the view is not dependent upon any specific model platform.
+
+![MV, wiki](https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/MVVMPattern.png/500px-MVVMPattern.png)
+
 # ref
 
 - [Working with object, mdn](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects#objects_and_properties)
 - [Classes, mdn](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#description)
 - [this, mdn](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this)
+- [Model-view-controller, wiki](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
+- [MVC, mdn](https://developer.mozilla.org/en-US/docs/Glossary/MVC)
+- [Model-view-viewmodel](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)
