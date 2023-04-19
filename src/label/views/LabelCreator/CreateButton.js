@@ -14,22 +14,28 @@ const CreateButton = (Store) => {
     Store(STORE_KEY.IS_NEW_LABEL_CLICKED),
   ];
 
-  newLabelStore.subscribe(() => {
-    if (!isAllInputFilled(newLabelStore.getState() ?? {})) return;
-    $button.disabled = false;
-    $button.classList.remove('opacity-50');
-  });
+  const render = () => {
+    const newLabel = newLabelStore.getState();
+    if (isAllInputFilled(newLabel)) {
+      $button.disabled = false;
+      $button.classList.remove('opacity-50');
+      return;
+    }
+    $button.disabled = true;
+    $button.classList.add('opacity-50');
+  };
 
-  $button.addEventListener('click', (e) => {
+  newLabelStore.subscribe(render);
+
+  const clickHandler = (e) => {
     e.preventDefault();
     const newLabelList = [...labelListStore.getState(), newLabelStore.getState()];
-
     postData({
       url: API_URL.LABEL,
       bodyData: newLabelList,
       onError: (response) => {
         console.error(response);
-        alert('라벨 생성에 실패했습니다.');
+        alert('라벨을 생성할 수 없습니다');
       },
       onSuccess: () => {
         labelListStore.setState(newLabelList);
@@ -38,7 +44,9 @@ const CreateButton = (Store) => {
         isNewLabelClickedStore.setState(false);
       },
     });
-  });
+  };
+
+  $button.addEventListener('click', clickHandler);
 };
 
 export default CreateButton;
