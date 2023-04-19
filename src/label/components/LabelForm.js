@@ -1,4 +1,4 @@
-import { $, request } from '../../utils/index.js';
+import { $, fetcher } from '../../utils/index.js';
 import { labelFormStore, labelListStore } from '../../store/labelStore.js';
 
 const LabelForm = (selector = '#new-label-form') => {
@@ -109,7 +109,7 @@ class CreateButton {
     this.$target.addEventListener('click', async (e) => {
       e.preventDefault();
       const formState = labelFormStore.getState();
-      const response = await request({
+      const response = await fetcher({
         url: '/labels',
         method: 'POST',
         data: {

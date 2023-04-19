@@ -1,4 +1,4 @@
-import { $, request } from '../../utils/index.js';
+import { $, fetcher } from '../../utils/index.js';
 import { getLabelItemTpl } from '../../tpl.js';
 
 class LabelList {
@@ -10,7 +10,7 @@ class LabelList {
   }
 
   makeListByApi(setList) {
-    request({ url: '/labels' }).then((res) => {
+    fetcher({ url: '/labels' }).then((res) => {
       setList(res);
     });
   }

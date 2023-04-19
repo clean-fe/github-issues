@@ -1,4 +1,4 @@
-import { $, request } from '../../utils/index.js';
+import { $, fetcher } from '../../utils/index.js';
 
 class UpdateLabelButton {
   $target;
@@ -25,7 +25,7 @@ class UpdateLabelButton {
     });
   }
   async getUpdatedLabelsWithSignal(signal) {
-    const labels = await request({
+    const labels = await fetcher({
       url: '/labels-delay',
       signal,
     });

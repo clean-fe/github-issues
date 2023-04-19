@@ -1,6 +1,6 @@
 import { TimeoutError } from '../Error/TimeoutError.js';
 
-export const request = async ({
+export const fetcher = async ({
   url,
   method = 'GET',
   headers = {
