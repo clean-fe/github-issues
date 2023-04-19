@@ -1,4 +1,4 @@
-import {renderInnerHTML, renderAfterBegin} from "../../utils/Render";
+import {renderInnerHTML, renderAfterBegin, $} from "../../utils/Render";
 
 export default class View {
   constructor(component) {
@@ -18,6 +18,18 @@ export default class View {
 
   #renderApp(html) {
     this.renderApp(html)
+  }
+
+  toggleClass(el, className) {
+    $(el)?.classList?.toggle(className)
+  }
+
+  toggleClassOn(el, className) {
+    $(el)?.classList?.toggle(className, true)
+  }
+
+  toggleClassOff(el, className) {
+    $(el)?.classList?.toggle(className, false)
   }
 
 }

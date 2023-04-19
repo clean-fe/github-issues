@@ -25,8 +25,8 @@ npm run dev
 
 # 이후 목표 - 2주차 완성하기
 - [X] 기존 구현 내용 중 전환 못 한것 완료하기
-- [ ] Issue 키워드 필터 & Label 키워드 필터
 - [ ] New Issue & New Label 기능
+- [ ] Issue 키워드 필터 & Label 키워드 필터
 - [ ] Labels, Milestones 이건 어떻게 해야하는거지...?
 - [ ] Label View 에서 새로고침을 하면 Issue View 로 이동한다... 🤕
 
