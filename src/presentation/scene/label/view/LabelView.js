@@ -4,7 +4,8 @@ import {getLabelTpl, getLabelItemTpl} from "../../../utils/tpl";  // View 렌더
 import {$, renderWithTemplate} from "../../../utils/Render";
 
 const ObserverList = Object.freeze({
-  renderLabelList: 'renderLabelList'
+  renderLabelList: 'renderLabelList',
+  updateLabelStatus: 'updateLabelStatus'
 })
 
 export default class LabelView extends View {
@@ -13,11 +14,12 @@ export default class LabelView extends View {
     this.renderApp(getLabelTpl())
     this.viewModel = new LabelViewModel()
     this.viewModel.subscribe(ObserverList.renderLabelList, this.renderLabelList)
+    this.viewModel.subscribe(ObserverList.updateLabelStatus, this.labelStatusTab)
     this.getLabelList()
   }
 
   getLabelList() {
-    const _ = this.viewModel.getData(ObserverList.renderLabelList)
+    const _ = this.viewModel.getData()
   }
 
 }
@@ -27,5 +29,12 @@ export default class LabelView extends View {
 Object.defineProperty(LabelView.prototype, 'renderLabelList', {
   value: function (data) {
     return renderWithTemplate('#label-wrapper__ul')(getLabelItemTpl)(data)
+  }
+})
+
+Object.defineProperty(LabelView.prototype, 'labelStatusTab', {
+  value: function (data) {
+    const labelCounter = $('#label-counter')
+    labelCounter.textContent = `${data.length ?? 0} Labels`
   }
 })

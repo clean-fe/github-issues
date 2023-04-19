@@ -7,9 +7,9 @@ export default class LabelViewModel extends Observable {
     this.model = new LabelModel();
   }
 
-  async getData(key, options) {
+  async getData(options) {
     const response = await this.model.fetchGetLabel()
-    this.notify(key, response)
+    this.notifyAll(response)
   }
 
 }
