@@ -1,7 +1,7 @@
 import View from "../../common/View";
 import IssueViewModel from "../view_model/IssueViewModel";
 import {getIssueTpl, getIssueItemTpl} from "../../../utils/tpl";  // View 렌더링 템플릿
-import {renderInnerHTML} from "../../../utils/Render";
+import {$, renderWithTemplate} from "../../../utils/Render";
 import {pipe} from "../../../../application/FP";
 
 const ObserverList = Object.freeze({
@@ -20,15 +20,12 @@ export default class IssueView extends View {
     const _ = this.viewModel.getData(ObserverList.issueList)
   }
 
-  renderIssueList(data) {
-    const attachmentTarget = document.getElementById('issue-wrapper__ul')
-    const renderWithTemplate = renderInnerHTML(attachmentTarget)
-    const createIssueHtml = jsonResponse => jsonResponse.map(item => getIssueItemTpl(item))
-    const render = pipe(
-        createIssueHtml,
-        renderWithTemplate
-    )
-    return render(data)
-  }
-
 }
+
+// MARK: Render
+
+Object.defineProperty(IssueView.prototype, 'renderIssueList', {
+  value: function (data) {
+    return renderWithTemplate('#issue-wrapper__ul')(getIssueItemTpl)(data)
+  }
+})
