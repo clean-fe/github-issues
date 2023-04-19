@@ -4,7 +4,7 @@ import LabelModel from "../../../../domain/use_cases/label/LabelModel"
 export default class LabelViewModel extends Observable {
   constructor() {
     super();
-    this.model = new LabelModel(this);
+    this.model = new LabelModel();
   }
 
   async getData(key, options) {
