@@ -20,14 +20,15 @@ npm run dev
 - [X] MVVM 에 맞춰 새 라우터 개발
 
 # MVVM 전환 2차 목표 - 기존 구현 내용 중 전환하지 못 한것
-- [ ] Observable.js 을 Set -> Map 변경
-- [ ] Issue 페이지의 Open/Close 필터
+- [X] Observable.js 을 Set -> Map 변경
+- [X] Issue 페이지의 Open/Close 필터(클릭시 필터링 하는건 이후 MSW 연동하기로...)
 
 # 이후 목표 - 2주차 완성하기
-- [ ] 기존 구현 내용 중 전환 못 한것 완료하기
+- [X] 기존 구현 내용 중 전환 못 한것 완료하기
 - [ ] Issue 키워드 필터 & Label 키워드 필터
 - [ ] New Issue & New Label 기능
 - [ ] Labels, Milestones 이건 어떻게 해야하는거지...?
+- [ ] Label View 에서 새로고침을 하면 Issue View 로 이동한다... 🤕
 
 # 3주차 - 🤮
 - [ ] MSW 설치 및 적용
