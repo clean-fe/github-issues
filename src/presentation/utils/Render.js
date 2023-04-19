@@ -1,5 +1,4 @@
-import {getIssueItemTpl} from "./tpl.js";
-import {pipe} from "../../application/FP.js";
+import {pipe} from "../../application/FP";
 
 const position = Object.freeze({
   beforeBegin: 'beforebegin',

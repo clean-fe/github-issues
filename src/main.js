@@ -1,4 +1,5 @@
-import {router, attachNavigationEvent} from "./presentation/utils/Router";
+import {router} from "./presentation/utils/Router";
+import {attachNavigationEvent} from "./presentation/utils/EventBinding";
 
 await router('/')
-attachNavigationEvent()
+let navigationEvent = attachNavigationEvent

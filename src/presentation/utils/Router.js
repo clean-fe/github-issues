@@ -38,19 +38,11 @@ const route = routes => {
     }
   }
 }
+
 const router = route(routes)
-
-// MARK - Attach Navigation Event
-
-const attachNavigationEvent = () => {
-  const nav = document.getElementsByTagName('nav')[0]
-  nav.addEventListener('click', evt => {
-    const path = evt.target?.dataset?.path
-    if (path) return router(path)
-  })
-}
 
 export {
   router,
-  attachNavigationEvent
 }
+
+
