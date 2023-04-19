@@ -9,9 +9,12 @@ const ObserverList = Object.freeze({
 })
 export default class IssueView extends View {
   constructor() {
+    // MARK: init
     super('issued initializer')
     this.renderApp(getIssueTpl())
     this.viewModel = new IssueViewModel()
+
+    // MARK: ViewModel Render Binding
     this.viewModel.subscribe(ObserverList.renderIssueList, this.renderIssueList)
     this.viewModel.subscribe(ObserverList.updateIssueStatus, this.bindStatusTab)
     this.getIssueList()
