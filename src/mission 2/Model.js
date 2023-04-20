@@ -1,7 +1,7 @@
-import { fetchGetLabels } from "../api.js";
+import { fetchGetLabels, fetchPostLabels } from "../api.js";
 
 export const labelModel = {
-  labelData: {
+  data: {
     isLabelFormHidden: true,
     labelList: [],
     labelName: "",
@@ -16,6 +16,16 @@ export const labelModel = {
   async fetchLabelList() {
     const labelList = await fetchGetLabels();
     return labelList;
+  },
+
+  async fetchCreateLabel(newLabel) {
+    try {
+      const newLabeList = await fetchPostLabels(newLabel);
+      this.data.labelList = newLabeList;
+    } catch (e) {
+      console.error(e);
+      alert(e.message);
+    }
   },
 
   addLabelList(newLabelList) {

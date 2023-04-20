@@ -1,4 +1,4 @@
-import { model } from "./Model.js";
+import { labelModel } from "./Model.js";
 import { ViewModel } from "./ViewModel.js";
 import { getLabelTpl } from "./tpl.js";
 import { getRandomColor } from "../utils/getRandomColor.js";
@@ -7,10 +7,10 @@ export function main() {
   new ViewModel({
     element: "#app",
     view: getLabelTpl,
-    model: model,
+    model: labelModel,
     isRoot: true,
     mounted() {
-      model.fetchLabelList().then((labelList) => {
+      labelModel.fetchLabelList().then((labelList) => {
         this.model.addLabelList(labelList);
       });
     },
@@ -49,13 +49,13 @@ export function main() {
         eventName: "click",
         handler(e) {
           e.preventDefault();
-          this.model.addLabelList([
-            {
-              name: this.model.data.labelName,
-              color: this.model.data.color,
-              description: this.model.data.labelDescription,
-            },
-          ]);
+          const newLabel = {
+            name: this.model.data.labelName,
+            color: this.model.data.color.replace(/^#/, ""),
+            description: this.model.data.labelDescription,
+          };
+
+          this.model.fetchCreateLabel(newLabel);
         },
       },
     ],

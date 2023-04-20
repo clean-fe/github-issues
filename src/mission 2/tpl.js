@@ -115,7 +115,7 @@ export function getLabelTpl({ isLabelFormHidden, color, labelList, labelName, la
     <div class="form-group mt-0 mb-2"
       data-url-template="/labels/preview/" data-default-name="Label preview">
 
-      <span id="label-preview" class="rounded-lg border bg-pink-700 p-2 px-3 mt-2 inline-block">
+      <span id="label-preview" class="rounded-lg border bg-pink-700 p-2 px-3 mt-2 inline-block" style="background-color:${color}">
         Label preview
       </span>
     </div>
@@ -170,6 +170,7 @@ export function getLabelTpl({ isLabelFormHidden, color, labelList, labelName, la
         <dd class="mt-2 flex">
 
           <button id="new-label-color" type="button"
+            style="background-color:${color}"
             data-view-component="true"
             class="rounded-md border px-1 bg-pink-700 font-bold text-4xl"
             aria-labelledby="tooltip-1664858299420-7732">

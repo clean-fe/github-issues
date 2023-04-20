@@ -22,7 +22,8 @@ export async function fetchPostLabels(data) {
     if (res.ok) {
       return await res.json();
     }
-    throw Error("fetch error");
+
+    throw Error("라벨 생성 실패");
   } catch (e) {
     throw Error(e);
   }
