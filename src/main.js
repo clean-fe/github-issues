@@ -3,7 +3,11 @@ import { Component } from './lib/Component.js';
 import { fetchLabels } from './api/fetcher.js';
 import { getLabelTpl } from './tpl.js';
 
-import { LabelList, LabelForm } from './components';
+import LabelList from './components/LabelList.js';
+
+//msw worker
+import { worker } from './mocks/browser.js';
+worker.start();
 
 function App($target) {
   // 클래스 프로토타입으로부터 상속 받기 위해 해야하는 일 1...
@@ -29,7 +33,7 @@ App.prototype.setEvent = function () {
 
 App.prototype.initState = async function () {
   return {
-    isFormEnabled: true,
+    isFormEnabled: false,
     labels: await fetchLabels(),
   };
 };
@@ -38,12 +42,19 @@ App.prototype.handleCreateLabel = function ({ name, description, color }) {
   this.state.labels = [...this.state.labels, { name, description, color }];
 };
 
+App.prototype.handleCancelCreateLabel = function () {
+  this.state.isFormEnabled = false;
+};
+
 App.prototype.mounted = async function () {
   const { isFormEnabled, labels } = this.state;
 
   if (isFormEnabled) {
-    new LabelForm($('#form-wrapper'), {
-      onCreateLabel: this.handleCreateLabel.bind(this),
+    import('./components').then(({ LabelForm }) => {
+      new LabelForm($('#form-wrapper'), {
+        onCreateLabel: this.handleCreateLabel.bind(this),
+        onCancelCreateLabel: this.handleCancelCreateLabel.bind(this),
+      });
     });
   }
 

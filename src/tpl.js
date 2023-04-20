@@ -232,7 +232,7 @@ export function getLabelForm({ name, description }) {
       <!--new label actions-->
       <div
         class="form-group my-2 flex mt-10">
-        <button type="button" class="base-outer p-2 mr-4"> Cancel
+        <button id="cancel-button" type="button" class="base-outer p-2 mr-4"> Cancel
         </button>
         <button id="label-create-button" type="submit" class="base-outer p-2 mr-4 bg-green-700 text-white ${
           (name.trim().length <= 0 || description.trim().length <= 0) && 'opacity-50'
