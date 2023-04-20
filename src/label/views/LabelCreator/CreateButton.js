@@ -14,7 +14,13 @@ const CreateButton = (Store) => {
     Store(STORE_KEY.IS_NEW_LABEL_CLICKED),
   ];
 
-  const render = () => {
+  newLabelStore.setState({
+    name: '',
+    description: '',
+    color: '',
+  });
+
+  newLabelStore.subscribe(() => {
     const newLabel = newLabelStore.getState();
     if (isAllInputFilled(newLabel)) {
       $button.disabled = false;
@@ -23,11 +29,9 @@ const CreateButton = (Store) => {
     }
     $button.disabled = true;
     $button.classList.add('opacity-50');
-  };
+  });
 
-  newLabelStore.subscribe(render);
-
-  const clickHandler = (e) => {
+  $button.addEventListener('click', (e) => {
     e.preventDefault();
     const newLabelList = [...labelListStore.getState(), newLabelStore.getState()];
     postData({
@@ -44,9 +48,7 @@ const CreateButton = (Store) => {
         isNewLabelClickedStore.setState(false);
       },
     });
-  };
-
-  $button.addEventListener('click', clickHandler);
+  });
 };
 
 export default CreateButton;

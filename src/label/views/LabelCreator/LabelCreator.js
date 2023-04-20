@@ -18,7 +18,6 @@ class LabelCreator {
     newLabelClickedStore.setState(false);
     newLabelClickedStore.subscribe(this.#show.bind(this));
     this.#show();
-    this.render();
   }
 
   #show() {
@@ -30,7 +29,7 @@ class LabelCreator {
   }
 
   render() {
-    [LabelProperty('name'), LabelProperty('description'), LabelColor, CreateButton].forEach(
+    [CreateButton, LabelProperty('name'), LabelProperty('description'), LabelColor].forEach(
       (Component) => {
         Component(this.#store);
       },
