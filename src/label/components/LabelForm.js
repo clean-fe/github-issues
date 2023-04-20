@@ -1,30 +1,5 @@
-import { $, request } from '../utils';
-import { getLabelItemTpl, getLabelTpl } from '../tpl.js';
-import { labelFormStore, labelListStore } from '../store/labelStore.js';
-
-export class LabelButton {
-  addEvent() {
-    const labelBtn = $('#label-btn');
-    labelBtn.addEventListener('click', () => {
-      $('#app').innerHTML = getLabelTpl();
-      this.initLabelPage();
-    });
-  }
-  initLabelPage() {
-    const labelForm = LabelForm();
-    labelForm.init();
-    new LabelList({
-      setList: labelListStore.setLabelList,
-      subscribe: labelListStore.subscribe,
-    });
-    new NewLabelBtn({
-      subscribe: labelFormStore.subscribe,
-      toggleFormOpened: labelFormStore.toggleFormOpened,
-      revealForm: labelForm.revealForm,
-      hideForm: labelForm.hideForm,
-    });
-  }
-}
+import { $, fetcher } from '../../utils/index.js';
+import { labelFormStore, labelListStore } from '../../store/labelStore.js';
 
 const LabelForm = (selector = '#new-label-form') => {
   const $target = $(selector);
@@ -54,51 +29,6 @@ const LabelForm = (selector = '#new-label-form') => {
     },
   };
 };
-
-export class LabelList {
-  $target;
-  constructor({ selector = '.label-list', setList, subscribe }) {
-    this.$target = $(selector);
-    subscribe((state) => this.render(state.labelList));
-    request('../data-sources/labels.json').then((res) => {
-      setList(res);
-    });
-  }
-  render(labelList) {
-    const labelListTpl = labelList.reduce(
-      (acc, curr) =>
-        (acc += getLabelItemTpl({
-          name: curr.name,
-          color: curr.color,
-          description: curr.description,
-        })),
-      '',
-    );
-    this.$target.innerHTML = labelListTpl;
-  }
-}
-
-export class NewLabelBtn {
-  $target;
-
-  constructor({
-    selector = '.new-label-button',
-    subscribe,
-    toggleFormOpened,
-    revealForm,
-    hideForm,
-  }) {
-    this.$target = $(selector);
-    this.addEvent(toggleFormOpened);
-
-    subscribe((state) => (state.isFormOpened ? revealForm() : hideForm()));
-  }
-  addEvent(clickEventHandler) {
-    this.$target.addEventListener('click', () => {
-      clickEventHandler();
-    });
-  }
-}
 
 class ColorInput {
   $target;
@@ -176,14 +106,22 @@ class CreateButton {
     subscribe((state) => state.labelName && this.render());
   }
   addEvent() {
-    this.$target.addEventListener('click', (e) => {
+    this.$target.addEventListener('click', async (e) => {
       e.preventDefault();
       const formState = labelFormStore.getState();
-      labelListStore.addLabelList({
-        name: formState.labelName,
-        color: formState.labelColors[formState.labelColorIdx].slice(1),
-        description: formState.labelDescription,
+      const response = await fetcher({
+        url: '/labels',
+        method: 'POST',
+        data: {
+          name: formState.labelName,
+          color: formState.labelColors[formState.labelColorIdx].slice(1),
+          description: formState.labelDescription,
+        },
       });
+      if (response) {
+        labelListStore.setLabelList(response);
+      }
+
       labelFormStore.resetLabelState();
     });
   }
@@ -193,3 +131,5 @@ class CreateButton {
     this.$target.classList.remove('opacity-50');
   }
 }
+
+export default LabelForm;
