@@ -15,14 +15,30 @@ async function init() {
 function main() {
   const newLabelBtn = document.querySelector(".new-label-button");
   const form = document.querySelector("#new-label-form");
-  const labelCreateBtn = document.querySelector("#label-create-button");
+  const button = document.querySelector("#label-create-button");
+
+  const nameLabel = document.querySelector("#label-name-input");
+  const descriptionLabel = document.querySelector("#label-description-input");
+  const colorLabel = document.querySelector("#label-color-value");
+
+  const nameValue = nameLabel.value;
+  const descriptionValue = descriptionLabel.value;
+  const colorValue = colorLabel.value;
 
   newLabelBtn.addEventListener("click", () => {
     form.classList.toggle("hidden");
   });
-  labelCreateBtn.addEventListener("click", () => {
-    return;
+
+  // Create a click event listener for the button
+  button.addEventListener("click", function (event) {
+    event.preventDefault();
+    alert("Label created!");
   });
+
+  // Enable the button
+  button.disabled = false;
+  button.classList.remove("opacity-50");
+  button.classList.add("opacity-100");
 }
 
 init();

@@ -36,6 +36,14 @@ Model–view–viewmodel (MVVM) is an architectural pattern in computer software
 
 ![MV, wiki](https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/MVVMPattern.png/500px-MVVMPattern.png)
 
+## Proxy
+
+The **Proxy** object enables you to create a proxy for another object, which can intercept and redefine fundamental operations for that object.
+
+## Set
+
+The **Set** object lets you store unique values of any type, whether primitive values or object references.
+
 # ref
 
 - [Working with object, mdn](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_objects#objects_and_properties)
@@ -44,3 +52,6 @@ Model–view–viewmodel (MVVM) is an architectural pattern in computer software
 - [Model-view-controller, wiki](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
 - [MVC, mdn](https://developer.mozilla.org/en-US/docs/Glossary/MVC)
 - [Model-view-viewmodel](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)
+- [Proxy, mdn](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
+- [Vite Proxy 설정하는 법, velog](https://velog.io/@zerone/Vite-Proxy-%EC%84%A4%EC%A0%95%ED%95%98%EB%8A%94-%EB%B2%95)
+- [Set, mdn](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set#description)
