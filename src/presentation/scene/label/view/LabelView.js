@@ -3,6 +3,7 @@ import LabelViewModel from "../view_model/LabelViewModel";
 import {getLabelTpl, getLabelItemTpl} from "../../../utils/tpl";  // View 렌더링 템플릿
 import {$, renderWithTemplate} from "../../../utils/Render";
 import {clickEventBind} from "../../../utils/EventBinding";
+import Label from "../../../../domain/use_cases/label/Label.js";
 
 const ObserverList = Object.freeze({
   renderLabelList: 'renderLabelList',
@@ -23,7 +24,8 @@ export default class LabelView extends View {
 
     // MARK: Event Action Binding
     this.bindNewLabelButton()
-    this.bindCloseNewLabelForm()
+    this.bindCancelNewLabelForm()
+    this.randomLabelColor()
   }
 
   getLabelList() {
@@ -37,6 +39,7 @@ export default class LabelView extends View {
 
   closeNewLabelForm() {
     super.toggleClassOn('#new-label-form', 'hidden')
+    $('#new-label-form').reset()
   }
 
 }
@@ -60,12 +63,24 @@ Object.defineProperty(LabelView.prototype, 'labelStatusTab', {
 
 Object.defineProperty(LabelView.prototype, 'bindNewLabelButton', {
   value: function () {
-    clickEventBind('#new-label-button')(this.openNewLabelForm)
+    return clickEventBind('#new-label-button')(this.openNewLabelForm)
   }
 })
 
-Object.defineProperty(LabelView.prototype, 'bindCloseNewLabelForm', {
+Object.defineProperty(LabelView.prototype, 'bindCancelNewLabelForm', {
   value: function () {
-    clickEventBind('#label-cancel-button')(this.closeNewLabelForm)
+    return clickEventBind('#label-cancel-button')(this.closeNewLabelForm)
   }
 })
+
+Object.defineProperty(LabelView.prototype, 'randomLabelColor', {
+  value: function () {
+    clickEventBind('#new-label-color')(() => {
+      const color = Label.getRandomLabelColor()
+      $('#label-color-value').value = color
+      $('#label-preview').style.backgroundColor = color
+    })
+  }
+})
+
+
