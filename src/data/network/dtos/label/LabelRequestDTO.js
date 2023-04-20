@@ -1,4 +1,4 @@
-class Tag {
+class LabelRequestDTO {
   constructor(name, color, description) {
     this.name = name;
     this.color = color;
@@ -7,5 +7,5 @@ class Tag {
 }
 
 export {
-  Tag
+  LabelRequestDTO
 }
