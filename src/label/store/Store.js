@@ -1,4 +1,10 @@
-const assignWith = (state) => Object.assign({ state }, { observers: [] });
+const assignWith = (state) => {
+  const observers = new Set();
+  return {
+    state,
+    observers,
+  };
+};
 
 const Store = () => {
   const store = {};
@@ -13,19 +19,23 @@ const Store = () => {
       return store[key].state;
     };
     const subscribe = (callback) => {
-      if (!store[key]) setState({});
-      store[key].observers.push(callback);
+      if (!store[key]) return false;
+      store[key].observers.add(callback);
     };
     const unsubscribe = (callback) => {
-      store[key].observers = store[key].observers.filter((observer) => observer !== callback);
+      if (!store[key]) return false;
+      store[key].observers = store[key].observers.delete(callback);
     };
     const notify = (newState) => {
       if (!store[key]) return false;
       store[key].observers.forEach((observer) => observer(newState));
     };
     const setState = (newState) => {
-      const isExist = Boolean(store[key]);
-      store[key] = isExist ? { ...store[key], state: newState } : assignWith(newState);
+      if (!store[key]) {
+        store[key] = assignWith(newState);
+        return;
+      }
+      store[key] = { ...store[key], state: newState };
       notify(newState);
     };
 
