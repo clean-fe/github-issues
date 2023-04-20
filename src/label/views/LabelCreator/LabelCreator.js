@@ -1,24 +1,39 @@
 import CreateButton from './CreateButton';
 import LabelColor from './LabelColor';
-import LabelDescription from './LabelDescription';
-import LabelName from './LabelName';
+import LabelProperty from './LabelProperty';
 import { $ } from '../../../utils';
+import { STORE_KEY } from '../../../constants';
 
 class LabelCreator {
-  constructor({ creatorModel, listModel }) {
-    creatorModel.subscribe(this.render.bind(this, { creatorModel, listModel }));
-    $('#new-label-form').classList.remove('hidden');
-    this.render({ creatorModel, listModel });
+  #store;
+  #STATE_KEY = STORE_KEY.IS_NEW_LABEL_CLICKED;
+
+  constructor(Store) {
+    this.#store = Store;
+    this.#init();
   }
 
-  render({ creatorModel, listModel }) {
-    [LabelName, LabelDescription, LabelColor].forEach((Component) => {
-      Component.init({ creatorModel, listModel });
-    });
+  #init() {
+    const newLabelClickedStore = this.#store(this.#STATE_KEY);
+    newLabelClickedStore.setState(false);
+    newLabelClickedStore.subscribe(this.#show.bind(this));
+    this.#show();
+  }
 
-    if (creatorModel.isAllInputFilled) {
-      CreateButton.enable({ creatorModel, listModel });
-    }
+  #show() {
+    const newLabelClickedStore = this.#store(this.#STATE_KEY);
+    const isNewLabelClicked = newLabelClickedStore.getState();
+    isNewLabelClicked
+      ? $('#new-label-form').classList.remove('hidden')
+      : $('#new-label-form').classList.add('hidden');
+  }
+
+  render() {
+    [CreateButton, LabelProperty('name'), LabelProperty('description'), LabelColor].forEach(
+      (Component) => {
+        Component(this.#store);
+      },
+    );
   }
 }
 export default LabelCreator;
