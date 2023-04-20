@@ -1,9 +1,5 @@
-import router, {app} from "./util/Router";
-import attachNavigationEvent from "./util/Navigator.js"
+import $App from "./application/AppConfigurations";
+import {router} from "./presentation/utils/Router";
+import {attachNavigationEvent} from "./presentation/utils/EventBinding";
 
-// MARK: init
-(() => {
-  router('/')
-  attachNavigationEvent()
-})()
-
+await router('/label')

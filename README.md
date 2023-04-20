@@ -13,26 +13,43 @@ npm run dev
 
 ---
 
-## 2주차 학습 계획
+# MVVM 전환 1차 목표
+- [X] 기존 Old 코드 전부 제거
+- [X] application, data, domain, presentation 레이어만 남기기
+- [X] Issue, Label 기본 페이지 렌더
+- [X] MVVM 에 맞춰 새 라우터 개발
 
-### 1. Bug fix (필수 목표)
-- [ ] 1주차 구현 과정 중 마무리 하지 못한 라우터 재이동 시 뷰 재 렌더링 하지 못 하는 문제 수정
+# MVVM 전환 2차 목표 - 기존 구현 내용 중 전환하지 못 한것
+- [X] Observable.js 을 Set -> Map 변경
+- [X] Issue 페이지의 Open/Close 필터(클릭시 필터링 하는건 이후 MSW 연동하기로...)
 
-### 2. JavaScript Syntax 친해지기 (필수 목표)
-- [X] function 을 이용한 객체 생성
-- [ ] JavaScript class 문법 및 내장 메서드
-- [X] prototype 에 대한 학습 
+# 이후 목표 - 2주차 완성하기
+- [X] 기존 구현 내용 중 전환 못 한것 완료하기
+- [ ] New Issue & New Label 기능
+- [ ] Issue 키워드 필터 & Label 키워드 필터
+- [ ] Labels, Milestones 이건 어떻게 해야하는거지...?
+- [ ] Label View 에서 새로고침을 하면 Issue View 로 이동한다... 🤕
 
-### 3. SOLID 이해하기 (필수 목표)
-- [ ] SOLID 각 원칙 이해하고 가능하면 적용해보기
+# 3주차 - 🤮
+- [ ] MSW 설치 및 적용
+- [ ] 비동기 에러 처리... escaping closure 와 비슷한 느낌인데...
+  OOP 가 주도적이면 에러는 주변 코드로, 그리고 위로 propagation
+  하면 되는데 Functional Programming 이 주도적이면 어떻게 처리?
+  결국 동시성 문제로 빠져버리는 건가...?
+- [ ] 최적화 종류 학습 및 정리
 
-### 4. View Model 데이터 바인딩 (선택 목표)
-- [ ] Proxy API 좀 더 자세하게 학습
-- [ ] defineProperty 학습
-- [ ] class Observable 이해하기
+# 4주차 - Kill me...🫠
 
-### 5. Decorator 생성 및 적용하기
-- [ ] 함수가 First Class Citizen 인 모든 언어에서 가능하다는데 클로저의 챕쳐와 무엇이 다를까? 이해해보기 
-- [ ] Property Wrapper 로 Validation 기능 구현
-- [X] private 기능 구현 -> 그냥 # 붙이면 되네????
-- 그 외 생각나는대로 추가 구현
+
+# To be continued... 4주차가 끝나고 언젠가...
+- [ ] 데코레이터... PropertyWrapper 나 Annotation 과 비슷한데?
+- [ ] 자바스크립트에 존재하지 않는 인스턴스의 deinit,
+  함수나 클로저의 defer 를 대체할 방법...?
+- [ ] 자바스크립트에도 약한 참조가 생겼다... WeakRef, WeakMap
+- [ ] await all 되나...?
+    - let photos = await [firstPhoto, secondPhoto, thirdPhoto] 이런 느낌으로
+    - const [result1, result2] = await Promise.all([func1(), func2()]) 이게 되나?
+- Actor 와 같은 동시성 코드에서 isolation 시키고 순차 접근을 할 수 있게
+  전역 Store 구현이 가능할까? Actor 와 같은 isolation 이 불가능 하면
+  많은 메모리 접근 충돌이 생길텐데??
+  

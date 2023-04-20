@@ -1,4 +1,4 @@
-import Observable from "../presentation/utils/Observable";
+import Observable from "./Observable";
 
 export default class $Store extends Observable {
 

@@ -5,7 +5,7 @@ export function getIssueTpl() {
 
       <div class="filter-menu w-2/3 px-3 py-1 flex base-outer items-center">
         <div class="filter p-3">Filters</div>
-        <form action="/" class="p-3 w-full">
+        <form action="/public" class="p-3 w-full">
           <input type="text" class="w-full bg-slate-100 focus:outline-none" name="filter-text" id="filter-input"
             placeholder="keyword...">
         </form>
@@ -16,7 +16,7 @@ export function getIssueTpl() {
         <div class="p-3">Milestones</div>
       </nav>
 
-      <div id="createNewIssue" class="new-issue p-3 py-1 base-outer flex items-center justify-center w-2/12 ml-4 bg-green-700 text-white">
+      <div id="new-issue-button" class="new-issue p-3 py-1 base-outer flex items-center justify-center w-2/12 ml-4 bg-green-700 text-white">
         <a href="#">New
           issue</a></div>
 
@@ -29,7 +29,7 @@ export function getIssueTpl() {
         </div>
 
         <div class="statusTab flex">
-          <div class="whitespace-nowrap open-count font-bold cursor-pointer">0 Opens</div>
+          <div class="whitespace-nowrap open-count cursor-pointer">0 Opens</div>
           <div class="whitespace-nowrap close-count ml-3 cursor-pointer">0 Closed</div>
         </div>
 
@@ -97,13 +97,13 @@ export function getLabelTpl() {
   <div id="header" class="flex justify-between">
 
     <div class="filter-menu w-2/3 px-3 py-1 flex base-outer items-center">
-      <form action="/" class="p-1 w-full">
+      <form action="/public" class="p-1 w-full">
         <input type="text" class="w-full bg-slate-100 focus:outline-none" name="filter-text" id="filter-input"
           placeholder="search all filter...">
       </form>
     </div>
 
-    <div id="createNewLabel" class="new-label-button cursor-pointer p-1 py-1 base-outer flex items-center justify-center w-2/12 ml-4 bg-green-700 text-white">
+    <div id="new-label-button" class="new-label-button cursor-pointer p-1 py-1 base-outer flex items-center justify-center w-2/12 ml-4 bg-green-700 text-white">
       <a href="#">New label</a>
     </div>
   </div>
@@ -189,7 +189,7 @@ export function getLabelTpl() {
       <!--new label actions-->
       <div
         class="form-group my-2 flex mt-10">
-        <button type="button" class="base-outer p-2 mr-4"> Cancel
+        <button id="label-cancel-button" type="button" class="base-outer p-2 mr-4"> Cancel
         </button>
         <button id="label-create-button" type="submit" class="base-outer p-2 mr-4 bg-green-700 opacity-50 text-white" disabled=""> Create label
         </button>
@@ -205,7 +205,7 @@ export function getLabelTpl() {
     <div class="label-header h-16 flex justify-between items-center border-b">
 
       <div class="mr-3 d-none pl-4">
-        <div class="whitespace-nowrap open-count font-bold cursor-pointer">6 Labels</div>
+        <div id="label-counter" class="whitespace-nowrap open-count font-bold cursor-pointer">6 Labels</div>
       </div>
 
       <div class="details-list flex ml-auto">

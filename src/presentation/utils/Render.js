@@ -1,3 +1,5 @@
+import {pipe} from "../../application/FP";
+
 const position = Object.freeze({
   beforeBegin: 'beforebegin',
   afterBegin: 'afterbegin',
@@ -12,6 +14,11 @@ const insertHtmlAfterBegin = insertHTML(position.afterBegin)
 const insertHtmlBeforeEnd = insertHTML(position.beforeEnd)
 const insertHtmlAfterEnd = insertHTML(position.afterEnd)
 
+const $ = selector => {
+  const nodeList = document.querySelectorAll(selector)
+  return nodeList.length === 1 ? nodeList[0] : nodeList
+}
+
 const arrayCheck = something => something instanceof Array
 const htmlArrayRemoveComma = arr => arr.join('')
 const safeHtml = html => arrayCheck(html) ? htmlArrayRemoveComma(html) : html
@@ -23,12 +30,25 @@ const renderBeforeEnd = el => html => insertHtmlBeforeEnd(el)(safeHtml(html))
 
 const renderAfterEnd = el => html => insertHtmlAfterEnd(el)(safeHtml(html))
 
-const clearBeforeRender = el => (html = null) => { el.innerHTML = ''; return html }
+const renderInnerHTML = el => (html = '') => el.innerHTML = safeHtml(html)
+
+const renderWithTemplate = el => template => jsonData => {
+  const attachmentTarget = $(el)
+  const renderWithTemplate = renderInnerHTML(attachmentTarget)
+  const createJsonToHtml = jsonResponse => jsonResponse.map(item => template(item))
+
+  return pipe(
+      createJsonToHtml,
+      renderWithTemplate
+  )(jsonData)
+}
 
 export {
+  $,
   renderBeforeBegin,
   renderAfterBegin,
   renderBeforeEnd,
   renderAfterEnd,
-  clearBeforeRender
+  renderInnerHTML,
+  renderWithTemplate
 }

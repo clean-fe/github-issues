@@ -22,7 +22,7 @@ const customFetch = options => url => {
   return async () => {
     if (url) {
       const response = await fetch(url, options)
-      return response.json()
+      return await response.json()
     } else {
       return null
     }

@@ -1,3 +1,43 @@
+## IssueItem
+
+```javascript
+import {getIssueItemTpl} from "../../tpl";
+
+import {renderInnerHTML, renderBeforeEnd} from "../../presentation/utils/Render";
+import {pipe} from "../../application/FP";
+
+const issueUl = document.getElementById('issue-wrapper__ul')
+
+const findStatusTabDom = () => {
+  const statusTab = document.getElementsByClassName('statusTab')[0];
+  const statusOpen = statusTab.getElementsByClassName('open-count')[0];
+  const statusClosed = statusTab.getElementsByClassName('close-count')[0];
+  return {statusTab, statusOpen, statusClosed}
+}
+
+// MARK: render issue functions
+const createIssueHtml = list => list.map(issue => getIssueItemTpl(issue))
+const renderIssue = el => html => renderBeforeEnd(el)(html)
+const renderIssueAtUl = renderIssue(issueUl)
+const clearIssueBeforeRender = renderInnerHTML(issueUl)
+const renderIssueList = pipe(
+    createIssueHtml,
+    renderIssueAtUl
+)
+
+const statusFilter = status => list => list.filter(issue => status === issue.status)
+
+export {
+  findStatusTabDom,
+  clearIssueBeforeRender,
+  renderIssueList,
+  statusFilter,
+}
+```
+
+## IssueView
+
+```javascript
 import {getIssue} from "../data/network/APIEndpoints";
 import {findStatusTabDom, clearIssueBeforeRender, renderIssueList, statusFilter} from "../components/issue/IssueItem";
 
@@ -35,3 +75,4 @@ statusOpen.addEventListener('click', async () => {
 statusClosed.addEventListener('click', async () => {
   proxy.target = statusFilter(status.close)(issueList)
 })
+```
