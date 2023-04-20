@@ -29,9 +29,9 @@ export async function fetchPostLabels(data) {
   }
 }
 
-export async function fetchDelayLabels() {
+export async function fetchDelayLabels(signal) {
   try {
-    const res = await fetch("/labels-delay");
+    const res = await fetch("/labels-delay", { signal });
     if (res.ok) {
       return await res.json();
     }

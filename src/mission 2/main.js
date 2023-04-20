@@ -58,6 +58,26 @@ export function main() {
           this.model.fetchCreateLabel(newLabel);
         },
       },
+      {
+        target: ".refresh-labels",
+        eventName: "click",
+        async handler(e) {
+          e.preventDefault();
+
+          const controller = new AbortController();
+          const signal = controller.signal;
+
+          try {
+            this.model.data.controllers.push(controller);
+            this.model.fetchDelayLabelList(signal);
+            for (let i = 0; i < this.model.data.controllers.length - 1; i++) {
+              this.model.data.controllers[i].abort();
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        },
+      },
     ],
   });
 }

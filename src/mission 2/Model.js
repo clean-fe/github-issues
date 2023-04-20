@@ -1,4 +1,4 @@
-import { fetchGetLabels, fetchPostLabels } from "../api.js";
+import { fetchGetLabels, fetchPostLabels, fetchDelayLabels } from "../api.js";
 
 export const labelModel = {
   data: {
@@ -7,6 +7,7 @@ export const labelModel = {
     labelName: "",
     labelDescription: "",
     color: "",
+    controllers: [],
   },
 
   toggleIsLabelFormHidden() {
@@ -26,6 +27,11 @@ export const labelModel = {
       console.error(e);
       alert(e.message);
     }
+  },
+
+  async fetchDelayLabelList(signal) {
+    const labelList = await fetchDelayLabels(signal);
+    this.data.labelList = labelList;
   },
 
   addLabelList(newLabelList) {
