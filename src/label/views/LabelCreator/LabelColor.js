@@ -9,19 +9,23 @@ const getRandomColor = () => {
 };
 
 const LabelColor = (Store) => {
+  const setLabelColor = (color, target = null) => {
+    target.style.backgroundColor = color;
+    $('#label-preview').style.backgroundColor = color;
+    $('#label-color-value').value = color;
+  };
+
   $('#new-label-color').addEventListener('click', (e) => {
     e.preventDefault();
     const { target } = e;
     const newLabelStore = Store(STORE_KEY.NEW_LABEL);
-
     const color = getRandomColor();
-    target.style.backgroundColor = color;
-    $('#label-preview').style.backgroundColor = color;
-    $('#label-color-value').value = color;
+
+    setLabelColor(color, target);
 
     newLabelStore.setState({
       ...newLabelStore.getState(),
-      color,
+      color: color.replace('#', ''),
     });
   });
 };
