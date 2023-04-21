@@ -13,43 +13,48 @@ npm run dev
 
 ---
 
-# MVVM 전환 1차 목표
-- [X] 기존 Old 코드 전부 제거
-- [X] application, data, domain, presentation 레이어만 남기기
-- [X] Issue, Label 기본 페이지 렌더
-- [X] MVVM 에 맞춰 새 라우터 개발
+# 1단계
+- [ ] MSW 설치
+- [ ] Label 을 MSW 를 이용해 기능 구현
+- [ ] 동일하게 Issue 화면 및 MSW 연동 기능 구현
 
-# MVVM 전환 2차 목표 - 기존 구현 내용 중 전환하지 못 한것
-- [X] Observable.js 을 Set -> Map 변경
-- [X] Issue 페이지의 Open/Close 필터(클릭시 필터링 하는건 이후 MSW 연동하기로...)
+# 2단계
+- [ ] Issue & Label 필터 기능 구현
+- [ ] 검색 기능에 디바운싱 적용
+- [ ] 검색 기능에 캐싱 적용(동일 데이터일 경우 렌더링 하지 않도록)
+- [ ] App Lifecycle: LocalStorage 를 활용해 Label 입력 상태에서 탭 또는 브라우저 종료 후 데이터 보존.
 
-# 이후 목표 - 2주차 완성하기
-- [X] 기존 구현 내용 중 전환 못 한것 완료하기
-- [ ] New Issue & New Label 기능
-- [ ] Issue 키워드 필터 & Label 키워드 필터
-- [ ] Labels, Milestones 이건 어떻게 해야하는거지...?
-- [ ] Label View 에서 새로고침을 하면 Issue View 로 이동한다... 🤕
+# 3단계
+- [ ] Abort Controller 를 활용한 중복 요청 취소.
+- [ ] 현재 적용된 Dynamic Import 를 prefetch/preload 를 적용해보도록.
 
-# 3주차 - 🤮
-- [ ] MSW 설치 및 적용
-- [ ] 비동기 에러 처리... escaping closure 와 비슷한 느낌인데...
-  OOP 가 주도적이면 에러는 주변 코드로, 그리고 위로 propagation
-  하면 되는데 Functional Programming 이 주도적이면 어떻게 처리?
-  결국 동시성 문제로 빠져버리는 건가...?
-- [ ] 최적화 종류 학습 및 정리
+# 4단계
+- [ ] 기존 코드 리팩터링 및 테스트 코드 작성.
+- [ ] 에러 처리를 TDD 방식으로 개발하기.
+- [ ] 에러 처리 1 - Labels POST 간헐적 500 응답이 온다. console.error 및 사용자에게 적절히 알리기.
+- [ ] 에러 처리 2 - 에러 타입을 사전에 정의한 Enum~Case 와 같은 것을 가정해 구현 처리.
+- [ ] 에러 처리 3 - 비동기에 대한 에러 처리
+  - escaping closure 개념으로 접근이 가능할까?
+  - 자바스크립트 함수가 throw 를 명시하고 주변 코드 또는 호출한 코드로 에러를 전파해 처리가 가능할까?
+  - 에러를 주변부로, 상위로 전파가 가능하다면 상위에 Wrapper 를 감싸거나 Interceptor 와 같은 것들을 사용해 
+    에러 처리가 가능할까?
+  - async, await 을 사용하면 다 해결이 될까?
 
-# 4주차 - Kill me...🫠
-
-
-# To be continued... 4주차가 끝나고 언젠가...
-- [ ] 데코레이터... PropertyWrapper 나 Annotation 과 비슷한데?
-- [ ] 자바스크립트에 존재하지 않는 인스턴스의 deinit,
-  함수나 클로저의 defer 를 대체할 방법...?
-- [ ] 자바스크립트에도 약한 참조가 생겼다... WeakRef, WeakMap
+# 5단계
+- [ ] TypeScript 전환
+- [ ] Decorators 적용
+- [ ] 최적화
+  - Label 생성 시 display none 대신 visibility hidden 에 height 조절하는 게 비용이 더 적을까?
+  - 3D Transform / Opacity / Will-change?, video/canvas el 을 사용한 GPU 가속 처리 고민해보기.
+  - Service Worker, Cache Header 와 같은 것들로 네트워크 요청 캐시 전략.
+- [ ] deinit, defer 알아보기.
+  - 자바스크립트에서 인스턴스의 deinit, 함수의 defer 가능한가?
+  - 가능하지 않다면 반드시 필요한가? 혹은 구현이 가능한가?
+- 자바스크립트에 생긴 WeakRef, WeakMap 등 알아보기. WeakRef 를 이용해 
+  Strong Reference Cycle 해결 처리가 가능할까?
 - [ ] await all 되나...?
     - let photos = await [firstPhoto, secondPhoto, thirdPhoto] 이런 느낌으로
     - const [result1, result2] = await Promise.all([func1(), func2()]) 이게 되나?
 - Actor 와 같은 동시성 코드에서 isolation 시키고 순차 접근을 할 수 있게
   전역 Store 구현이 가능할까? Actor 와 같은 isolation 이 불가능 하면
   많은 메모리 접근 충돌이 생길텐데??
-  
