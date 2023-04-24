@@ -5,10 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Github App</title>
     <link rel="stylesheet" type="text/css" href="src/style.css" />
+    <link rel="prefetch" as="script" href="./src/main.js" />
+    <link rel="prefetch" as="script" href="./src/tpl.js" />
+    <link rel="prefetch" as="script" href="./data-sources/issues.json" />
   </head>
 
   <body>
-    <nav class="flex justify-end py-8 w-full m-auto text-1xl bg-neutral-800" style="padding-right: 12.5rem">
+    <nav
+      class="flex justify-end py-8 w-full m-auto text-1xl bg-neutral-800"
+      style="padding-right: 12.5rem"
+    >
       <button class="mr-4 base-outer p-2 px-5" id="issue-btn">Issue</button>
       <button class="base-outer p-2 px-5" id="label-btn">Label</button>
     </nav>
