@@ -1,4 +1,5 @@
-export const filterStatus = (status) => (list) => list.filter((item) => item.status === status);
+export const filterStatus = (list) => (status) =>
+  list.filter((item) => item.status === status);
 
 export const mapIssue = (list) =>
   list.map(({ title, tags, _id, status, openDate, milestones }) => ({

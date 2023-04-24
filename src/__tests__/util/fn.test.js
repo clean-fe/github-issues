@@ -1,5 +1,5 @@
 import { test, expect, describe } from 'vitest';
-import { go, pipe, setTpl } from '../../src/utils';
+import { go, pipe } from '../../src/utils';
 
 describe('pipe 함수 사용 테스트', () => {
   test('동기 파이프 테스트', () => {
