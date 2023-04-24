@@ -15,3 +15,10 @@
     - Observer 패턴
 5. 데코레이터 문법 공부
     - TC39 Stage 3단계 상태라 Babel이 필요할것 같음
+
+
+
+## 4주차
+목표
+- Viewmodel 리팩토링
+- 테스트코드 vitest사용해서 짜보기
