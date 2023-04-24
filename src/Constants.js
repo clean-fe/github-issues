@@ -1,9 +1,9 @@
 const endPoints = Object.freeze({
   Issue: {
-    Get: '/data-sources/issues.json'
+    Get: '/issues'
   },
   Label: {
-    Get: '/data-sources/labels.json'
+    Get: '/labels'
   }
 })
 
