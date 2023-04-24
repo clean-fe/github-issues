@@ -1,8 +1,8 @@
 class LabelRequestDTO {
-  constructor(name, color, description) {
+  constructor(name, description, color) {
     this.name = name;
-    this.color = color;
     this.description = description;
+    this.color = color;
   }
 }
 

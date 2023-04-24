@@ -27,6 +27,9 @@ export default class LabelView extends View {
 
     // MARK: Event Action Binding
     this.eventListeners()
+
+    // MARK: Dev Mock Data
+    mock__NewLabelFormData()
   }
 
   getLabelList() {
@@ -75,6 +78,8 @@ Object.defineProperty(LabelView.prototype, 'eventListeners', {
       this.enableCreateLabelButton(evt)
     })
     eventBind('#new-label-form')('keyup')(this.enableCreateLabelButton)
+    // clickEventBind('#label-create-button')(this.postLabel)
+    clickEventBind('#label-create-button')(this.postLabel)
   }
 })
 
@@ -87,19 +92,30 @@ LabelView.prototype.enableCreateLabelButton = function (evt) {
   const label = new Label(name, description, color)
   const button = $('#label-create-button')
   if (label.validate()) {
-    // button.disabled = false
+    button.disabled = false
     button.classList.remove('opacity-50')
   } else {
-    // button.disabled = true
+    button.disabled = true
     button.classList.add('opacity-50')
   }
 }
 
 // 버튼 클릭시 데이터 post 저장하는 이벤트 만들고 저장되면 다시 로딩이 아니라 ajax 만 처리
-// 새로고침 페이지 유지
-// 새로고침 등 데이터 로컬히스토리 저장
-LabelView.prototype.postLabel = function () {
+// TODO: Post 동작 시키기
+// TODO: application 에 base url 사용
+// TODO: NODE_ENV 활용할 수 있을까? 프로파일별로 만들어서?
+// TODO: 새로고침 페이지 유지
+// TODO: 새로고침 등 데이터 로컬히스토리 저장
+// TODO: 5초 지연에 따른 abort controller
+// TODO: 요청 실패에 따른 에러 핸들링
+LabelView.prototype.postLabel = function (evt) {
+  evt.preventDefault()
   if (newLabelIsHidden) return
   console.log("I'm post button!")
 }
 
+// MARK: Setup Mock
+const mock__NewLabelFormData = () => {
+  $('#label-name-input').value  = 'test 001'
+  $('#label-description-input').value = 'this is test number 1'
+}

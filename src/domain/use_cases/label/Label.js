@@ -1,8 +1,8 @@
 export default class Label {
-  constructor(name, color, description) {
+  constructor(name, description, color) {
     this.name = name;
-    this.color = color;
     this.description = description;
+    this.color = color;
   }
 
   static getRandomLabelColor() {
@@ -16,9 +16,9 @@ Object.defineProperty(Label.prototype, 'validate', {
     switch (true) {
       case this.name?.trim().length < 5:
         return false
-      case !colors.Label.includes(this.color?.trim()):
-        return false
       case this.description?.trim().length < 10:
+        return false
+      case !colors.Label.includes(this.color?.trim()):
         return false
       default:
         return true
