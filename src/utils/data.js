@@ -1,8 +1,19 @@
+import { saveLocalStorage } from '../db';
 import { pipe } from './fn';
 
-const request = async (url) => {
+const requestDefault = async (url) => {
   const res = await fetch(url);
   return res.json();
+};
+
+const requestLabels = async (url) => {
+  const labels = localStorage.getItem('labels');
+  return Boolean(labels) ? JSON.parse(labels) : requestDefault(url);
+};
+
+const request = async (url) => {
+  // TODO: IndexedDB 사용법 익힌 후 수정할 것
+  return url === '/labels' ? requestLabels(url) : requestDefault(url);
 };
 
 export const getData = async (url, ...mappers) => await pipe(request, ...mappers)(url);
@@ -36,6 +47,8 @@ export const postData = async ({
 
     if (res.ok) {
       onSuccess(res);
+      // TODO: IndexedDB 사용법 익힌 후 수정할 것
+      saveLocalStorage(bodyData);
       return;
     }
 
