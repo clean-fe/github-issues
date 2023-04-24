@@ -14,9 +14,22 @@ npm run dev
 ---
 
 # 1단계
-- [ ] MSW 설치
+- [X] MSW 설치
 - [ ] Label 을 MSW 를 이용해 기능 구현
 - [ ] 동일하게 Issue 화면 및 MSW 연동 기능 구현
+
+```shell
+# msw 설치 후 Browser Integration
+npx msw init public/ -S
+```
+
+### Issues
+
+- vite.config.js 파일에 publicDir 설정 해도 public 인식이 안 되서 제거함.
+- vite.config.js 제거하니 src 내 index.html 이 entry point 인식이 안 됨;;
+  node 서버는 express 를 이용해 app.js 를 강제로 entry point 로 잡아주었으나
+  프론트는 기본적으로 설정을 변경하지 않으면 root directory 에 존재하는 index.html 이
+  entry point 로 잡히는구나...
 
 # 2단계
 - [ ] Issue & Label 필터 기능 구현
@@ -55,6 +68,5 @@ npm run dev
 - [ ] await all 되나...?
     - let photos = await [firstPhoto, secondPhoto, thirdPhoto] 이런 느낌으로
     - const [result1, result2] = await Promise.all([func1(), func2()]) 이게 되나?
-- Actor 와 같은 동시성 코드에서 isolation 시키고 순차 접근을 할 수 있게
-  전역 Store 구현이 가능할까? Actor 와 같은 isolation 이 불가능 하면
-  많은 메모리 접근 충돌이 생길텐데??
+- [ ] Actor 와 같은 동시성 코드에서 isolation 시키고 순차 접근을 할 수 있게 전역 Store 구현이 가능할까? 
+      Actor 와 같은 isolation 이 불가능 하면 많은 메모리 접근 충돌이 생길텐데??
