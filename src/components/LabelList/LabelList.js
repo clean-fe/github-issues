@@ -1,5 +1,5 @@
-import { Component } from '../lib/Component.js';
-import { getLabelItemTpl } from '../tpl.js';
+import { Component } from '../../lib/Component.js';
+import { getLabelItemTpl } from '../../tpl.js';
 
 class LabelList extends Component {
   template() {

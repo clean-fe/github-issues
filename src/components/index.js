@@ -1,4 +1,4 @@
-export { default as LabelList } from './LabelList.js';
+export { default as LabelList } from './LabelList/LabelList.js';
 
 export { default as UpdateLabelsButton } from './UpdateLabelsButton.js';
 
