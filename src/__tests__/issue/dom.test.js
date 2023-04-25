@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, beforeAll } from 'vitest';
 import { $, fetcher, pipe } from '../../utils/index.js';
 import { filterStatus, mapIssue } from '../../issue/api.js';
 import { setInitialIssueTpl } from '../../issue/render.js';
@@ -9,7 +9,7 @@ const getAsyncDataPipe = pipe(fetcher, mapIssue);
 
 describe('초기 로딩시에 헤더 영역에 opens, closed 갯수를 올바르게 표시한다.', async () => {
   let list;
-  beforeEach(async () => {
+  beforeAll(async () => {
     list = await getAsyncDataPipe({ url: ISSUE_URL });
   });
   it('초기 로딩시에 데이터를 페칭한다..', () => {
@@ -42,20 +42,23 @@ describe('초기 로딩시에 헤더 영역에 opens, closed 갯수를 올바르
 
 describe('본문 영역에 issue 리스트를 표시한다.', () => {
   let openStatusList, closeStatusList;
-  beforeEach(async () => {
+  beforeAll(async () => {
     const list = await getAsyncDataPipe({ url: ISSUE_URL });
     const filterListByStatus = filterStatus(list);
     openStatusList = filterListByStatus('open');
     closeStatusList = filterListByStatus('close');
+    setInitialIssueTpl(openStatusList, closeStatusList);
+    addToggleCountEvents(openStatusList, closeStatusList);
   });
   it('본문 영역에 열려있는 리스트 li가 들어간다.', () => {
-    setInitialIssueTpl(openStatusList, closeStatusList);
-
     expect($('#issues').childElementCount).toEqual(3);
   });
 
-  // TODO 이벤트 발생시키기
   it('이벤트 등록 이후에는 closed 버튼을 누르면 closed 리스트가 보인다.', () => {
-    addToggleCountEvents(openStatusList, closeStatusList);
+    const event = new window.Event('click');
+    const closedCountBtn = document.querySelector('.close-count');
+    closedCountBtn.dispatchEvent(event);
+
+    expect($('#issues').childElementCount).toEqual(1);
   });
 });
