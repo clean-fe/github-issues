@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import { $, fetcher, pipe } from '../../utils/index.js';
 import { filterStatus, mapIssue } from '../../issue/api.js';
 import { setInitialIssueTpl } from '../../issue/render.js';
