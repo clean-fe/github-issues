@@ -1,15 +1,14 @@
-const getRequest = async (url) => {
+import { ApiError } from './errors';
+
+const get = async (url) => {
   try {
     const res = await fetch(url);
-    const data = res.json();
-    return data;
+    return res.json();
   } catch (err) {
-    alert('GET 요청 중 오류가 발생했습니다.');
+    throw new ApiError('GET 요청에서 에러가 발생했습니다.', err.status, err.message);
   }
 };
 
-const fetchLabels = async () => {
-  return await getRequest('/labels');
-};
+const post = async (url) => {};
 
-export { fetchLabels };
+export { get, post };
