@@ -1,5 +1,5 @@
-import { Component } from '../../lib/Component.js';
-import { $ } from '../../utils/dom.js';
+import { Component } from '../../../lib/Component.js';
+import { $ } from '../../../utils/dom.js';
 
 class ColorInput extends Component {
   setDOMs() {
