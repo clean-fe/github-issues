@@ -1,6 +1,6 @@
 import { $ } from './utils/dom.js';
 import { Component } from './lib/Component.js';
-import { fetchLabels } from './api/fetcher.js';
+import { fetchLabels } from './api/services/labels.js';
 import { getLabelTpl } from './tpl.js';
 
 import LabelList from './components/LabelList.js';
@@ -27,6 +27,7 @@ App.prototype.template = function () {
 
 App.prototype.setEvent = function () {
   $('.new-label-button').addEventListener('click', () => {
+    if (this.state.isFormEnabled) return;
     this.state.isFormEnabled = true;
   });
 };
@@ -48,18 +49,16 @@ App.prototype.handleCancelCreateLabel = function () {
 
 App.prototype.mounted = async function () {
   const { isFormEnabled, labels } = this.state;
-
-  if (isFormEnabled) {
-    import('./components').then(({ LabelForm }) => {
-      new LabelForm($('#form-wrapper'), {
-        onCreateLabel: this.handleCreateLabel.bind(this),
-        onCancelCreateLabel: this.handleCancelCreateLabel.bind(this),
-      });
-    });
-  }
-
   new LabelList($('.label-list'), {
     labels,
+  });
+
+  if (!isFormEnabled) return;
+  import('./components/LabelForm.js').then(({ default: LabelForm }) => {
+    new LabelForm($('#form-wrapper'), {
+      onCreateLabel: this.handleCreateLabel.bind(this),
+      onCancelCreateLabel: this.handleCancelCreateLabel.bind(this),
+    });
   });
 };
 
