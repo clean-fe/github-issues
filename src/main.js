@@ -54,7 +54,7 @@ App.prototype.mounted = async function () {
   });
 
   if (!isFormEnabled) return;
-  import('./components/LabelForm.js').then(({ default: LabelForm }) => {
+  import('./components/LabelForm/LabelForm.js').then(({ default: LabelForm }) => {
     new LabelForm($('#form-wrapper'), {
       onCreateLabel: this.handleCreateLabel.bind(this),
       onCancelCreateLabel: this.handleCancelCreateLabel.bind(this),

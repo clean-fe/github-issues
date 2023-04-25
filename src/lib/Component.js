@@ -30,7 +30,9 @@ export class Component {
 
   // 렌더링 담당
   render() {
-    this.$target.innerHTML = this.template();
+    if (this.$target) {
+      this.$target.innerHTML = this.template();
+    }
   }
 
   // 템플릿 담당
