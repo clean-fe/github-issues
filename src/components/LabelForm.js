@@ -2,6 +2,7 @@ import { Component } from '../lib/Component.js';
 import { getLabelForm } from '../tpl.js';
 import { getRandomColor } from '../utils/randomColor.js';
 import { $ } from '../utils/dom.js';
+import { postLabel } from '../api/services/labels.js';
 
 class LabelForm extends Component {
   initState() {
@@ -36,15 +37,13 @@ class LabelForm extends Component {
     this.$colorInput.value = colorString;
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault();
-
     const { name, description, color } = this.state;
-    this.props.onCreateLabel({
-      name,
-      description,
-      color,
-    });
+
+    const labels = await postLabel({ name, description, color });
+
+    this.props.onCreateLabel(labels);
   }
 
   setEvent() {

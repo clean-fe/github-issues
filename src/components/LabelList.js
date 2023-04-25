@@ -4,7 +4,8 @@ import { getLabelItemTpl } from '../tpl.js';
 class LabelList extends Component {
   template() {
     const { labels } = this.props;
-    return labels.map((label) => getLabelItemTpl(label)).join('');
+
+    return labels ? labels.map((label) => getLabelItemTpl(label)).join('') : '';
   }
 }
 

@@ -23,7 +23,7 @@ const post = async (url, body = {}, errorMessage = 'POST 요청에서 에러가 
         },
       });
     }
-    return res;
+    return res.json();
   } catch (e) {
     const { statusCode, details } = e.cause;
     throw new ApiError(e.message, statusCode, details);

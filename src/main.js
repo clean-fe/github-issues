@@ -21,7 +21,7 @@ App.prototype.constructor = App;
 
 App.prototype.template = function () {
   return getLabelTpl({
-    labelsLength: this.state.labels.length,
+    labelsLength: this.state.labels?.length || 0,
   });
 };
 
@@ -39,8 +39,8 @@ App.prototype.initState = async function () {
   };
 };
 
-App.prototype.handleCreateLabel = function ({ name, description, color }) {
-  this.state.labels = [...this.state.labels, { name, description, color }];
+App.prototype.handleCreateLabel = function (labels) {
+  this.state.labels = labels;
 };
 
 App.prototype.handleCancelCreateLabel = function () {

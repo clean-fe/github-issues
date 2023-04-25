@@ -1,3 +1,5 @@
+import { ApiError } from '../errors.js';
+
 const apiErrorHandler = async (api) => {
   try {
     return await api();
@@ -9,6 +11,7 @@ const apiErrorHandler = async (api) => {
     } else {
       console.error('알 수 없는 에러가 발생했습니다');
     }
+    return null;
   }
 };
 
