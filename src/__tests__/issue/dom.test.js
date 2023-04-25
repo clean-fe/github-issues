@@ -1,20 +1,23 @@
-import { describe, it, expect } from 'vitest';
-import { fetcher, pipe } from '../../utils/index.js';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { $, fetcher, pipe } from '../../utils/index.js';
 import { filterStatus, mapIssue } from '../../issue/api.js';
 import { setInitialIssueTpl } from '../../issue/render.js';
+import { addToggleCountEvents } from '../../issue/event.js';
 
-describe('초기 로딩시에 헤더 영역에 opens, closed 갯수를 올바르게 표시', () => {
-  const ISSUE_URL = 'http://localhost:3000/issues';
-  const getAsyncDataPipe = pipe(fetcher, mapIssue);
+const ISSUE_URL = 'http://localhost:3000/issues';
+const getAsyncDataPipe = pipe(fetcher, mapIssue);
 
-  it('초기 로딩시에 데이터를 페칭한다..', async () => {
-    const list = await getAsyncDataPipe({ url: ISSUE_URL });
+describe('초기 로딩시에 헤더 영역에 opens, closed 갯수를 올바르게 표시한다.', async () => {
+  let list;
+  beforeEach(async () => {
+    list = await getAsyncDataPipe({ url: ISSUE_URL });
+  });
+  it('초기 로딩시에 데이터를 페칭한다..', () => {
     expect(typeof list).toBe('object');
     expect(list).length(4);
   });
 
-  it('데이터를 필터링한다.', async () => {
-    const list = await getAsyncDataPipe({ url: ISSUE_URL });
+  it('데이터를 필터링한다.', () => {
     const filterListByStatus = filterStatus(list);
     expect(filterListByStatus('open')).length(3);
     expect(filterListByStatus('close')).length(1);
@@ -23,8 +26,7 @@ describe('초기 로딩시에 헤더 영역에 opens, closed 갯수를 올바르
     ).toEqual(list.length);
   });
 
-  it('필터링한 데이터의 개수를 표시한다.', async () => {
-    const list = await getAsyncDataPipe({ url: ISSUE_URL });
+  it('필터링한 데이터의 상태에 따른 개수를 표시한다.', () => {
     const filterListByStatus = filterStatus(list);
     const openStatusList = filterListByStatus('open');
     const closeStatusList = filterListByStatus('close');
@@ -35,5 +37,25 @@ describe('초기 로딩시에 헤더 영역에 opens, closed 갯수를 올바르
     expect(document.querySelector('.close-count').innerHTML).toEqual(
       '1 Closed',
     );
+  });
+});
+
+describe('본문 영역에 issue 리스트를 표시한다.', () => {
+  let openStatusList, closeStatusList;
+  beforeEach(async () => {
+    const list = await getAsyncDataPipe({ url: ISSUE_URL });
+    const filterListByStatus = filterStatus(list);
+    openStatusList = filterListByStatus('open');
+    closeStatusList = filterListByStatus('close');
+  });
+  it('본문 영역에 열려있는 리스트 li가 들어간다.', () => {
+    setInitialIssueTpl(openStatusList, closeStatusList);
+
+    expect($('#issues').childElementCount).toEqual(3);
+  });
+
+  // TODO 이벤트 발생시키기
+  it('이벤트 등록 이후에는 closed 버튼을 누르면 closed 리스트가 보인다.', () => {
+    addToggleCountEvents(openStatusList, closeStatusList);
   });
 });
