@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { $, fetcher, pipe } from '../../utils/index.js';
-import { filterStatus, mapIssue } from '../../issue/api.js';
-import { setInitialIssueTpl } from '../../issue/render.js';
-import { addToggleCountEvents } from '../../issue/event.js';
+import { $, fetcher, pipe } from '../utils/index.js';
+import { filterStatus, mapIssue } from '../issue/api.js';
+import { setInitialIssueTpl } from '../issue/render.js';
+import { addToggleCountEvents } from '../issue/event.js';
 
 const ISSUE_URL = 'http://localhost:3000/issues';
 const getAsyncDataPipe = pipe(fetcher, mapIssue);
@@ -33,10 +33,8 @@ describe('초기 로딩시에 헤더 영역에 opens, closed 갯수를 올바르
 
     setInitialIssueTpl(openStatusList, closeStatusList);
 
-    expect(document.querySelector('.open-count').innerHTML).toEqual('3 Opens');
-    expect(document.querySelector('.close-count').innerHTML).toEqual(
-      '1 Closed',
-    );
+    expect($('.open-count').innerHTML).toEqual('3 Opens');
+    expect($('.close-count').innerHTML).toEqual('1 Closed');
   });
 });
 
@@ -56,7 +54,7 @@ describe('본문 영역에 issue 리스트를 표시한다.', () => {
 
   it('이벤트 등록 이후에는 closed 버튼을 누르면 closed 리스트가 보인다.', () => {
     const event = new window.Event('click');
-    const closedCountBtn = document.querySelector('.close-count');
+    const closedCountBtn = $('.close-count');
     closedCountBtn.dispatchEvent(event);
 
     expect($('#issues').childElementCount).toEqual(1);
