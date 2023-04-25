@@ -40,5 +40,6 @@ https://www.notion.so/Javascript-OOP-fd9d46867a904eb1befc24a17c7f1b4b?pvs=4
 ### 리팩토링 테스트코드 작성
 
 - [x] LabelForm 컴포넌트를 세부 컴포넌트로 쪼개기
-- [ ] `get`, `post`를 하나의 함수로 합치기
+- [x] `get`, `post`를 하나의 함수로 합치기
+- [ ] `vitest` 환경 구성
 - [ ] 테스트코드 작성하기

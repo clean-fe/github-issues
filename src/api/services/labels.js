@@ -1,16 +1,22 @@
-import { get, post } from '../fetcher.js';
+import { request } from '../fetcher.js';
 import { apiErrorHandler } from './common.js';
 
 const fetchLabels = async () => {
-  return apiErrorHandler(() => get('/labels'));
+  return apiErrorHandler(() => request({ url: '/labels' }));
 };
 
 const postLabel = async ({ name, description, color }) => {
   return apiErrorHandler(() =>
-    post('/labels', {
-      name,
-      description,
-      color,
+    request({
+      url: '/labels',
+      options: {
+        method: 'POST',
+        body: JSON.stringify({
+          name,
+          description,
+          color,
+        }),
+      },
     })
   );
 };
@@ -25,9 +31,13 @@ const updateLabels = async () => {
   }
 
   abortController = new AbortController();
+
   return apiErrorHandler(() =>
-    get('/labels-delay', 'label 업데이트 중 에러 발생', {
-      signal: abortController.signal,
+    request({
+      url: '/labels-delay',
+      options: {
+        signal: abortController.signal,
+      },
     })
   );
 };
