@@ -1,19 +1,25 @@
 import { ApiError } from './errors';
 
-const get = async (url, errorMessage = 'GET 요청에서 에러가 발생했습니다.') => {
+const get = async (url, errorMessage = 'GET 요청에서 에러가 발생했습니다.', options = {}) => {
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { ...options });
     return res.json();
   } catch (err) {
     throw new ApiError(errorMessage, err.status, err.message);
   }
 };
 
-const post = async (url, body = {}, errorMessage = 'POST 요청에서 에러가 발생했습니다.') => {
+const post = async (
+  url,
+  body = {},
+  errorMessage = 'POST 요청에서 에러가 발생했습니다.',
+  options = {}
+) => {
   try {
     const res = await fetch(url, {
       method: 'POST',
       body: JSON.stringify(body),
+      ...options,
     });
     if (!res.ok) {
       throw new Error(errorMessage, {

@@ -1,7 +1,8 @@
 export { default as LabelList } from './LabelList.js';
 
-export { default as LabelForm } from './LabelForm/LabelForm.js';
+export { default as UpdateLabelsButton } from './UpdateLabelsButton.js';
 
+export { default as LabelForm } from './LabelForm/LabelForm.js';
 export { default as NameInput } from './LabelForm/items/NameInput.js';
 export { default as DescriptionInput } from './LabelForm/items/DescriptionInput.js';
 export { default as ColorInput } from './LabelForm/items/ColorInput.js';

@@ -3,7 +3,7 @@ import { Component } from './lib/Component.js';
 import { fetchLabels } from './api/services/labels.js';
 import { getLabelTpl } from './tpl.js';
 
-import LabelList from './components/LabelList.js';
+import { LabelList, UpdateLabelsButton } from './components/index.js';
 
 //msw worker
 import { worker } from './mocks/browser.js';
@@ -47,10 +47,18 @@ App.prototype.handleCancelCreateLabel = function () {
   this.state.isFormEnabled = false;
 };
 
+App.prototype.handleUpdateLabels = async function (labels) {
+  this.state.labels = labels;
+};
+
 App.prototype.mounted = async function () {
   const { isFormEnabled, labels } = this.state;
   new LabelList($('.label-list'), {
     labels,
+  });
+
+  new UpdateLabelsButton(null, {
+    onUpdateLabels: this.handleUpdateLabels.bind(this),
   });
 
   if (!isFormEnabled) return;
