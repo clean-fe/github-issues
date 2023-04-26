@@ -1,65 +1,55 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { Window } from 'happy-dom';
-
 import LabelList from './LabelList.js';
-import { labels } from '../../mocks/handlers.js';
+import { $ } from '../../utils/dom.js';
 
-describe('render 0 label', () => {
-  const window = new Window();
-  const document = window.document;
+describe('LabelList rendering test', () => {
+  it('with 0 label', () => {
+    new LabelList($('#container'), {
+      labels: [],
+    });
 
-  document.body.innerHTML = '<div class="container"></div>';
-
-  const container = document.querySelector('.container');
-
-  new LabelList(container, {
-    labels: [],
+    expect(document.querySelectorAll('.label-item')).length(0);
   });
 
-  it('render one label', () => {
-    const $labels = document.querySelectorAll('.label-item');
-    expect($labels.length).toBe(0);
-  });
-});
+  it('with 1 label', async () => {
+    new LabelList($('#container'), {
+      labels: [
+        {
+          name: 'bug',
+          color: 'bfdadc',
+          description: 'this is red',
+        },
+      ],
+    });
 
-describe('render 0 label', () => {
-  const window = new Window();
-  const document = window.document;
-
-  document.body.innerHTML = '<div class="container"></div>';
-
-  const container = document.querySelector('.container');
-
-  new LabelList(container, {
-    labels: [
-      {
-        name: 'bug',
-        color: 'bfdadc',
-        description: 'this is red',
-      },
-    ],
+    expect(document.querySelectorAll('.label-item')).length(1);
   });
 
-  it('render one label', () => {
-    const $labels = document.querySelectorAll('.label-item');
-    expect($labels.length).toBe(1);
-  });
-});
+  it('with 4 labels', async () => {
+    new LabelList($('#container'), {
+      labels: [
+        {
+          name: 'bug',
+          color: 'bfdadc',
+          description: 'this is red',
+        },
+        {
+          name: 'bug',
+          color: 'bfdadc',
+          description: 'this is red',
+        },
+        {
+          name: 'bug',
+          color: 'bfdadc',
+          description: 'this is red',
+        },
+        {
+          name: 'bug',
+          color: 'bfdadc',
+          description: 'this is red',
+        },
+      ],
+    });
 
-describe(`render ${labels.length} labels`, () => {
-  const window = new Window();
-  const document = window.document;
-
-  document.body.innerHTML = '<div class="container"></div>';
-
-  const container = document.querySelector('.container');
-
-  new LabelList(container, {
-    labels,
-  });
-
-  it('render multiple label', () => {
-    const $labels = document.querySelectorAll('.label-item');
-    expect($labels.length).toBe(labels.length);
+    expect(document.querySelectorAll('.label-item')).length(4);
   });
 });
