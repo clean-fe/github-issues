@@ -1,8 +1,6 @@
-import { $ } from '../utils';
 import { setIssueListTpl } from './render';
 
 const toggleCountBtn = ($focused, $unfocused) => {
-  // setListTpl($('#issues'));
   $focused.classList.add('font-bold');
   $unfocused.classList.remove('font-bold');
 };

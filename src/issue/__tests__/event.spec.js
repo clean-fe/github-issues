@@ -51,7 +51,6 @@ describe('issue/event', () => {
     `%s를 클릭하면, 해당 글자는 bold 처리 되고, %s 글자는 bold 처리가 풀린다`,
     (target, nonTarget, targetSelector, nonTargetSelector, list) => {
       // given
-
       const $target = document.querySelector(targetSelector);
       const $nonTarget = document.querySelector(nonTargetSelector);
 
