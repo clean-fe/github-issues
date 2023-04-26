@@ -1,7 +1,8 @@
 import { getData } from '../utils';
 import { mapIssue, filterStatus } from './select';
-import { addToggleCountEvents } from './event';
+import { addToggleCountEvent } from './event';
 import { setInitialIssueTpl } from './render';
+import { $ } from '../utils';
 
 const ISSUE_URL = '/data-sources/issues.json';
 
@@ -11,7 +12,17 @@ const setIssueOnDocument = async () => {
   const closeStatusList = filterStatus('close')(statusList);
 
   setInitialIssueTpl(openStatusList, closeStatusList);
-  addToggleCountEvents(openStatusList, closeStatusList);
+
+  [
+    [closeStatusList, '.close-count', '.open-count'],
+    [openStatusList, '.open-count', '.close-count'],
+  ].forEach(([list, target, nonTarget]) =>
+    addToggleCountEvent({
+      targetList: { list, selector: $('#issues') },
+      $target: $(target),
+      $nonTarget: $(nonTarget),
+    }),
+  );
 };
 
 export default setIssueOnDocument;

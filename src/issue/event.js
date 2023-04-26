@@ -1,25 +1,20 @@
 import { $ } from '../utils';
 import { setIssueListTpl } from './render';
 
-const toggleCountBtn = (setListTpl, $focused, $unfocused) => {
-  setListTpl($('#issues'));
-  $focused.style.fontWeight = 'bold';
-  $unfocused.style.fontWeight = 'normal';
+const toggleCountBtn = ($focused, $unfocused) => {
+  // setListTpl($('#issues'));
+  $focused.classList.add('font-bold');
+  $unfocused.classList.remove('font-bold');
 };
 
-const addToggleCountEvent = ({ setListTpl, $target, $nonTarget }) => {
-  $target.addEventListener('click', () => toggleCountBtn(setListTpl, $target, $nonTarget));
+export const addToggleCountEvent = ({ targetList: { list, selector }, $target, $nonTarget }) => {
+  $target.addEventListener('click', () => {
+    toggleCountBtn($target, $nonTarget);
+    setUpIssue(list, selector);
+  });
 };
 
-export const addToggleCountEvents = (openStatusList, closeStatusList) => {
-  addToggleCountEvent({
-    setListTpl: setIssueListTpl(closeStatusList),
-    $target: $('.close-count'),
-    $nonTarget: $('.open-count'),
-  });
-  addToggleCountEvent({
-    setListTpl: setIssueListTpl(openStatusList),
-    $target: $('.open-count'),
-    $nonTarget: $('.close-count'),
-  });
+const setUpIssue = (list, selector) => {
+  const setListTpl = setIssueListTpl(list);
+  setListTpl(selector);
 };
