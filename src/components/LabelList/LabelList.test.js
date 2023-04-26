@@ -1,55 +1,51 @@
 import LabelList from './LabelList.js';
-import { $ } from '../../utils/dom.js';
+import { pipe } from '../../function/utils.js';
+import { $, $all } from '../../utils/dom.js';
+
+const mockLabels = [
+  {
+    name: 'bug',
+    color: 'bfdadc',
+    description: 'this is red',
+  },
+  {
+    name: 'bug',
+    color: 'bfdadc',
+    description: 'this is red',
+  },
+  {
+    name: 'bug',
+    color: 'bfdadc',
+    description: 'this is red',
+  },
+  {
+    name: 'bug',
+    color: 'bfdadc',
+    description: 'this is red',
+  },
+];
+
+function renderLabelList(labels) {
+  new LabelList($('#container'), {
+    labels,
+  });
+  return labels.length;
+}
+
+function checkItemLength(answer) {
+  return expect($all('.label-item')).length(answer);
+}
 
 describe('LabelList rendering test', () => {
   it('with 0 label', () => {
-    new LabelList($('#container'), {
-      labels: [],
-    });
-
-    expect(document.querySelectorAll('.label-item')).length(0);
+    pipe(renderLabelList, checkItemLength)([]);
   });
 
-  it('with 1 label', async () => {
-    new LabelList($('#container'), {
-      labels: [
-        {
-          name: 'bug',
-          color: 'bfdadc',
-          description: 'this is red',
-        },
-      ],
-    });
-
-    expect(document.querySelectorAll('.label-item')).length(1);
+  it('with 1 label', () => {
+    pipe(renderLabelList, checkItemLength)(mockLabels.slice(0, 1));
   });
 
-  it('with 4 labels', async () => {
-    new LabelList($('#container'), {
-      labels: [
-        {
-          name: 'bug',
-          color: 'bfdadc',
-          description: 'this is red',
-        },
-        {
-          name: 'bug',
-          color: 'bfdadc',
-          description: 'this is red',
-        },
-        {
-          name: 'bug',
-          color: 'bfdadc',
-          description: 'this is red',
-        },
-        {
-          name: 'bug',
-          color: 'bfdadc',
-          description: 'this is red',
-        },
-      ],
-    });
-
-    expect(document.querySelectorAll('.label-item')).length(4);
+  it('with 4 labels', () => {
+    pipe(renderLabelList, checkItemLength)(mockLabels);
   });
 });
