@@ -1,4 +1,4 @@
-const MOCK_ISSUE_LIST = [
+const FIXTURE_ISSUE_LIST = [
   {
     title: 'new issue',
     _id: 123,
@@ -82,6 +82,8 @@ const MOCK_ISSUE_LIST = [
   },
 ];
 
-export const MOCK_OPEN_STATUS_LIST = MOCK_ISSUE_LIST.filter((item) => item.status === 'open');
+export const FIXTURE_OPEN_STATUS_LIST = FIXTURE_ISSUE_LIST.filter((item) => item.status === 'open');
 
-export const MOCK_CLOSE_STATUS_LIST = MOCK_ISSUE_LIST.filter((item) => item.status === 'close');
+export const FIXTURE_CLOSE_STATUS_LIST = FIXTURE_ISSUE_LIST.filter(
+  (item) => item.status === 'close',
+);
