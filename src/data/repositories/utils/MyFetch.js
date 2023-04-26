@@ -9,7 +9,7 @@ const createOptions = method => (body = null) => {
     referrerPolicy: 'no-referrer'
   }
   if (body) {
-    Object.assign(options, {body: body})
+    Object.assign(options, {body: JSON.stringify(body)})
   }
   return options
 }

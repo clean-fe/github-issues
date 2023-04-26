@@ -1,9 +1,10 @@
 const endPoints = Object.freeze({
   Issue: {
-    Get: '/issues'
+    GET: '/issues'
   },
   Label: {
-    Get: '/labels'
+    GET: '/labels',
+    POST: '/labels'
   }
 })
 
