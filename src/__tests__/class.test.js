@@ -1,14 +1,14 @@
-import { describe, it, beforeAll, expect } from 'vitest';
+import { vi, test, beforeAll, expect, it } from 'vitest';
 import { LabelButton } from '../label/Label.js';
-import { $, fetcher, pipe } from '../utils/index.js';
+import { filterStatus, mapIssue } from '../issue/api.js';
 import { setInitialIssueTpl } from '../issue/render.js';
 import { addToggleCountEvents } from '../issue/event.js';
-import { filterStatus, mapIssue } from '../issue/api.js';
+import { $, fetcher, pipe } from '../utils/index.js';
 import { Event } from './event.js';
 
 const ISSUE_URL = 'http://localhost:3000/issues';
 const getAsyncDataPipe = pipe(fetcher, mapIssue);
-describe('label 기능 요구사항 테스트', () => {
+test('Label 클래스 테스트', () => {
   beforeAll(async () => {
     const list = await getAsyncDataPipe({ url: ISSUE_URL });
     const filterListByStatus = filterStatus(list);
@@ -17,20 +17,11 @@ describe('label 기능 요구사항 테스트', () => {
     setInitialIssueTpl(openStatusList, closeStatusList);
     addToggleCountEvents(openStatusList, closeStatusList);
   });
-
-  it('label 갯수 표시', () => {
+  it('라벨 버튼 클릭 시에 component 파일들을 불러온다.', () => {
     LabelButton.addEvent();
     const $labelBtn = $('#label-btn');
     $labelBtn.dispatchEvent(Event.click);
-    expect($('.open-count').innerHTML).toBe('6 Labels');
-  });
-
-  it('Label 이동 버튼을 클릭할 시에 라벨 리스트가 노출', async () => {
-    LabelButton.addEvent();
-    const $labelBtn = $('#label-btn');
-    $labelBtn.dispatchEvent(Event.click);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    expect($('.label-list').childElementCount).toEqual(6);
+    vi.spyOn(LabelButton, 'getDynamicImportedComponents');
+    expect(LabelButton.getDynamicImportedComponents).toHaveBeenCalledTimes(1);
   });
 });

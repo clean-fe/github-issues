@@ -6,4 +6,4 @@ worker.start();
 
 setIssueOnDocument();
 
-new LabelButton().addEvent();
+LabelButton.addEvent();
