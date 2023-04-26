@@ -1,24 +1,15 @@
-import { describe, it, expect } from 'vitest';
-import { getIssueTpl } from '../../tpl';
+import { describe, it, expect, beforeAll } from 'vitest';
 import { addToggleCountEvent } from '../event';
 import { MOCK_CLOSE_STATUS_LIST, MOCK_OPEN_STATUS_LIST } from './issue.fixture';
-import { JSDOM } from 'jsdom';
+import { getIssueTpl } from '../../tpl';
 
 describe('issue/event', () => {
-  const html = `
-    <!DOCTYPE html>
-    <html>
-      <body>
-        <div id="app">${getIssueTpl({
-          openCount: MOCK_OPEN_STATUS_LIST.length,
-          closeCount: MOCK_CLOSE_STATUS_LIST.length,
-        })}</div>
-      </body>
-    </html>  
-`;
-
-  const { window } = new JSDOM(html);
-  const { document } = window;
+  beforeAll(() => {
+    document.querySelector('#app').innerHTML = getIssueTpl({
+      openCount: MOCK_OPEN_STATUS_LIST.length,
+      closeCount: MOCK_CLOSE_STATUS_LIST.length,
+    });
+  });
 
   it.each([
     ['closed', '.close-count', '.open-count', MOCK_CLOSE_STATUS_LIST],
