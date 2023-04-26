@@ -6,6 +6,16 @@ import { $ } from '../utils';
 
 const ISSUE_URL = '/data-sources/issues.json';
 
+const addToggleEventForFilteredIssueState = (...toggledTargetProperty) => {
+  toggledTargetProperty.forEach(({ target, nonTarget, list }) => {
+    addToggleCountEvent({
+      targetList: { list, selector: $('#issues') },
+      $target: $(target),
+      $nonTarget: $(nonTarget),
+    });
+  });
+};
+
 const setIssueOnDocument = async () => {
   const statusList = await getData(ISSUE_URL, mapIssue);
   const openStatusList = filterStatus('open')(statusList);
@@ -13,15 +23,9 @@ const setIssueOnDocument = async () => {
 
   setInitialIssueTpl(openStatusList, closeStatusList);
 
-  [
-    [closeStatusList, '.close-count', '.open-count'],
-    [openStatusList, '.open-count', '.close-count'],
-  ].forEach(([list, target, nonTarget]) =>
-    addToggleCountEvent({
-      targetList: { list, selector: $('#issues') },
-      $target: $(target),
-      $nonTarget: $(nonTarget),
-    }),
+  addToggleEventForFilteredIssueState(
+    { target: '.open-count', nonTarget: '.close-count', list: openStatusList },
+    { target: '.close-count', nonTarget: '.open-count', list: closeStatusList },
   );
 };
 
