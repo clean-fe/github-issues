@@ -32,7 +32,7 @@ describe('issue/event', () => {
       $target.dispatchEvent(new window.MouseEvent('click'));
 
       // then
-      expect($issues.querySelectorAll('li').length).toEqual(list.length);
+      expect($issues.querySelectorAll('li').length).toStrictEqual(list.length);
     },
   );
   it.each([
@@ -55,7 +55,7 @@ describe('issue/event', () => {
       $target.dispatchEvent(new window.MouseEvent('click'));
 
       // then
-      expect($target.classList.contains('font-bold')).toEqual(true);
+      expect($target.classList.contains('font-bold')).toStrictEqual(true);
     },
   );
 });
