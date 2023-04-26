@@ -24,4 +24,13 @@ describe('label 기능 요구사항 테스트', () => {
     $labelBtn.dispatchEvent(Event.click);
     expect($('.open-count').innerHTML).toBe('6 Labels');
   });
+
+  it('Label 이동 버튼을 클릭할 시에 라벨 리스트가 노출', async () => {
+    new LabelButton().addEvent();
+    const $labelBtn = $('#label-btn');
+    $labelBtn.dispatchEvent(Event.click);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    expect($('.label-list').childElementCount).toEqual(6);
+  });
 });
