@@ -2,7 +2,7 @@ import View from "../../common/View";
 import LabelViewModel from "../view_model/LabelViewModel";
 import {getLabelTpl, getLabelItemTpl} from "../../../utils/tpl";  // View 렌더링 템플릿
 import {$, renderWithTemplate} from "../../../utils/Render";
-import {clickEventBind} from "../../../utils/EventBinding";
+import {clickEventBind, eventBind} from "../../../utils/EventBinding";
 import Label from "../../../../domain/use_cases/label/Label.js";
 
 const ObserverList = Object.freeze({
@@ -10,7 +10,10 @@ const ObserverList = Object.freeze({
   updateLabelStatus: 'updateLabelStatus'
 })
 
+let newLabelIsHidden = true
+
 export default class LabelView extends View {
+
   constructor() {
     // MARK: init
     super('label initializer')
@@ -23,9 +26,7 @@ export default class LabelView extends View {
     this.getLabelList()
 
     // MARK: Event Action Binding
-    this.bindNewLabelButton()
-    this.bindCancelNewLabelForm()
-    this.randomLabelColor()
+    this.eventListeners()
   }
 
   getLabelList() {
@@ -35,11 +36,13 @@ export default class LabelView extends View {
   // Object.defineProperty 에서는 super 호출이 불가능하다.
   openNewLabelForm() {
     super.toggleClassOff('#new-label-form', 'hidden')
+    newLabelIsHidden = false
   }
 
-  closeNewLabelForm() {
+  cancelNewLabelForm() {
     super.toggleClassOn('#new-label-form', 'hidden')
     $('#new-label-form').reset()
+    newLabelIsHidden = true
   }
 
 }
@@ -61,26 +64,42 @@ Object.defineProperty(LabelView.prototype, 'labelStatusTab', {
 
 // MARK: Event Action
 
-Object.defineProperty(LabelView.prototype, 'bindNewLabelButton', {
+Object.defineProperty(LabelView.prototype, 'eventListeners', {
   value: function () {
-    return clickEventBind('#new-label-button')(this.openNewLabelForm)
-  }
-})
-
-Object.defineProperty(LabelView.prototype, 'bindCancelNewLabelForm', {
-  value: function () {
-    return clickEventBind('#label-cancel-button')(this.closeNewLabelForm)
-  }
-})
-
-Object.defineProperty(LabelView.prototype, 'randomLabelColor', {
-  value: function () {
-    clickEventBind('#new-label-color')(() => {
+    clickEventBind('#new-label-button')(this.openNewLabelForm)
+    clickEventBind('#label-cancel-button')(this.cancelNewLabelForm)
+    clickEventBind('#new-label-color')((evt) => {
       const color = Label.getRandomLabelColor()
       $('#label-color-value').value = color
       $('#label-preview').style.backgroundColor = color
+      this.enableCreateLabelButton(evt)
     })
+    eventBind('#new-label-form')('keyup')(this.enableCreateLabelButton)
   }
 })
 
+LabelView.prototype.enableCreateLabelButton = function (evt) {
+  if (newLabelIsHidden) return
+  const name = $('#label-name-input').value
+  const description = $('#label-description-input').value
+  const color = $('#label-color-value').value
+
+  const label = new Label(name, description, color)
+  const button = $('#label-create-button')
+  if (label.validate()) {
+    // button.disabled = false
+    button.classList.remove('opacity-50')
+  } else {
+    // button.disabled = true
+    button.classList.add('opacity-50')
+  }
+}
+
+// 버튼 클릭시 데이터 post 저장하는 이벤트 만들고 저장되면 다시 로딩이 아니라 ajax 만 처리
+// 새로고침 페이지 유지
+// 새로고침 등 데이터 로컬히스토리 저장
+LabelView.prototype.postLabel = function () {
+  if (newLabelIsHidden) return
+  console.log("I'm post button!")
+}
 

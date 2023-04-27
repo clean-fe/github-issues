@@ -1,7 +1,8 @@
 import {getIssue} from "./APIs/Issue";
-import {getLabel} from "./APIs/Label";
+import {getLabel, postLabel} from "./APIs/Label";
 
 export {
   getIssue,
-  getLabel
+  getLabel,
+  postLabel
 }

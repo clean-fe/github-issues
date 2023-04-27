@@ -5,10 +5,6 @@ export default class IssueModel {
     this.delegate = delegate
   }
 
-  /*fetchGetIssue() {
-    return getIssue()
-  }*/
-
   async fetchGetIssue(keys) {
     const response = await getIssue()
     this.delegate.modelCallbackHandler([...keys], response)

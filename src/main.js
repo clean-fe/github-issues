@@ -1,5 +1,10 @@
-import $App from "./application/AppConfigurations";
-import {router} from "./presentation/utils/Router";
-import {attachNavigationEvent} from "./presentation/utils/EventBinding";
+import $App from "./application/AppConfigurations.js";
+import {worker} from "./__mock_data__/browser.js";
+import {router} from "./presentation/utils/Router.js";
+import {attachNavigationEvent} from "./presentation/utils/EventBinding.js";
 
-await router('/label')
+const _ = worker.start()
+await router('/')
+// await router('/label')
+
+
