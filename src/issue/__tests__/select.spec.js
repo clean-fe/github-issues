@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { filterStatus, mapIssue } from '../select';
+import { filterStatus, getIssuesFilteredByField } from '../select';
 import { FIXTURE_ISSUE_LIST } from './issue.fixture';
 
 describe('issue/select', () => {
@@ -18,19 +18,15 @@ describe('issue/select', () => {
   it('issue 목록을 받아서, title, tags, _id, status, openDate, milestones 만 반환한다', () => {
     // given
     const list = [...FIXTURE_ISSUE_LIST];
+    const fields = ['title', 'tags', '_id', 'status', 'openDate', 'milestones'];
 
     // when
-    const expectedList = mapIssue(list);
+    const expectedList = getIssuesFilteredByField(list);
 
     // then
     const sut = expectedList.every((item) => {
       const keys = Object.keys(item);
-      return (
-        keys.length === 6 &&
-        keys.every((key) =>
-          ['title', 'tags', '_id', 'status', 'openDate', 'milestones'].includes(key),
-        )
-      );
+      return keys.length === fields.length && keys.every((key) => fields.includes(key));
     });
     expect(sut).toBe(true);
   });
