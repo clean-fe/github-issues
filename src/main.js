@@ -4,7 +4,5 @@ import {router} from "./presentation/utils/Router.js";
 import {attachNavigationEvent} from "./presentation/utils/EventBinding.js";
 
 const _ = worker.start()
-await router('/')
-// await router('/label')
-
-
+// await router('/')
+await router('/label')

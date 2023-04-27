@@ -6,7 +6,7 @@ export default class IssueModel {
   }
 
   async fetchGetIssue(keys) {
-    const response = await getIssue()
+    const response = await getIssue
     this.delegate.modelCallbackHandler([...keys], response)
   }
 

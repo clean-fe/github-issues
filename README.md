@@ -15,8 +15,8 @@ npm run dev
 
 # 1단계
 - [X] MSW 설치
-- [ ] Label 을 MSW 를 이용해 기능 구현
-- [ ] 동일하게 Issue 화면 및 MSW 연동 기능 구현
+- [X] Label 을 MSW 를 이용해 기능 구현
+- [X] 동일하게 Issue 화면 및 MSW 연동 기능 구현
 
 ```shell
 # msw 설치 후 Browser Integration
@@ -32,6 +32,15 @@ npx msw init public/ -S
   entry point 로 잡히는구나...
 
 # 2단계
+- [ ] 에러 처리 1 - Labels POST 간헐적 500 응답이 온다. console.error 및 사용자에게 적절히 알리기.
+- [ ] 에러 처리 2 - 에러 타입을 사전에 정의한 Enum~Case 와 같은 것을 가정해 구현 처리.
+- [ ] 에러 처리 3 - 비동기에 대한 에러 처리
+    - escaping closure 개념으로 접근이 가능할까?
+    - 자바스크립트 함수가 throw 를 명시하고 주변 코드 또는 호출한 코드로 에러를 전파해 처리가 가능할까?
+    - 에러를 주변부로, 상위로 전파가 가능하다면 상위에 Wrapper 를 감싸거나 Interceptor 와 같은 것들을 사용해
+      에러 처리가 가능할까?
+    - async, await 을 사용하면 다 해결이 될까?
+- [ ] 새고로침 페이지 유지(아마도 Global Store 구현을 통해?)
 - [ ] Issue & Label 필터 기능 구현
 - [ ] 검색 기능에 디바운싱 적용
 - [ ] 검색 기능에 캐싱 적용(동일 데이터일 경우 렌더링 하지 않도록)
@@ -43,15 +52,7 @@ npx msw init public/ -S
 
 # 4단계
 - [ ] 기존 코드 리팩터링 및 테스트 코드 작성.
-- [ ] 에러 처리를 TDD 방식으로 개발하기.
-- [ ] 에러 처리 1 - Labels POST 간헐적 500 응답이 온다. console.error 및 사용자에게 적절히 알리기.
-- [ ] 에러 처리 2 - 에러 타입을 사전에 정의한 Enum~Case 와 같은 것을 가정해 구현 처리.
-- [ ] 에러 처리 3 - 비동기에 대한 에러 처리
-  - escaping closure 개념으로 접근이 가능할까?
-  - 자바스크립트 함수가 throw 를 명시하고 주변 코드 또는 호출한 코드로 에러를 전파해 처리가 가능할까?
-  - 에러를 주변부로, 상위로 전파가 가능하다면 상위에 Wrapper 를 감싸거나 Interceptor 와 같은 것들을 사용해 
-    에러 처리가 가능할까?
-  - async, await 을 사용하면 다 해결이 될까?
+- [ ] 변경 사항 또는 무언가 무언가... TDD 방식으로 개발하기.
 
 # 5단계
 - [ ] TypeScript 전환
