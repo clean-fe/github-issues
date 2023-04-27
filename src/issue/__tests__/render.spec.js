@@ -23,7 +23,7 @@ describe('issue/render', () => {
     expect(sut).toStrictEqual(list.length);
   });
 
-  it('페이지가 처음 열리면, open 상태의 issue 목록이 노출된다', () => {
+  it('issue 화면이 처음 열리면, open 상태의 issue 목록이 노출된다', () => {
     // given
     const $issues = document.querySelector('#issues');
 
