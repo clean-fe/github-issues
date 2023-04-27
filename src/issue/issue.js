@@ -3,8 +3,7 @@ import { mapIssue, filterStatus } from './select';
 import { addToggleCountEvent } from './event';
 import { setInitialIssueTpl } from './render';
 import { $ } from '../utils';
-
-const ISSUE_URL = '/data-sources/issues.json';
+import { API_URL } from '../constants';
 
 const addToggleEventForFilteredIssueState = (...toggledTargetProperty) => {
   toggledTargetProperty.forEach(({ target, nonTarget, list }) => {
@@ -17,7 +16,7 @@ const addToggleEventForFilteredIssueState = (...toggledTargetProperty) => {
 };
 
 const setIssueOnDocument = async () => {
-  const statusList = await getData(ISSUE_URL, mapIssue);
+  const statusList = await getData(API_URL.ISSUE, mapIssue);
   const openStatusList = filterStatus('open')(statusList);
   const closeStatusList = filterStatus('close')(statusList);
 
