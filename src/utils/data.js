@@ -1,8 +1,28 @@
+import fetch from 'cross-fetch';
+import { getLocalStorage, saveLocalStorage } from '../db';
 import { pipe } from './fn';
 
-const request = async (url) => {
-  const res = await fetch(url);
-  return res.json();
+const requestDefault = async (url) => {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw Error('서버에서 데이터를 가져오는데 실패했습니다.');
+    }
+    return res.json();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const requestLabels = async (url) => {
+  const labels = getLocalStorage('labels');
+  return labels ?? (await requestDefault(url));
+};
+
+const request = (url) => {
+  // TODO: IndexedDB 사용법 익힌 후 수정할 것
+  const result = url === '/labels' ? requestLabels(url) : requestDefault(url);
+  return result;
 };
 
 export const getData = async (url, ...mappers) => await pipe(request, ...mappers)(url);
@@ -36,6 +56,8 @@ export const postData = async ({
 
     if (res.ok) {
       onSuccess(res);
+      // TODO: IndexedDB 사용법 익힌 후 수정할 것
+      saveLocalStorage('labels', bodyData);
       return;
     }
 

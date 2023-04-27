@@ -7,7 +7,7 @@ const assignWith = (state) => {
 };
 
 const Store = () => {
-  const store = {};
+  let store = {};
 
   /**
    * @param {string} key
@@ -38,12 +38,16 @@ const Store = () => {
       store[key] = { ...store[key], state: newState };
       notify(newState);
     };
+    const reset = () => {
+      store = {};
+    };
 
     return {
       getState,
       setState,
       subscribe,
       unsubscribe,
+      reset,
     };
   };
 };

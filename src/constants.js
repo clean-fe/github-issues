@@ -4,10 +4,12 @@ export const ROUTER_PATH = {
   ROOT: '/',
 };
 
+const BASE_URL = 'http://localhost';
+
 export const API_URL = {
-  ISSUE: '/data-sources/issues.json',
-  LABEL: '/labels',
-  LABEL_DELAY: '/labels-delay',
+  ISSUE: BASE_URL + '/issues',
+  LABEL: BASE_URL + '/labels',
+  LABEL_DELAY: BASE_URL + '/labels-delay',
 };
 
 export const STORE_KEY = {
