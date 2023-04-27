@@ -1,7 +1,10 @@
 import { JSDOM } from 'jsdom';
-import { beforeAll } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, vi } from 'vitest';
+import { server } from './__mock_data__/server';
 
 beforeAll(() => {
+  server.listen();
+
   const html = `
     <!DOCTYPE html>
     <html>
@@ -11,9 +14,18 @@ beforeAll(() => {
     </html>  
     `;
 
-  const { window } = new JSDOM(html);
+  const { window } = new JSDOM(html, { url: 'http://localhost' });
   const { document } = window;
 
   global.document = document;
   global.window = window;
+  global.localStorage = window.localStorage;
+});
+
+afterEach(() => {
+  server.resetHandlers();
+});
+
+afterAll(() => {
+  server.close();
 });

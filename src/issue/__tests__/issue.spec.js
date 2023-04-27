@@ -1,15 +1,12 @@
-import { describe, it, vi } from 'vitest';
-import createFetchMock from 'vitest-fetch-mock';
+import { describe, it } from 'vitest';
+import { HANDLER_ISSUES } from '../../__mock_data__/handlers';
+import { server } from '../../__mock_data__/server';
 import setIssueOnDocument from '../issue';
-import { FIXTURE_ISSUE_LIST } from './issue.fixture';
-
-const fetchMocker = createFetchMock(vi);
 
 describe('issue/issue', () => {
-  fetchMocker.enableMocks();
   it('issue 화면이 노출된다', async () => {
     // given
-    fetch.mockResponseOnce(JSON.stringify([...FIXTURE_ISSUE_LIST]));
+    server.use(HANDLER_ISSUES.getSuccess);
 
     // when
     await setIssueOnDocument();
