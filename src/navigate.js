@@ -10,7 +10,7 @@ const router = () => {
   switch (pathname) {
     case ROUTER_PATH.LABEL:
       Promise.all([import('./label/views/Label'), import('./label/store')]).then(
-        ([{ default: Label }, { default: Store }]) => new Label(Store),
+        ([{ default: Label }, { default: Store }]) => Label(Store).render(),
       );
       break;
     case ROUTER_PATH.ISSUE:
