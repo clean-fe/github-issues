@@ -1,5 +1,5 @@
 import { TimeoutError } from '../Error/TimeoutError.js';
-
+import fetch from 'cross-fetch';
 export const fetcher = async ({
   url,
   method = 'GET',

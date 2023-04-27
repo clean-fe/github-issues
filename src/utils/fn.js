@@ -5,4 +5,5 @@ export const pipe =
       return acc instanceof Promise ? acc.then(fn) : fn(acc);
     }, initialValue);
 
-export const go = (a, ...fns) => fns.reduce((acc, fn) => fn(acc), a);
+export const go = (a, ...fns) =>
+  fns.reduce((acc, fn) => (acc instanceof Promise ? acc.then(fn) : fn(acc)), a);

@@ -9,11 +9,11 @@ const setIssueOnDocument = async () => {
   const getAsyncDataPipe = pipe(fetcher, mapIssue);
 
   const list = await getAsyncDataPipe({ url: ISSUE_URL });
-  const getSelectedIssue = (status) => filterStatus(status)(list);
+  const filterListByStatus = filterStatus(list);
 
-  const openStatusList = getSelectedIssue('open');
+  const openStatusList = filterListByStatus('open');
 
-  const closeStatusList = getSelectedIssue('close');
+  const closeStatusList = filterListByStatus('close');
 
   $('#issue-btn').addEventListener('click', () => {
     setInitialIssueTpl(openStatusList, closeStatusList);
