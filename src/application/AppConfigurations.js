@@ -1,9 +1,13 @@
+import Toast from "./Toast"
+
 class $AppConfigurations {
   constructor() {
     this.apiBaseURL = ''
 
     // MARK: Auto Extend Globally
     extendArray()
+
+    this.Toast = Toast
   }
 }
 
