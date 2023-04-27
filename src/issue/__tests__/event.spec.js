@@ -45,9 +45,10 @@ describe('issue/event', () => {
       // given
       const $target = document.querySelector(targetSelector);
       const $nonTarget = document.querySelector(nonTargetSelector);
+      const $issues = document.querySelector('#issues');
 
       addToggleCountEvent({
-        targetList: list,
+        targetList: { list, selector: $issues },
         $target,
         $nonTarget,
       });
