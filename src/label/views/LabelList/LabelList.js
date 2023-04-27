@@ -7,7 +7,6 @@ const LabelList = (Store) => {
     const labelListStore = Store(STORE_KEY.LABEL_LIST);
     labelListStore.setState(await getData(API_URL.LABEL));
     labelListStore.subscribe(render);
-    render();
   };
 
   const render = async () => {
@@ -17,9 +16,7 @@ const LabelList = (Store) => {
     $labelList.innerHTML = labelList.reduce((acc, labelItem) => (acc += LabelItem(labelItem)), '');
   };
 
-  return {
-    render,
-  };
+  return { render };
 };
 
 export default LabelList;
