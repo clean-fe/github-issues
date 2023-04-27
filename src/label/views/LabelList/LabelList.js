@@ -2,27 +2,24 @@ import { $, getData } from '../../../utils';
 import LabelItem from './LabelItem';
 import { API_URL, STORE_KEY } from '../../../constants';
 
-class LabelList {
-  #store;
-  #STATE_KEY = STORE_KEY.LABEL_LIST;
-
-  constructor(Store) {
-    this.#store = Store;
-    this.#init();
-  }
-
-  async #init() {
-    const labelListStore = this.#store(this.#STATE_KEY);
+const LabelList = (Store) => {
+  const init = async () => {
+    const labelListStore = Store(STORE_KEY.LABEL_LIST);
     labelListStore.setState(await getData(API_URL.LABEL));
-    labelListStore.subscribe(this.#render.bind(this));
-    this.#render();
-  }
+    labelListStore.subscribe(render);
+    render();
+  };
 
-  #render() {
+  const render = async () => {
+    await init();
     const $labelList = $('.label-list');
-    const labelList = this.#store(this.#STATE_KEY).getState() ?? [];
+    const labelList = Store(STORE_KEY.LABEL_LIST).getState() ?? [];
     $labelList.innerHTML = labelList.reduce((acc, labelItem) => (acc += LabelItem(labelItem)), '');
-  }
-}
+  };
+
+  return {
+    render,
+  };
+};
 
 export default LabelList;

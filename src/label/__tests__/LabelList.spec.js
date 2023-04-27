@@ -10,13 +10,12 @@ describe('label/views/LabelList', () => {
     document.querySelector('#app').innerHTML = getLabelTpl();
   });
 
-  // NOTE: 거짓 양성 혹은 document가 제대로 반영되지 않는 문제
-  it('LabelList는 label 목록을 응답받고, 각 label 항목을 li 태그에 매핑하여 .label-list 엘리먼트의 하위에 노출시킨다', () => {
+  it('label 목록을 응답받고, 각 항목을 li 태그에 매핑하여 .label-list 엘리먼트의 하위에 노출시킨다', async () => {
     // given
     server.use(HANDLER_LABELS.getSuccess);
 
     // when
-    new LabelList(Store);
+    await LabelList(Store).render();
 
     // then
     const $labelList = document.querySelector('.label-list');

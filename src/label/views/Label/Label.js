@@ -28,7 +28,7 @@ class Label {
   #render() {
     $('#app').innerHTML = getLabelTpl();
 
-    new LabelList(this.#store);
+    LabelList(this.#store).render();
     new LabelCreator(this.#store).render();
   }
 }
