@@ -35,7 +35,7 @@ export const handlers = [
   }),
 ];
 
-const issues = [
+export const issues = [
   {
     title: 'new issue',
     _id: 123,
@@ -119,7 +119,7 @@ const issues = [
   },
 ];
 
-const labels = [
+export const labels = [
   {
     name: 'bug',
     color: 'bfdadc',

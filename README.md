@@ -26,3 +26,20 @@ npm run dev
 ### 학습 내용 정리 자료
 
 https://www.notion.so/Javascript-OOP-fd9d46867a904eb1befc24a17c7f1b4b?pvs=4
+
+
+## 4주차 계획
+
+### 지난주 밀린 것들 해결하기
+
+- [x] 에러 핸들링 구성
+- [x] get, post api 연동
+- [x] `abortController`로 중복 요청 취소
+
+
+### 리팩토링 테스트코드 작성
+
+- [x] LabelForm 컴포넌트를 세부 컴포넌트로 쪼개기
+- [x] `get`, `post`를 하나의 함수로 합치기
+- [ ] `vitest` 환경 구성
+- [ ] 테스트코드 작성하기
