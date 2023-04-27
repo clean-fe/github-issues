@@ -32,7 +32,8 @@ describe('issue/event', () => {
       $target.dispatchEvent(new window.MouseEvent('click'));
 
       // then
-      expect($issues.querySelectorAll('li').length).toStrictEqual(list.length);
+      const sut = $issues.querySelectorAll('li').length;
+      expect(sut).toStrictEqual(list.length);
     },
   );
   it.each([
@@ -55,7 +56,8 @@ describe('issue/event', () => {
       $target.dispatchEvent(new window.MouseEvent('click'));
 
       // then
-      expect($target.classList.contains('font-bold')).toStrictEqual(true);
+      const sut = $target.classList.contains('font-bold');
+      expect(sut).toStrictEqual(true);
     },
   );
 });
