@@ -1,4 +1,4 @@
-const FIXTURE_ISSUE_LIST = [
+export const FIXTURE_ISSUE_LIST = [
   {
     title: 'new issue',
     _id: 123,
