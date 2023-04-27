@@ -4,7 +4,7 @@ import { server } from '../../__mock_data__/server';
 import setIssueOnDocument from '../issue';
 
 describe('issue/issue', () => {
-  it('데이터 응답이 성공 + issue 목록이 있으면, issue 목록이 나열된 화면이 노출된다', async () => {
+  it('서버로부터 issue 데이터를 받으면, issue 목록이 나열된 화면이 노출된다', async () => {
     // given
     server.use(HANDLER_ISSUES.getSuccess);
 
