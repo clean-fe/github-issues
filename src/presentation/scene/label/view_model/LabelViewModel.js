@@ -1,6 +1,6 @@
 import Observable from "../../../../application/Observable";
 import LabelModel from "../../../../domain/use_cases/label/LabelModel"
-import $App from "../../../../application/AppConfigurations.js";
+import $App from "../../../../application/AppConfigurations";
 
 export default class LabelViewModel extends Observable {
   constructor() {

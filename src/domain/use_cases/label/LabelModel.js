@@ -1,5 +1,5 @@
 import {getLabel, postLabel} from "../../../data/network/APIEndpoints";
-import {LabelRequestDTO} from "../../../data/network/dtos/label/LabelRequestDTO.js";
+import {LabelRequestDTO} from "../../../data/network/dtos/label/LabelRequestDTO";
 
 /*
 * ViewModel 이 Model 의 함수를 호출 후 pending 에 대한 비동기 처리를 직접 함. ViewModel 이 Model 을 직접 컨트롤.

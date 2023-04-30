@@ -40,11 +40,11 @@ npx msw init public/ -S
     - 에러를 주변부로, 상위로 전파가 가능하다면 상위에 Wrapper 를 감싸거나 Interceptor 와 같은 것들을 사용해
       에러 처리가 가능할까?
     - async, await 을 사용하면 다 해결이 될까?
-- [ ] 새고로침 페이지 유지(아마도 Global Store 구현을 통해?)
+- [X] 새고로침 페이지 유지(~~아마도 Global Store 구현을 통해?~~) -> 라우터의 히스토리 사용
+- [ ] App Lifecycle: LocalStorage 를 활용해 Label 입력 상태에서 탭 또는 브라우저 종료 후 데이터 보존.
 - [ ] Issue & Label 필터 기능 구현
 - [ ] 검색 기능에 디바운싱 적용
 - [ ] 검색 기능에 캐싱 적용(동일 데이터일 경우 렌더링 하지 않도록)
-- [ ] App Lifecycle: LocalStorage 를 활용해 Label 입력 상태에서 탭 또는 브라우저 종료 후 데이터 보존.
 
 # 3단계
 - [ ] Abort Controller 를 활용한 중복 요청 취소.

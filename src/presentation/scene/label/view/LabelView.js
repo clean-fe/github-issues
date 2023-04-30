@@ -3,7 +3,7 @@ import LabelViewModel from "../view_model/LabelViewModel";
 import {getLabelTpl, getLabelItemTpl} from "../../../utils/tpl";  // View 렌더링 템플릿
 import {$, renderWithTemplate} from "../../../utils/Render";
 import {eventBind} from "../../../utils/EventBinding";
-import Label from "../../../../domain/use_cases/label/Label.js";
+import Label from "../../../../domain/use_cases/label/Label";
 
 const ObserverList = Object.freeze({
   renderLabelList: 'renderLabelList',
