@@ -1,5 +1,6 @@
 import Observable from "../../../../application/Observable";
 import LabelModel from "../../../../domain/use_cases/label/LabelModel"
+import $App from "../../../../application/AppConfigurations.js";
 
 export default class LabelViewModel extends Observable {
   constructor() {
@@ -22,7 +23,12 @@ export default class LabelViewModel extends Observable {
   }
 
   async postData(body, options) {
-    const response = await this.model.fetchPostLabel(body)
+    try {
+      const response = await this.model.fetchPostLabel(body)
+      this.notifyAll(response)
+    } catch (error) {
+      $App.Toast.error('데이터 저장에 실패했습니다')
+    }
   }
 
 }
