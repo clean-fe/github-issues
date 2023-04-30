@@ -2,7 +2,7 @@ import View from "../../common/View";
 import LabelViewModel from "../view_model/LabelViewModel";
 import {getLabelTpl, getLabelItemTpl} from "../../../utils/tpl";  // View 렌더링 템플릿
 import {$, renderWithTemplate} from "../../../utils/Render";
-import {clickEventBind, eventBind} from "../../../utils/EventBinding";
+import {eventBind} from "../../../utils/EventBinding";
 import Label from "../../../../domain/use_cases/label/Label.js";
 
 const ObserverList = Object.freeze({
@@ -96,16 +96,16 @@ Object.defineProperty(LabelView.prototype, 'labelStatusTab', {
 
 Object.defineProperty(LabelView.prototype, 'eventListeners', {
   value: function () {
-    clickEventBind('#new-label-button')(this.openNewLabelForm)
-    clickEventBind('#label-cancel-button')(this.cancelNewLabelForm)
-    clickEventBind('#new-label-color')((evt) => {
+    eventBind('#new-label-button', 'click', this.openNewLabelForm)
+    eventBind('#label-cancel-button', 'click', this.cancelNewLabelForm)
+    eventBind('#new-label-color', 'click', (evt) => {
       const color = Label.getRandomLabelColor()
       $('#label-color-value').value = color
       $('#label-preview').style.backgroundColor = color
       this.enableCreateLabelButton(evt)
     })
-    eventBind('#new-label-form')('keyup')(evt => this.enableCreateLabelButton(evt))
-    clickEventBind('#label-create-button')(this.postLabel.bind(this))
+    eventBind('#new-label-form', 'keyup', evt => this.enableCreateLabelButton(evt))
+    eventBind('#label-create-button', 'click', this.postLabel.bind(this))
   }
 })
 
