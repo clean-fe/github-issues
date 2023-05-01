@@ -1,5 +1,5 @@
 import Toast from "./Toast"
-
+import Store from "./Store";
 class $AppConfigurations {
   constructor() {
     this.apiBaseURL = ''
@@ -8,6 +8,7 @@ class $AppConfigurations {
     extendArray()
 
     this.Toast = Toast
+    this.Store = Store
   }
 }
 
