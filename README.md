@@ -41,6 +41,7 @@ npx msw init public/ -S
       에러 처리가 가능할까?
     - async, await 을 사용하면 다 해결이 될까?
 - [X] 새고로침 페이지 유지(~~아마도 Global Store 구현을 통해?~~) -> 라우터의 히스토리 사용
+- [X] Global Store 를 이용해 LocalStorage 사용하도록.
 - [ ] App Lifecycle: LocalStorage 를 활용해 Label 입력 상태에서 탭 또는 브라우저 종료 후 데이터 보존.
 - [ ] Issue & Label 필터 기능 구현
 - [ ] 검색 기능에 디바운싱 적용
@@ -48,7 +49,7 @@ npx msw init public/ -S
 
 # 3단계
 - [ ] Abort Controller 를 활용한 중복 요청 취소.
-- [ ] 현재 적용된 Dynamic Import 를 prefetch/preload 를 적용해보도록.
+- [ ] 현재 적용된 Dynamic Import 를 prefetch/preload 를 적용해보도록(보류... 어차피 사파리 안 됨).
 
 # 4단계
 - [ ] 기존 코드 리팩터링 및 테스트 코드 작성.
