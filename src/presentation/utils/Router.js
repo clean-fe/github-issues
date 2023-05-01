@@ -39,10 +39,23 @@ const route = routes => {
   }
 }
 
+// COMMENT: 사이트 최초 접근 또는 새로 고침으로 인한 DOM 재로드시 entry point 를 설정
+const entryPoint = () => {
+  window.addEventListener('DOMContentLoaded', () => {
+    if (history.state?.path) {
+      const _ = router(history.state.path)
+    } else {
+      const _ = router('/')
+    }
+    return 0
+  })
+}
+
 const router = route(routes)
 
 export {
   router,
+  entryPoint
 }
 
 

@@ -24,10 +24,9 @@ const customFetch = options => async url => {
     const response = await fetch(url, options)
     if (!response.ok) throw new HTTPError(response.status, response.statusText)
 
-    return response.json()  // Promise 를 반환하므로 await 없어도 됨. 상위 호출자가 resolve 상태가 필요할 경우 알아서 async await 처리
+    return response.json()  // COMMENT: Promise 를 반환하므로 await 없어도 됨. 상위 호출자가 resolve 상태가 필요할 경우 알아서 async await 처리
   } catch (error) {
     if (error instanceof HTTPError) {
-      console.error('HTTP Error occurred: ', error)
       throw error
     } else {
       console.error('Non-HTTP Error occurred: ', error)

@@ -2,8 +2,8 @@ import View from "../../common/View";
 import LabelViewModel from "../view_model/LabelViewModel";
 import {getLabelTpl, getLabelItemTpl} from "../../../utils/tpl";  // View 렌더링 템플릿
 import {$, renderWithTemplate} from "../../../utils/Render";
-import {clickEventBind, eventBind} from "../../../utils/EventBinding";
-import Label from "../../../../domain/use_cases/label/Label.js";
+import {eventBind} from "../../../utils/EventBinding";
+import Label from "../../../../domain/use_cases/label/Label";
 
 const ObserverList = Object.freeze({
   renderLabelList: 'renderLabelList',
@@ -32,11 +32,7 @@ export default class LabelView extends View {
     mock__NewLabelFormData()
   }
 
-  getLabelList() {
-    const _ = this.viewModel.getData()
-  }
-
-  // Object.defineProperty 에서는 super 호출이 불가능하다.
+  // COMMENT: Object.defineProperty 에서는 super 호출이 불가능하다. 상속 관련 함수는 모두 class 내부에 ES5 함수로 정의할 것!!
   openNewLabelForm() {
     super.toggleClassOff('#new-label-form', 'hidden')
     newLabelIsHidden = false
@@ -48,6 +44,37 @@ export default class LabelView extends View {
     newLabelIsHidden = true
   }
 
+}
+
+// MARK: Data
+
+Object.defineProperty(LabelView.prototype, 'getLabelList', {
+  value: function () {
+    this.viewModel.getData()
+  }
+})
+
+Object.defineProperty(LabelView.prototype, 'createLabelObject', {
+  value: function () {
+    const name = $('#label-name-input').value
+    const description = $('#label-description-input').value
+    const color = $('#label-color-value').value
+
+    return new Label(name, description, color)
+  }
+})
+
+// 버튼 클릭시 데이터 post 저장하는 이벤트 만들고 저장되면 다시 로딩이 아니라 ajax 만 처리
+// TODO: 새로고침 페이지 유지
+// TODO: 새로고침 등 데이터 로컬히스토리 저장
+// TODO: 5초 지연에 따른 abort controller
+// TODO: 요청 실패에 따른 에러 핸들링
+// COMMENT: postLabel 메서드에 대한 bind 는 메서드를 정의하는 곳이 아니라 호출하는 곳에서 걸어댜 한다!!
+LabelView.prototype.postLabel = function (evt) {
+  evt.preventDefault()
+  if (newLabelIsHidden) return
+  const label = this.createLabelObject()
+  this.viewModel.postData(label)
 }
 
 // MARK: Render
@@ -69,27 +96,23 @@ Object.defineProperty(LabelView.prototype, 'labelStatusTab', {
 
 Object.defineProperty(LabelView.prototype, 'eventListeners', {
   value: function () {
-    clickEventBind('#new-label-button')(this.openNewLabelForm)
-    clickEventBind('#label-cancel-button')(this.cancelNewLabelForm)
-    clickEventBind('#new-label-color')((evt) => {
+    eventBind('#new-label-button', 'click', this.openNewLabelForm)
+    eventBind('#label-cancel-button', 'click', this.cancelNewLabelForm)
+    eventBind('#new-label-color', 'click', (evt) => {
       const color = Label.getRandomLabelColor()
       $('#label-color-value').value = color
       $('#label-preview').style.backgroundColor = color
       this.enableCreateLabelButton(evt)
     })
-    eventBind('#new-label-form')('keyup')(this.enableCreateLabelButton)
-    // clickEventBind('#label-create-button')(this.postLabel)
-    clickEventBind('#label-create-button')(this.postLabel)
+    eventBind('#new-label-form', 'keyup', evt => this.enableCreateLabelButton(evt))
+    eventBind('#label-create-button', 'click', this.postLabel.bind(this))
   }
 })
 
 LabelView.prototype.enableCreateLabelButton = function (evt) {
   if (newLabelIsHidden) return
-  const name = $('#label-name-input').value
-  const description = $('#label-description-input').value
-  const color = $('#label-color-value').value
 
-  const label = new Label(name, description, color)
+  const label = this.createLabelObject()
   const button = $('#label-create-button')
   if (label.validate()) {
     button.disabled = false
@@ -100,22 +123,10 @@ LabelView.prototype.enableCreateLabelButton = function (evt) {
   }
 }
 
-// 버튼 클릭시 데이터 post 저장하는 이벤트 만들고 저장되면 다시 로딩이 아니라 ajax 만 처리
-// TODO: Post 동작 시키기
-// TODO: application 에 base url 사용
-// TODO: NODE_ENV 활용할 수 있을까? 프로파일별로 만들어서?
-// TODO: 새로고침 페이지 유지
-// TODO: 새로고침 등 데이터 로컬히스토리 저장
-// TODO: 5초 지연에 따른 abort controller
-// TODO: 요청 실패에 따른 에러 핸들링
-LabelView.prototype.postLabel = function (evt) {
-  evt.preventDefault()
-  if (newLabelIsHidden) return
-  console.log("I'm post button!")
+// MARK: Setup Mock Data
+
+const mock__NewLabelFormData = () => {
+  $('#label-name-input').value = 'refactoring'
+  $('#label-description-input').value = 'this is refactoring'
 }
 
-// MARK: Setup Mock
-const mock__NewLabelFormData = () => {
-  $('#label-name-input').value  = 'test 001'
-  $('#label-description-input').value = 'this is test number 1'
-}
