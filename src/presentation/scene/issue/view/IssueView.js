@@ -20,11 +20,15 @@ export default class IssueView extends View {
     this.getIssueList()
   }
 
-  getIssueList() {
-    const _ = this.viewModel.getData([ObserverList.renderIssueList, ObserverList.updateIssueStatus])
-  }
-
 }
+
+// MARK: Data
+
+Object.defineProperty(IssueView.prototype, 'getIssueList', {
+  value: function () {
+    this.viewModel.getData([ObserverList.renderIssueList, ObserverList.updateIssueStatus])
+  }
+})
 
 // MARK: Render
 
