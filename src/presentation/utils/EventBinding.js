@@ -2,19 +2,19 @@
 
 import {router} from "./Router";
 import {$} from "./Render";
+import {curry} from "../../application/FP";
 
-const eventBind = el => eventType => listener => $(el).addEventListener(eventType, listener)
-const clickEventBind = el => listener => $(el).addEventListener('click', listener)
+const _eventBind = (el, eventType, listener) => $(el).addEventListener(eventType, listener)
+const eventBind = curry(_eventBind)
 
 const urlChange = evt => {
   const path = evt.target?.dataset?.path
   if (path) return router(path)
 }
 
-const attachNavigationEvent = eventBind('#page-navigator')('click')(urlChange)
+const attachNavigationEvent = eventBind('#page-navigator', 'click', urlChange)
 
 export {
   eventBind,
-  clickEventBind,
   attachNavigationEvent
 }
