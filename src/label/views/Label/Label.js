@@ -4,33 +4,32 @@ import LabelList from '../LabelList';
 import LabelCreator from '../LabelCreator';
 import { STORE_KEY } from '../../../constants';
 
-class Label {
-  #store;
-  #STATE_KEY = STORE_KEY.IS_NEW_LABEL_CLICKED;
-
-  constructor(Store) {
-    this.#store = Store;
-    this.#init();
-  }
-
-  #init() {
-    this.#render();
-    this.#addEventOfCreator();
-  }
-
-  #addEventOfCreator() {
-    $('.new-label-button').addEventListener('click', (e) => {
+const Label = (Store) => {
+  const addEvent = () => {
+    const $newLabelButton = $('.new-label-button');
+    $newLabelButton.addEventListener('click', (e) => {
       e.preventDefault();
-      this.#store(this.#STATE_KEY).setState(true);
+      Store(STORE_KEY.IS_NEW_LABEL_CLICKED).setState(true);
     });
-  }
+  };
 
-  #render() {
+  const init = () => {
+    const isNewLabelClickedStore = Store(STORE_KEY.IS_NEW_LABEL_CLICKED);
+    isNewLabelClickedStore.subscribe(render);
+  };
+
+  const render = () => {
+    init();
+
     $('#app').innerHTML = getLabelTpl();
 
-    new LabelList(this.#store);
-    new LabelCreator(this.#store).render();
-  }
-}
+    LabelList(Store).render();
+    LabelCreator(Store).render();
+
+    addEvent();
+  };
+
+  return { render };
+};
 
 export default Label;
